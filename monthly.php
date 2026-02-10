@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Finance Dashboard</title>
+    <title>Finance Dashboard - Monthly</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -557,50 +557,48 @@
 
     <div class="content">
         
-
         <div class="time-filter">
-            <a href="index.php" class="time-btn active">Daily</a>
+            <a href="index.php" class="time-btn">Daily</a>
             <a href="weekly.php" class="time-btn">Weekly</a>
-            <a href="monthly.php" class="time-btn">Monthly</a>
+            <a href="monthly.php" class="time-btn active">Monthly</a>
             <a href="yearly.php" class="time-btn">Yearly</a> 
         </div>
-
 
         <div class="dashboard-container">
             <div class="stats-section">
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Total Amount</span>
-                        <span class="stat-change positive" id="totalChange">+15%</span>
+                        <span class="stat-title">Monthly Total</span>
+                        <span class="stat-change positive" id="totalChange">+5.2%</span>
                     </div>
-                    <div class="stat-value" id="totalAmount">₱3,571,210</div>
+                    <div class="stat-value" id="totalAmount">₱482,150</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Total Tuition</span>
-                        <span class="stat-change positive" id="tuitionChange">+14%</span>
+                        <span class="stat-title">Monthly Tuition</span>
+                        <span class="stat-change positive" id="tuitionChange">+3.1%</span>
                     </div>
-                    <div class="stat-value" id="totalTuition">₱1,326,609</div>
+                    <div class="stat-value" id="totalTuition">₱310,200</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Total Activities</span>
-                        <span class="stat-change positive" id="activitiesChange">+9%</span>
+                        <span class="stat-title">Monthly Activities</span>
+                        <span class="stat-change positive" id="activitiesChange">+12%</span>
                     </div>
-                    <div class="stat-value" id="totalActivities">₱372,778</div>
+                    <div class="stat-value" id="totalActivities">₱85,450</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Total Miscellaneous</span>
-                        <span class="stat-change negative" id="miscChange">-6%</span>
+                        <span class="stat-title">Monthly Misc</span>
+                        <span class="stat-change negative" id="miscChange">-2.4%</span>
                     </div>
-                    <div class="stat-value" id="totalMisc">₱725,287</div>
+                    <div class="stat-value" id="totalMisc">₱86,500</div>
                 </div>
             </div>
 
             <div class="chart-section">
                 <div class="chart-header">
-                    <h3>Fees Collection</h3>
+                    <h3>Fees Collection (This Month)</h3>
                     <div class="chart-controls">
                         <select id="classSelect">
                             <option>All Classes</option>
@@ -610,9 +608,9 @@
                             <option>Class 4B</option>
                         </select>
                         <select id="periodSelect">
-                            <option selected>Daily</option>
+                            <option>Daily</option>
                             <option>Weekly</option>
-                            <option>Monthly</option>
+                            <option selected>Monthly</option>
                             <option>Yearly</option>
                         </select>
                     </div>
@@ -625,7 +623,7 @@
 
        <div class="table-section">
             <div class="section-header">
-                <h3>Daily Collection List</h3>
+                <h3>Monthly Collection List</h3>
                 <div class="section-controls">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
@@ -635,7 +633,7 @@
                     <select id="dateSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         <option>Today</option>
                         <option>This Week</option>
-                        <option>This Month</option>
+                        <option selected>This Month</option>
                         <option>All Time</option>
                     </select>
 
@@ -644,6 +642,7 @@
                         <option value="7B">Class 7B</option>
                         <option value="6A">Class 6A</option>
                         <option value="5C">Class 5C</option>
+                        <option value="4B">Class 4B</option>
                     </select>
 
                     <select id="statusSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
@@ -678,14 +677,12 @@
                 <tbody id="tableBody">
                 <?php
                 include 'backend/db.php';
-
                 $sql = "SELECT * FROM students ORDER BY id DESC";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-
-                        $statusClass = strtolower($row['payment_status']); // paid/pending/overdue
+                        $statusClass = strtolower($row['payment_status']);
                 ?>
                     <tr>
                         <td><input type="checkbox"></td>
@@ -711,14 +708,13 @@
                 } else {
                     echo "<tr><td colspan='10' style='text-align:center;'>No records found</td></tr>";
                 }
-
                 $conn->close();
                 ?>
                 </tbody>
             </table>
 
             <div class="pagination">
-                <div class="pagination-info">Showing records</div>
+                <div class="pagination-info">Showing monthly records</div>
                 <div class="pagination-controls">
                     <button class="pagination-btn active">1</button>
                 </div>
@@ -732,149 +728,62 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3>Add New Student</h3>
-            <button class="close-btn">&times;</button>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
-
         <div class="modal-body">
             <form id="addStudentForm">
-
-                <div class="form-group">
-                    <label>Student Name</label>
-                    <input type="text" id="studentName" name="studentName" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Student ID</label>
-                    <input type="text" id="studentId" name="studentId" required>
-                </div>
-
+                <div class="form-group"><label>Student Name</label><input type="text" name="studentName" required></div>
+                <div class="form-group"><label>Student ID</label><input type="text" name="studentId" required></div>
                 <div class="form-group">
                     <label>Class</label>
-                    <select id="studentClass" name="studentClass" required>
-                        <option value="">Select Class</option>
-                        <option value="5C">5C</option>
-                        <option value="4B">4B</option>
-                        <option value="6B">6B</option>
-                        <option value="7A">7A</option>
-                        <option value="6A">6A</option>
-                        <option value="7B">7B</option>
+                    <select name="studentClass" required>
+                        <option value="5C">5C</option><option value="4B">4B</option>
+                        <option value="6B">6B</option><option value="7A">7A</option>
+                        <option value="6A">6A</option><option value="7B">7B</option>
                     </select>
                 </div>
-
-                <div class="form-group">
-                    <label>Tuition Fee</label>
-                    <input type="number" id="tuitionFee" name="tuitionFee" min="0" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Activities Fee</label>
-                    <input type="number" id="activitiesFee" name="activitiesFee" min="0" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Misc Fee</label>
-                    <input type="number" id="miscellaneousFee" name="miscellaneousFee" min="0" required>
-                </div>
-
+                <div class="form-group"><label>Tuition Fee</label><input type="number" name="tuitionFee" required></div>
+                <div class="form-group"><label>Activities Fee</label><input type="number" name="activitiesFee" required></div>
+                <div class="form-group"><label>Misc Fee</label><input type="number" name="miscellaneousFee" required></div>
                 <div class="form-group">
                     <label>Status</label>
-                    <select id="paymentStatus" name="paymentStatus" required>
-                        <option value="">Select Status</option>
+                    <select name="paymentStatus" required>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
                         <option value="Overdue">Overdue</option>
                     </select>
                 </div>
-
             </form>
-
         </div>
-
         <div class="modal-footer">
-            <button class="cancel-btn">Cancel</button>
+            <button class="cancel-btn" onclick="closeModal()">Cancel</button>
             <button class="save-btn">Add Student</button>
         </div>
     </div>
 </div>
 
 <script>
-// OPEN MODAL
-function openAddStudentModal() {
-    document.getElementById("addStudentModal").style.display = "flex";
-}
+function openAddStudentModal() { document.getElementById("addStudentModal").style.display = "flex"; }
+function closeModal() { document.getElementById("addStudentModal").style.display = "none"; }
 
-// CLOSE MODAL
-function closeModal() {
-    document.getElementById("addStudentModal").style.display = "none";
-}
-
-document.querySelector(".close-btn").onclick = closeModal;
-document.querySelector(".cancel-btn").onclick = closeModal;
-
-
-// SAVE BUTTON FUNCTION
 document.querySelector(".save-btn").addEventListener("click", function () {
-
     const form = document.getElementById("addStudentForm");
-
-    // ✅ Basic form validation
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-    }
-
     const formData = new FormData(form);
-
-    fetch("backend/add_student.php", {
-        method: "POST",
-        body: formData
-    })
+    fetch("backend/add_student.php", { method: "POST", body: formData })
     .then(res => res.text())
     .then(data => {
-        data = data.trim(); // remove spaces/newlines
-
-        if (data === "success") {
-            alert("Student added successfully!");
-            form.reset();
-            closeModal();
-            location.reload();
-        } 
-        else if (data === "exists") {
-            alert("Student already exists in the system!");
-        } 
-        else {
-            alert("Error adding student.");
-            console.log("Server response:", data);
-        }
-    })
-    .catch(error => {
-        console.error("Fetch error:", error);
-        alert("Connection error. Try again.");
+        if (data.trim() === "success") { location.reload(); } 
+        else { alert("Action failed: " + data); }
     });
-
 });
-</script>
 
-<script>
 function deleteStudent(id) {
     if (!confirm("Delete this student?")) return;
-
-    fetch("backend/delete_student.php?id=" + id)
-    .then(res => res.text())
-    .then(data => {
-        if (data.trim() === "success") {
-            alert("Student deleted successfully!");
-            location.reload();
-        } else {
-            alert("Delete failed.");
-        }
-    });
+    fetch("backend/delete_student.php?id=" + id).then(() => location.reload());
 }
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+// CHANGED TO MONTHLY LABELS (Jan-Dec)
+const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const ctx = document.getElementById("feesChart").getContext("2d");
 
 let feesChart = new Chart(ctx, {
@@ -882,8 +791,8 @@ let feesChart = new Chart(ctx, {
     data: {
         labels: monthLabels,
         datasets: [{
-            label: "Total Fees Collected",
-            data: Array(12).fill(0),
+            label: "Monthly Collection",
+            data: [150000, 180000, 200000, 170000, 190000, 210000, 230000, 220000, 200000, 240000, 250000, 270000], // Example monthly data
             backgroundColor: "#f59e0b",
             borderRadius: 6,
             barThickness: 20
@@ -897,38 +806,29 @@ let feesChart = new Chart(ctx, {
                 beginAtZero: true,
                 ticks: {
                     callback: function(value){ return "₱" + value.toLocaleString(); },
-                    color: "#ffffff",
-                    font: { size: 12 }
+                    color: "#ffffff"
                 },
-                grid: { color: "rgba(255,255,255,0.2)", drawBorder: false }
+                grid: { color: "rgba(255,255,255,0.2)" }
             },
-            x: {
-                ticks: { color: "#ffffff", font: { size: 12 } },
-                grid: { display: false }
-            }
+            x: { ticks: { color: "#ffffff" }, grid: { display: false } }
         }
     }
 });
 
-// Function to fetch data from backend
 function updateChart(){
     const className = document.getElementById("classSelect").value;
-    const period = document.getElementById("periodSelect").value;
-
+    const period = "Monthly"; // Hardcoded for this page
     fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=${period}`)
     .then(res => res.json())
     .then(data => {
-        feesChart.data.datasets[0].data = data;
-        feesChart.update();
+        if(data && data.length > 0) {
+            feesChart.data.datasets[0].data = data;
+            feesChart.update();
+        }
     });
 }
-
-// Event listeners
-document.getElementById("classSelect").addEventListener("change", updateChart);
-document.getElementById("periodSelect").addEventListener("change", updateChart);
-
-// Initial load
 updateChart();
 </script>
+
 </body>
 </html>

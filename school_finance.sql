@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2026 at 05:13 PM
+-- Generation Time: Feb 10, 2026 at 04:17 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -49,7 +49,8 @@ INSERT INTO `students` (`id`, `student_name`, `student_id`, `class`, `tuition_fe
 (5, 'Lance', '56434', '5C', 40000.00, 3000.00, 2500.00, 45500.00, 'Pending', '2026-02-04 15:39:55'),
 (6, 'Maxine', '6886', '6B', 4500.00, 7000.00, 1000.00, 12500.00, 'Overdue', '2026-02-04 15:40:28'),
 (7, 'Angel', '63567', '4B', 45000.00, 6000.00, 1900.00, 52900.00, 'Pending', '2026-02-04 15:41:09'),
-(8, 'Marknel', '33241`55', '7B', 50000.00, 7000.00, 1000.00, 58000.00, 'Pending', '2026-02-04 15:43:52');
+(8, 'Marknel', '33241`55', '7B', 50000.00, 7000.00, 1000.00, 58000.00, 'Pending', '2026-02-04 15:43:52'),
+(9, 'Mark', '12312312', '4B', 40000.00, 7000.00, 1000.00, 48000.00, 'Pending', '2026-02-10 15:04:43');
 
 --
 -- Indexes for dumped tables
@@ -69,7 +70,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
