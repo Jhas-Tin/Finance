@@ -782,7 +782,6 @@ function deleteStudent(id) {
     fetch("backend/delete_student.php?id=" + id).then(() => location.reload());
 }
 
-// CHANGED TO WEEKLY LABELS (Mon-Sun)
 const weekLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const ctx = document.getElementById("feesChart").getContext("2d");
 
@@ -791,8 +790,8 @@ let feesChart = new Chart(ctx, {
     data: {
         labels: weekLabels,
         datasets: [{
-            label: "Daily Collection",
-            data: [12000, 19000, 15000, 25000, 22000, 10000, 5000], // Example weekly data
+            label: "Weekly Collection",
+            data: Array(7).fill(0), 
             backgroundColor: "#f59e0b",
             borderRadius: 6,
             barThickness: 20
@@ -805,7 +804,7 @@ let feesChart = new Chart(ctx, {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    callback: function(value){ return "₱" + value.toLocaleString(); },
+                    callback: value => "₱" + value.toLocaleString(),
                     color: "#ffffff"
                 },
                 grid: { color: "rgba(255,255,255,0.2)" }
@@ -815,19 +814,47 @@ let feesChart = new Chart(ctx, {
     }
 });
 
-function updateChart(){
+function updateChart() {
     const className = document.getElementById("classSelect").value;
-    const period = "Weekly"; // Hardcoded for this page
+    const period = "Weekly";
+
     fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=${period}`)
     .then(res => res.json())
     .then(data => {
-        if(data && data.length > 0) {
-            feesChart.data.datasets[0].data = data;
-            feesChart.update();
-        }
-    });
+        const totals = weekLabels.map(day => data[day] ? Number(data[day]) : 0);
+        feesChart.data.datasets[0].data = totals;
+        feesChart.update();
+
+        const totalAmount = totals.reduce((a,b)=>a+b,0);
+        document.getElementById("totalAmount").textContent = "₱" + totalAmount.toLocaleString();
+    })
+    .catch(err => console.error("Failed to fetch weekly data:", err));
 }
+
 updateChart();
+
+document.getElementById("classSelect").addEventListener("change", updateChart);
+
+function updateTotals() {
+    const className = document.getElementById("classSelect").value;
+    const period = document.getElementById("periodSelect").value;
+
+    fetch(`backend/get_totals.php?class=${encodeURIComponent(className)}&period=${period}`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount).toLocaleString();
+        document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition).toLocaleString();
+        document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities).toLocaleString();
+        document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc).toLocaleString();
+    })
+    .catch(err => console.error("Failed to fetch totals:", err));
+}
+
+updateTotals();
+
+document.getElementById("classSelect").addEventListener("change", updateTotals);
+document.getElementById("periodSelect").addEventListener("change", updateTotals);
+
 </script>
 
 </body>

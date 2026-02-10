@@ -782,7 +782,6 @@ function deleteStudent(id) {
     fetch("backend/delete_student.php?id=" + id).then(() => location.reload());
 }
 
-// CHANGED TO MONTHLY LABELS (Jan-Dec)
 const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const ctx = document.getElementById("feesChart").getContext("2d");
 
@@ -817,7 +816,7 @@ let feesChart = new Chart(ctx, {
 
 function updateChart(){
     const className = document.getElementById("classSelect").value;
-    const period = "Monthly"; // Hardcoded for this page
+    const period = "Monthly"; 
     fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=${period}`)
     .then(res => res.json())
     .then(data => {
@@ -828,6 +827,27 @@ function updateChart(){
     });
 }
 updateChart();
+
+function updateTotals() {
+    const className = document.getElementById("classSelect").value;
+    const period = document.getElementById("periodSelect").value;
+
+    fetch(`backend/get_totals.php?class=${encodeURIComponent(className)}&period=${period}`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount).toLocaleString();
+        document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition).toLocaleString();
+        document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities).toLocaleString();
+        document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc).toLocaleString();
+    })
+    .catch(err => console.error("Failed to fetch totals:", err));
+}
+
+updateTotals();
+
+document.getElementById("classSelect").addEventListener("change", updateTotals);
+document.getElementById("periodSelect").addEventListener("change", updateTotals);
+
 </script>
 
 </body>

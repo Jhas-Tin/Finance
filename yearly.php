@@ -540,7 +540,6 @@
             background: #1d4ed8;
         }
 
-        /* ACTION BUTTONS CONTAINER */
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -782,17 +781,17 @@ function deleteStudent(id) {
     fetch("backend/delete_student.php?id=" + id).then(() => location.reload());
 }
 
-// CHANGED TO YEARLY LABELS
-const yearLabels = ["2021", "2022", "2023", "2024", "2025", "2026"];
 const ctx = document.getElementById("feesChart").getContext("2d");
+
+const fullYears = ["2025", "2026", "2027", "2028", "2029", "2030", ];
 
 let feesChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: yearLabels,
+        labels: fullYears, 
         datasets: [{
             label: "Yearly Collection",
-            data: [4200000, 4800000, 5100000, 5400000, 5785800, 3000000], // Example yearly data
+            data: Array(fullYears.length).fill(0),
             backgroundColor: "#f59e0b",
             borderRadius: 6,
             barThickness: 30
@@ -810,24 +809,57 @@ let feesChart = new Chart(ctx, {
                 },
                 grid: { color: "rgba(255,255,255,0.2)" }
             },
-            x: { ticks: { color: "#ffffff" }, grid: { display: false } }
+            x: { 
+                ticks: { color: "#ffffff" }, 
+                grid: { display: false } 
+            }
         }
     }
 });
 
 function updateChart(){
     const className = document.getElementById("classSelect").value;
-    const period = "Yearly"; // Hardcoded for this page
+    const period = "Yearly";
+
     fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=${period}`)
     .then(res => res.json())
     .then(data => {
-        if(data && data.length > 0) {
-            feesChart.data.datasets[0].data = data;
-            feesChart.update();
-        }
-    });
+        const totals = fullYears.map(year => {
+            return data[year] ? data[year] : 0; 
+        });
+
+        feesChart.data.datasets[0].data = totals;
+        feesChart.update();
+
+        const totalAmount = totals.reduce((a, b) => a + b, 0);
+        document.getElementById("totalAmount").textContent = "₱" + totalAmount.toLocaleString();
+    })
+    .catch(err => console.error("Failed to fetch chart data:", err));
 }
+
 updateChart();
+
+function updateTotals() {
+    const className = document.getElementById("classSelect").value;
+    const period = document.getElementById("periodSelect").value;
+
+    fetch(`backend/get_totals.php?class=${encodeURIComponent(className)}&period=${period}`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount).toLocaleString();
+        document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition).toLocaleString();
+        document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities).toLocaleString();
+        document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc).toLocaleString();
+    })
+    .catch(err => console.error("Failed to fetch totals:", err));
+}
+
+updateTotals();
+
+document.getElementById("classSelect").addEventListener("change", updateTotals);
+document.getElementById("periodSelect").addEventListener("change", updateTotals);
+
+
 </script>
 
 </body>

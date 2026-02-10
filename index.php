@@ -566,62 +566,66 @@
         </div>
 
 
-        <div class="dashboard-container">
-            <div class="stats-section">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Total Amount</span>
-                        <span class="stat-change positive" id="totalChange">+15%</span>
-                    </div>
-                    <div class="stat-value" id="totalAmount">₱3,571,210</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Total Tuition</span>
-                        <span class="stat-change positive" id="tuitionChange">+14%</span>
-                    </div>
-                    <div class="stat-value" id="totalTuition">₱1,326,609</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Total Activities</span>
-                        <span class="stat-change positive" id="activitiesChange">+9%</span>
-                    </div>
-                    <div class="stat-value" id="totalActivities">₱372,778</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Total Miscellaneous</span>
-                        <span class="stat-change negative" id="miscChange">-6%</span>
-                    </div>
-                    <div class="stat-value" id="totalMisc">₱725,287</div>
-                </div>
+<div class="dashboard-container">
+    <!-- STATS CARDS -->
+    <div class="stats-section">
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Total Amount</span>
+                <span class="stat-change positive" id="totalChange">+0%</span>
             </div>
+            <div class="stat-value" id="totalAmount">₱0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Tuition</span>
+                <span class="stat-change positive" id="tuitionChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalTuition">₱0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Activities</span>
+                <span class="stat-change positive" id="activitiesChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalActivities">₱0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Misc</span>
+                <span class="stat-change negative" id="miscChange">-0%</span>
+            </div>
+            <div class="stat-value" id="totalMisc">₱0</div>
+        </div>
+    </div>
 
-            <div class="chart-section">
-                <div class="chart-header">
-                    <h3>Fees Collection</h3>
-                    <div class="chart-controls">
-                        <select id="classSelect">
-                            <option>All Classes</option>
-                            <option>Class 7B</option>
-                            <option>Class 6A</option>
-                            <option>Class 5C</option>
-                            <option>Class 4B</option>
-                        </select>
-                        <select id="periodSelect">
-                            <option selected>Daily</option>
-                            <option>Weekly</option>
-                            <option>Monthly</option>
-                            <option>Yearly</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="feesChart"></canvas>
-                </div>
+    <!-- CHART SECTION -->
+    <div class="chart-section">
+        <div class="chart-header">
+            <h3>Fees Collection</h3>
+            <div class="chart-controls">
+                <select id="chartClassSelect">
+                    <option>All Classes</option>
+                    <option>Class 7B</option>
+                    <option>Class 6A</option>
+                    <option>Class 5C</option>
+                    <option>Class 4B</option>
+                </select>
+                <select id="periodSelect">
+                    <option selected>Daily</option>
+                    <option>Weekly</option>
+                    <option>Monthly</option>
+                    <option>Yearly</option>
+                </select>
             </div>
         </div>
+        <div class="chart-container">
+            <canvas id="feesChart"></canvas>
+        </div>
+    </div>
+</div>
+
+
 
        <div class="table-section">
             <div class="section-header">
@@ -874,16 +878,14 @@ function deleteStudent(id) {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const ctx = document.getElementById("feesChart").getContext("2d");
-
 let feesChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: monthLabels,
+        labels: ["Today"],
         datasets: [{
-            label: "Total Fees Collected",
-            data: Array(12).fill(0),
+            label: "Collection",
+            data: [0],
             backgroundColor: "#f59e0b",
             borderRadius: 6,
             barThickness: 20
@@ -895,40 +897,81 @@ let feesChart = new Chart(ctx, {
         scales: {
             y: {
                 beginAtZero: true,
-                ticks: {
-                    callback: function(value){ return "₱" + value.toLocaleString(); },
-                    color: "#ffffff",
-                    font: { size: 12 }
-                },
-                grid: { color: "rgba(255,255,255,0.2)", drawBorder: false }
+                ticks: { callback: val => "₱" + val.toLocaleString(), color: "#ffffff" },
+                grid: { color: "rgba(255,255,255,0.2)" }
             },
-            x: {
-                ticks: { color: "#ffffff", font: { size: 12 } },
-                grid: { display: false }
-            }
+            x: { ticks: { color: "#ffffff" }, grid: { display: false } }
         }
     }
 });
 
-// Function to fetch data from backend
-function updateChart(){
-    const className = document.getElementById("classSelect").value;
-    const period = document.getElementById("periodSelect").value;
+const classSelect = document.getElementById("chartClassSelect");
+const periodSelect = document.getElementById("periodSelect");
+
+function updateChart() {
+    const className = classSelect.value;
+    const period = periodSelect.value;
 
     fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=${period}`)
     .then(res => res.json())
     .then(data => {
-        feesChart.data.datasets[0].data = data;
+        let labels = [];
+        let totals = [];
+
+        if(period === "Daily") {
+    labels = ["Total"];
+    totals = [Number(data.today || 0)];
+}
+ else if(period === "Weekly") {
+            const weekDays = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+            labels = weekDays;
+            totals = weekDays.map(day => Number(data[day] || 0));
+        } else if(period === "Monthly") {
+            labels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+            totals = data.map(d => Number(d));
+        } else if(period === "Yearly") {
+            labels = Object.keys(data);
+            totals = Object.values(data).map(d => Number(d));
+        }
+
+        feesChart.data.labels = labels;
+        feesChart.data.datasets[0].data = totals;
         feesChart.update();
-    });
+
+        // Update stats card total
+        document.getElementById("totalAmount").textContent = "₱" + totals.reduce((a,b)=>a+b,0).toLocaleString();
+    })
+    .catch(err => console.error("Chart data fetch failed:", err));
 }
 
-// Event listeners
-document.getElementById("classSelect").addEventListener("change", updateChart);
-document.getElementById("periodSelect").addEventListener("change", updateChart);
+function updateTotals() {
+    const className = classSelect.value;
+    const period = periodSelect.value;
+
+    fetch(`backend/get_totals.php?class=${encodeURIComponent(className)}&period=${period}`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount).toLocaleString();
+        document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition).toLocaleString();
+        document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities).toLocaleString();
+        document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc).toLocaleString();
+    })
+    .catch(err => console.error("Totals fetch failed:", err));
+}
 
 // Initial load
 updateChart();
+updateTotals();
+
+// Update when filters change
+classSelect.addEventListener("change", ()=>{
+    updateChart();
+    updateTotals();
+});
+periodSelect.addEventListener("change", ()=>{
+    updateChart();
+    updateTotals();
+});
 </script>
 </body>
 </html>
