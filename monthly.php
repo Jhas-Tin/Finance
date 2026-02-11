@@ -677,7 +677,12 @@
                 <tbody id="tableBody">
                 <?php
                 include 'backend/db.php';
-                $sql = "SELECT * FROM students ORDER BY id DESC";
+                // Logic: Select students where the month and year of creation matches the current date
+                $sql = "SELECT * FROM students 
+                        WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) 
+                        AND YEAR(created_at) = YEAR(CURRENT_DATE()) 
+                        ORDER BY id DESC";
+                
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -706,7 +711,7 @@
                 <?php
                     }
                 } else {
-                    echo "<tr><td colspan='10' style='text-align:center;'>No records found</td></tr>";
+                    echo "<tr><td colspan='10' style='text-align:center;'>No records found for this month</td></tr>";
                 }
                 $conn->close();
                 ?>
@@ -765,9 +770,11 @@
 </div>
 
 <script>
+// --- Modal Controls ---
 function openAddStudentModal() { document.getElementById("addStudentModal").style.display = "flex"; }
 function closeModal() { document.getElementById("addStudentModal").style.display = "none"; }
 
+// --- Add Student Logic ---
 document.querySelector(".save-btn").addEventListener("click", function () {
     const form = document.getElementById("addStudentForm");
     const formData = new FormData(form);
@@ -779,11 +786,13 @@ document.querySelector(".save-btn").addEventListener("click", function () {
     });
 });
 
+// --- Delete Logic ---
 function deleteStudent(id) {
     if (!confirm("Delete this student?")) return;
     fetch("backend/delete_student.php?id=" + id).then(() => location.reload());
 }
 
+// --- Chart Initialization ---
 const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const ctx = document.getElementById("feesChart").getContext("2d");
 
@@ -793,7 +802,7 @@ let feesChart = new Chart(ctx, {
         labels: monthLabels,
         datasets: [{
             label: "Monthly Collection",
-            data: [150000, 180000, 200000, 170000, 190000, 210000, 230000, 220000, 200000, 240000, 250000, 270000], // Example monthly data
+            data: [], // Filled by updateChart()
             backgroundColor: "#f59e0b",
             borderRadius: 6,
             barThickness: 20
@@ -801,6 +810,7 @@ let feesChart = new Chart(ctx, {
     },
     options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
             y: {
@@ -816,40 +826,68 @@ let feesChart = new Chart(ctx, {
     }
 });
 
+// --- Unified Filter Logic ---
+// This function gathers ALL filter values and updates both Table and Totals
+function applyFilters() {
+    const searchTerm = document.getElementById("searchInput").value;
+    const dateRange = document.getElementById("dateSelect").value;
+    const selectedClass = document.querySelectorAll("#classSelect")[1].value; // Target the one in table-section
+    const status = document.getElementById("statusSelect").value;
+    const tableBody = document.getElementById("tableBody");
+
+    tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center;'>Loading...</td></tr>";
+
+    // Build Query String
+    const params = new URLSearchParams({
+        search: searchTerm,
+        period: dateRange,
+        class: selectedClass,
+        status: status
+    });
+
+    // 1. Update Table
+    fetch(`backend/filter_students.php?${params.toString()}`)
+        .then(res => res.text())
+        .then(data => { tableBody.innerHTML = data; })
+        .catch(err => console.error("Table Filter Error:", err));
+
+    // 2. Update Stats Cards (Total Amount, Tuition, etc.)
+    fetch(`backend/get_totals.php?${params.toString()}`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount).toLocaleString();
+            document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition).toLocaleString();
+            document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities).toLocaleString();
+            document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc).toLocaleString();
+        });
+}
+
+// --- Chart Specific Update ---
 function updateChart(){
-    const className = document.getElementById("classSelect").value;
-    const period = "Monthly"; 
-    fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=${period}`)
+    const className = document.getElementById("classSelect").value; // Chart's class select
+    fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=Monthly`)
     .then(res => res.json())
     .then(data => {
-        if(data && data.length > 0) {
+        if(data) {
             feesChart.data.datasets[0].data = data;
             feesChart.update();
         }
     });
 }
+
+// --- Event Listeners ---
+// Table Filters
+document.getElementById("searchInput").addEventListener("input", applyFilters);
+document.getElementById("dateSelect").addEventListener("change", applyFilters);
+document.querySelectorAll("#classSelect")[1].addEventListener("change", applyFilters);
+document.getElementById("statusSelect").addEventListener("change", applyFilters);
+
+// Chart Filters
+document.getElementById("classSelect").addEventListener("change", updateChart);
+
+// Initialize on Load
 updateChart();
-
-function updateTotals() {
-    const className = document.getElementById("classSelect").value;
-    const period = document.getElementById("periodSelect").value;
-
-    fetch(`backend/get_totals.php?class=${encodeURIComponent(className)}&period=${period}`)
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount).toLocaleString();
-        document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition).toLocaleString();
-        document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities).toLocaleString();
-        document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc).toLocaleString();
-    })
-    .catch(err => console.error("Failed to fetch totals:", err));
-}
-
-updateTotals();
-document.getElementById("classSelect").addEventListener("change", updateChart);  
-document.getElementById("classSelect").addEventListener("change", updateTotals);
-document.getElementById("periodSelect").addEventListener("change", updateTotals);
-
+applyFilters();
 </script>
 
 </body>

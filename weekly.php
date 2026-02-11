@@ -637,7 +637,7 @@
                         <option>All Time</option>
                     </select>
 
-                    <select id="classSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <select id="chartClassSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         <option value="">All Classes</option>
                         <option value="BSIT">BSIT</option>
                         <option value="BSCPE">BSCPE</option>
@@ -675,42 +675,47 @@
                 </thead>
 
                 <tbody id="tableBody">
-                <?php
-                include 'backend/db.php';
-                $sql = "SELECT * FROM students ORDER BY id DESC";
-                $result = $conn->query($sql);
+                    <?php
+                    include 'backend/db.php';
 
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        $statusClass = strtolower($row['payment_status']);
-                ?>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td><?= htmlspecialchars($row['student_name']) ?></td>
-                        <td><?= htmlspecialchars($row['student_id']) ?></td>
-                        <td><?= htmlspecialchars($row['class']) ?></td>
-                        <td class="currency">₱<?= number_format($row['tuition_fee'], 2) ?></td>
-                        <td class="currency">₱<?= number_format($row['activities_fee'], 2) ?></td>
-                        <td class="currency">₱<?= number_format($row['miscellaneous_fee'], 2) ?></td>
-                        <td class="currency">₱<?= number_format($row['total_amount'], 2) ?></td>
-                        <td>
-                            <span class="status <?= $statusClass ?>">
-                                <?= $row['payment_status'] ?>
-                            </span>
-                        </td>
-                        <td class="action-buttons">
-                            <button class="view-btn">View</button>
-                            <button class="delete-btn" onclick="deleteStudent(<?= $row['id'] ?>)">Delete</button>
-                        </td>
-                    </tr>
-                <?php
+                    // SQL query to fetch records from the current week (Sunday to Saturday)
+                    $sql = "SELECT * FROM students 
+                            WHERE YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) 
+                            ORDER BY id DESC";
+
+                    $result = $conn->query($sql);
+
+                    if ($result && $result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $statusClass = strtolower($row['payment_status']);
+                    ?>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><?= htmlspecialchars($row['student_name']) ?></td>
+                            <td><?= htmlspecialchars($row['student_id']) ?></td>
+                            <td><?= htmlspecialchars($row['class']) ?></td>
+                            <td class="currency">₱<?= number_format($row['tuition_fee'], 2) ?></td>
+                            <td class="currency">₱<?= number_format($row['activities_fee'], 2) ?></td>
+                            <td class="currency">₱<?= number_format($row['miscellaneous_fee'], 2) ?></td>
+                            <td class="currency">₱<?= number_format($row['total_amount'], 2) ?></td>
+                            <td>
+                                <span class="status <?= $statusClass ?>">
+                                    <?= $row['payment_status'] ?>
+                                </span>
+                            </td>
+                            <td class="action-buttons">
+                                <button class="view-btn">View</button>
+                                <button class="delete-btn" onclick="deleteStudent(<?= $row['id'] ?>)">Delete</button>
+                            </td>
+                        </tr>
+                    <?php
+                        }
+                    } else {
+                        echo "<tr><td colspan='10' style='text-align:center; padding: 40px; color: #64748b;'>No records found for this week.</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='10' style='text-align:center;'>No records found</td></tr>";
-                }
-                $conn->close();
-                ?>
-                </tbody>
+                    $conn->close();
+                    ?>
+                    </tbody>
             </table>
 
             <div class="pagination">
@@ -826,16 +831,9 @@ function updateChart() {
         const totals = weekLabels.map(day => data[day] ? Number(data[day]) : 0);
         feesChart.data.datasets[0].data = totals;
         feesChart.update();
-
-        const totalAmount = totals.reduce((a,b)=>a+b,0);
-        document.getElementById("totalAmount").textContent = "₱" + totalAmount.toLocaleString();
     })
     .catch(err => console.error("Failed to fetch weekly data:", err));
 }
-
-updateChart();
-
-document.getElementById("classSelect").addEventListener("change", updateChart);
 
 function updateTotals() {
     const className = document.getElementById("classSelect").value;
@@ -852,11 +850,40 @@ function updateTotals() {
     .catch(err => console.error("Failed to fetch totals:", err));
 }
 
+// Global Filter for Table
+function filterTable() {
+    const period = document.getElementById("dateSelect").value;
+    const selectedClass = document.getElementById("chartClassSelect").value; // Corrected ID
+    const status = document.getElementById("statusSelect").value;
+    const tableBody = document.getElementById("tableBody");
+
+    tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; padding: 20px;'>Filtering...</td></tr>";
+
+    fetch(`backend/filter_students.php?period=${encodeURIComponent(period)}&class=${encodeURIComponent(selectedClass)}&status=${encodeURIComponent(status)}`)
+    .then(res => res.text())
+    .then(data => {
+        tableBody.innerHTML = data;
+    })
+    .catch(err => {
+        console.error("Filter error:", err);
+        tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; color:red;'>Error loading data.</td></tr>";
+    });
+}
+
+// Listeners for Chart
+document.getElementById("classSelect").addEventListener("change", () => {
+    updateChart();
+    updateTotals();
+});
+
+// Listeners for Table
+document.getElementById("dateSelect").addEventListener("change", filterTable);
+document.getElementById("chartClassSelect").addEventListener("change", filterTable); // Corrected ID
+document.getElementById("statusSelect").addEventListener("change", filterTable);
+
+// Initial Load
+updateChart();
 updateTotals();
-
-document.getElementById("classSelect").addEventListener("change", updateTotals);
-document.getElementById("periodSelect").addEventListener("change", updateTotals);
-
 </script>
 
 </body>

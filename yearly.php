@@ -673,41 +673,46 @@
                 </thead>
 
                 <tbody id="tableBody">
-                <?php
-                include 'backend/db.php';
-                $sql = "SELECT * FROM students ORDER BY id DESC";
-                $result = $conn->query($sql);
+                    <?php
+                    include 'backend/db.php';
+                    
+                    // Logic: Select students where the year of created_at matches the current year
+                    $sql = "SELECT * FROM students 
+                            WHERE YEAR(created_at) = YEAR(CURRENT_DATE()) 
+                            ORDER BY id DESC";
+                            
+                    $result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        $statusClass = strtolower($row['payment_status']);
-                ?>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td><?= htmlspecialchars($row['student_name']) ?></td>
-                        <td><?= htmlspecialchars($row['student_id']) ?></td>
-                        <td><?= htmlspecialchars($row['class']) ?></td>
-                        <td class="currency">₱<?= number_format($row['tuition_fee'], 2) ?></td>
-                        <td class="currency">₱<?= number_format($row['activities_fee'], 2) ?></td>
-                        <td class="currency">₱<?= number_format($row['miscellaneous_fee'], 2) ?></td>
-                        <td class="currency">₱<?= number_format($row['total_amount'], 2) ?></td>
-                        <td>
-                            <span class="status <?= $statusClass ?>">
-                                <?= $row['payment_status'] ?>
-                            </span>
-                        </td>
-                        <td class="action-buttons">
-                            <button class="view-btn">View</button>
-                            <button class="delete-btn" onclick="deleteStudent(<?= $row['id'] ?>)">Delete</button>
-                        </td>
-                    </tr>
-                <?php
+                    if ($result && $result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $statusClass = strtolower($row['payment_status']);
+                    ?>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><?= htmlspecialchars($row['student_name']) ?></td>
+                            <td><?= htmlspecialchars($row['student_id']) ?></td>
+                            <td><?= htmlspecialchars($row['class']) ?></td>
+                            <td class="currency">₱<?= number_format($row['tuition_fee'], 2) ?></td>
+                            <td class="currency">₱<?= number_format($row['activities_fee'], 2) ?></td>
+                            <td class="currency">₱<?= number_format($row['miscellaneous_fee'], 2) ?></td>
+                            <td class="currency">₱<?= number_format($row['total_amount'], 2) ?></td>
+                            <td>
+                                <span class="status <?= $statusClass ?>">
+                                    <?= $row['payment_status'] ?>
+                                </span>
+                            </td>
+                            <td class="action-buttons">
+                                <button class="view-btn">View</button>
+                                <button class="delete-btn" onclick="deleteStudent(<?= $row['id'] ?>)">Delete</button>
+                            </td>
+                        </tr>
+                    <?php
+                        }
+                    } else {
+                        echo "<tr><td colspan='10' style='text-align:center;'>No records found for " . date('Y') . "</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='10' style='text-align:center;'>No records found</td></tr>";
-                }
-                $conn->close();
-                ?>
+                    $conn->close();
+                    ?>
                 </tbody>
             </table>
 
@@ -860,6 +865,44 @@ document.getElementById("classSelect").addEventListener("change", updateChart);
 document.getElementById("classSelect").addEventListener("change", updateTotals);
 document.getElementById("periodSelect").addEventListener("change", updateTotals);
 
+
+document.getElementById("dateSelect").addEventListener("change", function() {
+    const period = this.value;
+    const tableBody = document.getElementById("tableBody");
+
+    // Show a loading state
+    tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; padding: 20px;'>Filtering records...</td></tr>";
+
+    fetch(`backend/filter_students.php?period=${encodeURIComponent(period)}`)
+    .then(res => res.text())
+    .then(data => {
+        tableBody.innerHTML = data;
+    })
+    .catch(err => {
+        console.error("Filter error:", err);
+        tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; color:red;'>Error loading data.</td></tr>";
+    });
+});
+
+// Class Filter Logic
+document.getElementById("classSelect").addEventListener("change", function() {
+    const selectedClass = this.value; // BSIT, BSCPE, etc.
+    const period = document.getElementById("dateSelect").value; // Keeps the current date filter
+    const tableBody = document.getElementById("tableBody");
+
+    tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; padding: 20px;'>Filtering classes...</td></tr>";
+
+    // Send both period and class to the backend
+    fetch(`backend/filter_students.php?period=${encodeURIComponent(period)}&class=${encodeURIComponent(selectedClass)}`)
+    .then(res => res.text())
+    .then(data => {
+        tableBody.innerHTML = data;
+    })
+    .catch(err => {
+        console.error("Class filter error:", err);
+        tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; color:red;'>Error filtering class.</td></tr>";
+    });
+});
 
 </script>
 
