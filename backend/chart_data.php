@@ -10,6 +10,15 @@ $data = [];
 
 if ($period === "Yearly") {
 
+    $currentYear = date("Y");
+    $startYear = $currentYear - 4; // last 5 years
+
+    // Pre-fill years with 0
+    $years = [];
+    for ($y = $startYear; $y <= $currentYear; $y++) {
+        $years[$y] = 0;
+    }
+
     if ($class != "All Classes") {
         $stmt = $conn->prepare("
             SELECT YEAR(created_at) AS year, COALESCE(SUM(total_amount),0) AS total
@@ -32,9 +41,10 @@ if ($period === "Yearly") {
     $result = $stmt->get_result();
 
     while ($row = $result->fetch_assoc()) {
-        $data[(int)$row['year']] = (float)$row['total'];
+        $years[(int)$row['year']] = (float)$row['total'];
     }
 
+    $data = $years;
 }
 
 else if ($period === "Monthly") {

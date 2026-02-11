@@ -566,66 +566,64 @@
         </div>
 
 
-<div class="dashboard-container">
-    <!-- STATS CARDS -->
-    <div class="stats-section">
-        <div class="stat-card">
-            <div class="stat-header">
-                <span class="stat-title">Total Amount</span>
-                <span class="stat-change positive" id="totalChange">+0%</span>
+        <div class="dashboard-container">
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Total Amount</span>
+                        <span class="stat-change positive" id="totalChange">+0%</span>
+                    </div>
+                    <div class="stat-value" id="totalAmount">₱0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Tuition</span>
+                        <span class="stat-change positive" id="tuitionChange">+0%</span>
+                    </div>
+                    <div class="stat-value" id="totalTuition">₱0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Activities</span>
+                        <span class="stat-change positive" id="activitiesChange">+0%</span>
+                    </div>
+                    <div class="stat-value" id="totalActivities">₱0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Misc</span>
+                        <span class="stat-change negative" id="miscChange">-0%</span>
+                    </div>
+                    <div class="stat-value" id="totalMisc">₱0</div>
+                </div>
             </div>
-            <div class="stat-value" id="totalAmount">₱0</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-header">
-                <span class="stat-title">Tuition</span>
-                <span class="stat-change positive" id="tuitionChange">+0%</span>
-            </div>
-            <div class="stat-value" id="totalTuition">₱0</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-header">
-                <span class="stat-title">Activities</span>
-                <span class="stat-change positive" id="activitiesChange">+0%</span>
-            </div>
-            <div class="stat-value" id="totalActivities">₱0</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-header">
-                <span class="stat-title">Misc</span>
-                <span class="stat-change negative" id="miscChange">-0%</span>
-            </div>
-            <div class="stat-value" id="totalMisc">₱0</div>
-        </div>
-    </div>
 
-    <!-- CHART SECTION -->
-    <div class="chart-section">
-        <div class="chart-header">
-            <h3>Fees Collection</h3>
-            <div class="chart-controls">
-                <select id="chartClassSelect">
-                    <option>All Classes</option>
-                    <option>Class 7B</option>
-                    <option>Class 6A</option>
-                    <option>Class 5C</option>
-                    <option>Class 4B</option>
-                </select>
-                <select id="periodSelect">
-                    <option selected>Daily</option>
-                    <option>Weekly</option>
-                    <option>Monthly</option>
-                    <option>Yearly</option>
-                </select>
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h3>Fees Collection</h3>
+                    <div class="chart-controls">
+                        <select id="chartClassSelect">
+                            <option>All Classes</option>
+                            <option value="BSIT">BSIT</option>
+                            <option value="BSCPE">BSCPE</option>
+                            <option value="BSCS">BSCS</option>
+                            <option value="BSCE">BSCE</option>
+
+                        </select>
+                       <select id="periodSelect" style="display: none;">
+                            <option selected>Daily</option>
+                            <option>Weekly</option>
+                            <option>Monthly</option>
+                            <option>Yearly</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="feesChart"></canvas>
+                </div>
             </div>
         </div>
-        <div class="chart-container">
-            <canvas id="feesChart"></canvas>
-        </div>
-    </div>
-</div>
-
-
 
        <div class="table-section">
             <div class="section-header">
@@ -645,9 +643,10 @@
 
                     <select id="classSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         <option value="">All Classes</option>
-                        <option value="7B">Class 7B</option>
-                        <option value="6A">Class 6A</option>
-                        <option value="5C">Class 5C</option>
+                        <option value="BSIT">BSIT</option>
+                        <option value="BSCPE">BSCPE</option>
+                        <option value="BSCS">BSCS</option>
+                        <option value="BSCE">BSCE</option>
                     </select>
 
                     <select id="statusSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
@@ -689,7 +688,7 @@
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
 
-                        $statusClass = strtolower($row['payment_status']); // paid/pending/overdue
+                        $statusClass = strtolower($row['payment_status']); 
                 ?>
                     <tr>
                         <td><input type="checkbox"></td>
@@ -756,12 +755,10 @@
                     <label>Class</label>
                     <select id="studentClass" name="studentClass" required>
                         <option value="">Select Class</option>
-                        <option value="5C">5C</option>
-                        <option value="4B">4B</option>
-                        <option value="6B">6B</option>
-                        <option value="7A">7A</option>
-                        <option value="6A">6A</option>
-                        <option value="7B">7B</option>
+                        <option value="BSIT">BSIT</option>
+                        <option value="BSCPE">BSCPE</option>
+                        <option value="BSCS">BSCS</option>
+                        <option value="BSCE">BSCE</option>
                     </select>
                 </div>
 
@@ -802,12 +799,10 @@
 </div>
 
 <script>
-// OPEN MODAL
 function openAddStudentModal() {
     document.getElementById("addStudentModal").style.display = "flex";
 }
 
-// CLOSE MODAL
 function closeModal() {
     document.getElementById("addStudentModal").style.display = "none";
 }
@@ -815,13 +810,9 @@ function closeModal() {
 document.querySelector(".close-btn").onclick = closeModal;
 document.querySelector(".cancel-btn").onclick = closeModal;
 
-
-// SAVE BUTTON FUNCTION
 document.querySelector(".save-btn").addEventListener("click", function () {
 
     const form = document.getElementById("addStudentForm");
-
-    // ✅ Basic form validation
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
@@ -835,7 +826,7 @@ document.querySelector(".save-btn").addEventListener("click", function () {
     })
     .then(res => res.text())
     .then(data => {
-        data = data.trim(); // remove spaces/newlines
+        data = data.trim();
 
         if (data === "success") {
             alert("Student added successfully!");
@@ -938,7 +929,6 @@ function updateChart() {
         feesChart.data.datasets[0].data = totals;
         feesChart.update();
 
-        // Update stats card total
         document.getElementById("totalAmount").textContent = "₱" + totals.reduce((a,b)=>a+b,0).toLocaleString();
     })
     .catch(err => console.error("Chart data fetch failed:", err));
@@ -959,11 +949,9 @@ function updateTotals() {
     .catch(err => console.error("Totals fetch failed:", err));
 }
 
-// Initial load
 updateChart();
 updateTotals();
 
-// Update when filters change
 classSelect.addEventListener("change", ()=>{
     updateChart();
     updateTotals();
@@ -972,6 +960,7 @@ periodSelect.addEventListener("change", ()=>{
     updateChart();
     updateTotals();
 });
-</script>
+    
+ </script>
 </body>
 </html>

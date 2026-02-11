@@ -602,12 +602,12 @@
                     <div class="chart-controls">
                         <select id="classSelect">
                             <option>All Classes</option>
-                            <option>Class 7B</option>
-                            <option>Class 6A</option>
-                            <option>Class 5C</option>
-                            <option>Class 4B</option>
+                            <option value="BSIT">BSIT</option>
+                            <option value="BSCPE">BSCPE</option>
+                            <option value="BSCS">BSCS</option>
+                            <option value="BSCE">BSCE</option>
                         </select>
-                        <select id="periodSelect">
+                        <select id="periodSelect" style="display: none;">
                             <option>Daily</option>
                             <option selected>Weekly</option>
                             <option>Monthly</option>
@@ -639,10 +639,10 @@
 
                     <select id="classSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         <option value="">All Classes</option>
-                        <option value="7B">Class 7B</option>
-                        <option value="6A">Class 6A</option>
-                        <option value="5C">Class 5C</option>
-                        <option value="4B">Class 4B</option>
+                        <option value="BSIT">BSIT</option>
+                        <option value="BSCPE">BSCPE</option>
+                        <option value="BSCS">BSCS</option>
+                        <option value="BSCE">BSCE</option>
                     </select>
 
                     <select id="statusSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
@@ -737,9 +737,10 @@
                 <div class="form-group">
                     <label>Class</label>
                     <select name="studentClass" required>
-                        <option value="5C">5C</option><option value="4B">4B</option>
-                        <option value="6B">6B</option><option value="7A">7A</option>
-                        <option value="6A">6A</option><option value="7B">7B</option>
+                        <option value="BSIT">BSIT</option>
+                        <option value="BSCPE">BSCPE</option>
+                        <option value="BSCS">BSCS</option>
+                        <option value="BSCE">BSCE</option>
                     </select>
                 </div>
                 <div class="form-group"><label>Tuition Fee</label><input type="number" name="tuitionFee" required></div>
