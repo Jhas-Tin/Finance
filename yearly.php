@@ -629,21 +629,21 @@
                         <input type="text" id="searchInput" placeholder="Search Name...">
                     </div>
 
-                    <select id="dateSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <select id="dateSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px; display: none;">
                         <option>Today</option>
                         <option>This Week</option>
                         <option>This Month</option>
                         <option selected>All Time</option>
                     </select>
 
-                    <select id="classSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <select id="classSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px; display: none;">
                         <option value="BSIT">BSIT</option>
                         <option value="BSCPE">BSCPE</option>
                         <option value="BSCS">BSCS</option>
                         <option value="BSCE">BSCE</option>
                     </select>
 
-                    <select id="statusSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <select id="statusSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px; display: none;">
                         <option value="">All Status</option>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
