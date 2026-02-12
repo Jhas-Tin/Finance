@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2026 at 07:51 PM
+-- Generation Time: Feb 12, 2026 at 12:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,10 +45,12 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `student_name`, `student_id`, `class`, `tuition_fee`, `activities_fee`, `miscellaneous_fee`, `total_amount`, `payment_status`, `created_at`) VALUES
-(19, 'Jhastin', '7575757', '7A', 60000.00, 5000.00, 1000.00, 66000.00, 'Pending', '2026-02-10 18:21:46'),
-(20, 'Maxine', '454554545', '4B', 50000.00, 6000.00, 2000.00, 58000.00, 'Pending', '2026-02-10 18:22:51'),
-(21, 'Angel', '54545', '4B', 50000.00, 15000.00, 3000.00, 68000.00, 'Pending', '2026-02-10 11:49:00'),
-(22, 'Lance', '78787', '6A', 45000.00, 10000.00, 6000.00, 61000.00, 'Pending', '2026-02-10 11:49:44');
+(27, 'Maxine', '4545', 'BSIT', 50000.00, 3500.00, 2500.00, 56000.00, 'Pending', '2026-02-10 04:44:53'),
+(28, 'Angel', '55454', 'BSCPE', 40000.00, 5000.00, 4000.00, 49000.00, 'Pending', '2026-02-10 04:45:30'),
+(29, 'Joven', '1234342', 'BSIT', 40000.00, 3000.00, 4000.00, 47000.00, 'Overdue', '2026-02-11 04:46:37'),
+(30, 'Marknel', '545489787', 'BSCE', 60000.00, 3500.00, 4000.00, 67500.00, 'Pending', '2026-02-11 04:47:12'),
+(31, 'Lance', '123434298', 'BSCS', 45000.00, 3500.00, 2500.00, 51000.00, 'Paid', '2026-02-12 04:47:55'),
+(32, 'Jhastin', '554546767', 'BSIT', 50000.00, 4500.00, 3500.00, 58000.00, 'Paid', '2026-02-12 04:48:24');
 
 --
 -- Indexes for dumped tables
@@ -68,7 +70,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

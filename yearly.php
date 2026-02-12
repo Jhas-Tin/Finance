@@ -735,6 +735,7 @@
                 <div class="form-group">
                     <label>Class</label>
                     <select name="studentClass" required>
+                        <option value="">Select Class</option>
                         <option value="BSIT">BSIT</option>
                         <option value="BSCPE">BSCPE</option>
                         <option value="BSCS">BSCS</option>
