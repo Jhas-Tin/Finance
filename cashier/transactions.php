@@ -1,4 +1,3 @@
-transactions.php
 <?php
 // 1. Database Connection
 $host = "localhost";
@@ -88,7 +87,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
         }
 
         /* SIDEBAR STYLES - EXACT COPY FROM FINANCE SIDEBAR.PHP */
-        .sidebar {
+        .sidebar-transaction {
             width: 240px;
             height: 100vh;
             background: #0b1f33;
@@ -102,11 +101,11 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             transition: transform 0.3s ease;
         }
 
-        .sidebar.closed {
+        .sidebar-transaction.closed {
             transform: translateX(-240px);
         }
 
-        .sidebar-header {
+        .sidebar-header-transaction {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -116,7 +115,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .logo-container {
+        .logo-container-transaction {
             width: 70px;
             height: 70px;
             background: transparent;
@@ -127,25 +126,25 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             flex-shrink: 0;
         }
 
-        .logo-container i {
+        .logo-container-transaction i {
             font-size: 20px;
             color: #0b1f33;
         }
 
-        .logo-image {
+        .logo-image-transaction {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        .school-name {
+        .school-name-transaction {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
 
-        .school-name h2 {
+        .school-name-transaction h2 {
             font-size: 14px;
             font-weight: 700;
             margin: 0;
@@ -154,7 +153,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             letter-spacing: 0.5px;
         }
 
-        .school-name h3 {
+        .school-name-transaction h3 {
             font-size: 10px;
             margin: 5px 0 0 0;
             color: #9fb3c8;
@@ -162,7 +161,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             letter-spacing: 0.5px;
         }
 
-        .sidebar h3.menu-title {
+        .sidebar-transaction h3.menu-title-transaction {
             font-size: 12px;
             margin: 20px 0 15px;
             color: #9fb3c8;
@@ -172,17 +171,17 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             padding-left: 5px;
         }
 
-        .sidebar-menu {
+        .sidebar-menu-transaction {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        .sidebar-menu li {
+        .sidebar-menu-transaction li {
             margin-bottom: 5px;
         }
 
-        .sidebar-menu a {
+        .sidebar-menu-transaction a {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -195,7 +194,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             font-weight: 500;
         }
 
-        .sidebar-menu a i {
+        .sidebar-menu-transaction a i {
             width: 20px;
             text-align: center;
             font-size: 16px;
@@ -203,74 +202,74 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             transition: color 0.2s ease;
         }
 
-        .sidebar-menu a.active,
-        .sidebar-menu a:hover {
+        .sidebar-menu-transaction a.active-transaction,
+        .sidebar-menu-transaction a:hover {
             background: #f59e0b;
             color: #000;
         }
 
-        .sidebar-menu a.active i,
-        .sidebar-menu a:hover i {
+        .sidebar-menu-transaction a.active-transaction i,
+        .sidebar-menu-transaction a:hover i {
             color: #000;
         }
 
         /* Scrollbar styling for sidebar */
-        .sidebar::-webkit-scrollbar {
+        .sidebar-transaction::-webkit-scrollbar {
             width: 5px;
         }
 
-        .sidebar::-webkit-scrollbar-track {
+        .sidebar-transaction::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
         }
 
-        .sidebar::-webkit-scrollbar-thumb {
+        .sidebar-transaction::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
         }
 
-        .sidebar::-webkit-scrollbar-thumb:hover {
+        .sidebar-transaction::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* NAVBAR STYLES - EXACT COPY FROM FINANCE */
+        /* NAVBAR STYLES - WITH UNIQUE CLASSES FOR TRANSACTIONS PAGE */
         :root {
-            --bg-primary: #0b1f33;
-            --bg-secondary: #fff;
-            --text-primary: #fff;
-            --text-secondary: #0b1f33;
-            --text-muted: #9fb3c8;
-            --accent: #f59e0b;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --card-bg: #f0f0f0;
+            --bg-primary-transaction: #0b1f33;
+            --bg-secondary-transaction: #fff;
+            --text-primary-transaction: #fff;
+            --text-secondary-transaction: #0b1f33;
+            --text-muted-transaction: #9fb3c8;
+            --accent-transaction: #f59e0b;
+            --border-color-transaction: rgba(255, 255, 255, 0.1);
+            --card-bg-transaction: #f0f0f0;
         }
 
-        body.dark-mode {
-            --bg-primary: #0b1f33;
-            --bg-secondary: #fff;
-            --text-primary: #fff;
-            --text-secondary: #0b1f33;
-            --text-muted: #9fb3c8;
-            --accent: #f59e0b;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --card-bg: #f0f0f0;
+        body.dark-mode-transaction {
+            --bg-primary-transaction: #0b1f33;
+            --bg-secondary-transaction: #fff;
+            --text-primary-transaction: #fff;
+            --text-secondary-transaction: #0b1f33;
+            --text-muted-transaction: #9fb3c8;
+            --accent-transaction: #f59e0b;
+            --border-color-transaction: rgba(255, 255, 255, 0.1);
+            --card-bg-transaction: #f0f0f0;
         }
 
-        body.light-mode {
-            --bg-primary: #f5f5f5;
-            --bg-secondary: #fff;
-            --text-primary: #0b1f33;
-            --text-secondary: #fff;
-            --text-muted: #6b7280;
-            --accent: #f59e0b;
-            --border-color: rgba(0, 0, 0, 0.1);
-            --card-bg: #e5e7eb;
+        body.light-mode-transaction {
+            --bg-primary-transaction: #f5f5f5;
+            --bg-secondary-transaction: #fff;
+            --text-primary-transaction: #0b1f33;
+            --text-secondary-transaction: #fff;
+            --text-muted-transaction: #6b7280;
+            --accent-transaction: #f59e0b;
+            --border-color-transaction: rgba(0, 0, 0, 0.1);
+            --card-bg-transaction: #e5e7eb;
         }
 
-        .navbar {
+        .navbar-transaction {
             height: 65px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: var(--bg-primary-transaction);
+            color: var(--text-primary-transaction);
             padding: 0 30px;
             display: flex;
             justify-content: space-between;
@@ -284,117 +283,117 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             z-index: 99;
         }
 
-        .navbar-left {
+        .navbar-left-transaction {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-        .menu-toggle {
+        .menu-toggle-transaction {
             font-size: 24px;
             cursor: pointer;
-            color: var(--text-primary);
+            color: var(--text-primary-transaction);
             transition: color 0.2s ease;
         }
 
-        .menu-toggle:hover {
-            color: var(--accent);
+        .menu-toggle-transaction:hover {
+            color: var(--accent-transaction);
         }
 
-        .navbar-title {
+        .navbar-title-transaction {
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
 
-        .navbar h1 {
+        .navbar-title-transaction h1 {
             font-size: 16px;
             font-weight: 700;   
             margin: 0;
-            color: var(--text-primary);
+            color: var(--text-primary-transaction);
         }
 
-        .navbar-subtitle {
+        .navbar-subtitle-transaction {
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--text-muted-transaction);
             font-weight: 400;
         }
 
-        .nav-right {
+        .nav-right-transaction {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-        .nav-icon {
+        .nav-icon-transaction {
             font-size: 18px;
             cursor: pointer;
-            color: var(--text-primary);
+            color: var(--text-primary-transaction);
             transition: color 0.2s ease;
             width: 20px;
             text-align: center;
         }
 
-        .nav-icon:hover {
-            color: var(--accent);
+        .nav-icon-transaction:hover {
+            color: var(--accent-transaction);
         }
 
-        .theme-toggle {
+        .theme-toggle-transaction {
             font-size: 18px;
             cursor: pointer;
-            color: var(--text-primary);
+            color: var(--text-primary-transaction);
             transition: color 0.2s ease;
             width: 20px;
             text-align: center;
         }
 
-        .theme-toggle:hover {
-            color: var(--accent);
+        .theme-toggle-transaction:hover {
+            color: var(--accent-transaction);
         }
 
-        .nav-profile {
+        .nav-profile-transaction {
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
         }
 
-        .nav-profile-avatar {
+        .nav-profile-avatar-transaction {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: var(--accent);
+            background: var(--accent-transaction);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-secondary-transaction);
             font-size: 13px;
             flex-shrink: 0;
         }
 
-        .nav-profile-text {
+        .nav-profile-text-transaction {
             display: flex;
             flex-direction: column;
             gap: 1px;
         }
 
-        .nav-profile-name {
+        .nav-profile-name-transaction {
             font-size: 13px;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text-primary-transaction);
             margin: 0;
             white-space: nowrap;
         }
 
-        .nav-profile-role {
+        .nav-profile-role-transaction {
             font-size: 11px;
-            color: var(--text-muted);
+            color: var(--text-muted-transaction);
             margin: 0;
             white-space: nowrap;
         }
 
-        .profile-dropdown-toggle {
+        .profile-dropdown-toggle-transaction {
             position: relative;
             display: flex;
             align-items: center;
@@ -402,23 +401,23 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             cursor: pointer;
         }
 
-        .dropdown-arrow {
+        .dropdown-arrow-transaction {
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-muted-transaction);
             transition: transform 0.2s ease;
             margin-left: 4px;
         }
 
-        .profile-dropdown-toggle:hover .dropdown-arrow {
-            color: var(--text-primary);
+        .profile-dropdown-toggle-transaction:hover .dropdown-arrow-transaction {
+            color: var(--text-primary-transaction);
             transform: translateY(2px);
         }
 
-        .profile-dropdown-menu {
+        .profile-dropdown-menu-transaction {
             position: absolute;
             top: 100%;
             right: 0;
-            background: var(--bg-secondary);
+            background: var(--bg-secondary-transaction);
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             min-width: 150px;
@@ -428,31 +427,31 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             z-index: 1000;
         }
 
-        .profile-dropdown-menu.active {
+        .profile-dropdown-menu-transaction.active-transaction {
             display: block;
         }
 
-        .profile-dropdown-menu a {
+        .profile-dropdown-menu-transaction a {
             display: block;
             padding: 12px 16px;
-            color: var(--text-secondary);
+            color: var(--text-secondary-transaction);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: background 0.2s ease;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color-transaction);
         }
 
-        .profile-dropdown-menu a:last-child {
+        .profile-dropdown-menu-transaction a:last-child {
             border-bottom: none;
         }
 
-        .profile-dropdown-menu a:hover {
-            background: var(--accent);
+        .profile-dropdown-menu-transaction a:hover {
+            background: var(--accent-transaction);
             color: #fff;
         }
 
-        .semester-dropdown-toggle {
+        .semester-dropdown-toggle-transaction {
             position: relative;
             display: flex;
             align-items: center;
@@ -460,23 +459,23 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             cursor: pointer;
         }
 
-        .semester-dropdown-arrow {
+        .semester-dropdown-arrow-transaction {
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-muted-transaction);
             transition: transform 0.2s ease;
             margin-left: 4px;
         }
 
-        .semester-dropdown-toggle:hover .semester-dropdown-arrow {
-            color: var(--text-primary);
+        .semester-dropdown-toggle-transaction:hover .semester-dropdown-arrow-transaction {
+            color: var(--text-primary-transaction);
             transform: translateY(2px);
         }
 
-        .semester-dropdown-menu {
+        .semester-dropdown-menu-transaction {
             position: absolute;
             top: 100%;
             left: 0;
-            background: var(--bg-secondary);
+            background: var(--bg-secondary-transaction);
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             min-width: 200px;
@@ -486,37 +485,37 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             z-index: 100;
         }
 
-        .semester-dropdown-menu.active {
+        .semester-dropdown-menu-transaction.active-transaction {
             display: block;
         }
 
-        .semester-dropdown-menu a {
+        .semester-dropdown-menu-transaction a {
             display: block;
             padding: 12px 16px;
-            color: var(--text-secondary);
+            color: var(--text-secondary-transaction);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: background 0.2s ease;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color-transaction);
         }
 
-        .semester-dropdown-menu a:last-child {
+        .semester-dropdown-menu-transaction a:last-child {
             border-bottom: none;
         }
 
-        .semester-dropdown-menu a:hover {
-            background: var(--accent);
+        .semester-dropdown-menu-transaction a:hover {
+            background: var(--accent-transaction);
             color: #fff;
         }
 
-        .semester-dropdown-menu a.active {
-            background: var(--accent);
+        .semester-dropdown-menu-transaction a.active-transaction {
+            background: var(--accent-transaction);
             color: #fff;
         }
 
         /* MAIN CONTENT - Adjusted for navbar */
-        .main-content {
+        .main-content-transaction {
             flex: 1;
             margin-left: 240px;
             margin-top: 65px;
@@ -524,7 +523,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
         }
 
         /* FILTER SECTION */
-        .filter-section {
+        .filter-section-transaction {
             background: white;
             border-radius: 16px;
             padding: 24px;
@@ -532,7 +531,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             margin-bottom: 30px;
         }
 
-        .input-group {
+        .input-group-transaction {
             display: flex;
             align-items: center;
             border: 1px solid #e2e8f0;
@@ -540,14 +539,14 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             background: white;
         }
 
-        .input-group-text {
+        .input-group-text-transaction {
             background: transparent;
             border: none;
             padding: 0 12px;
             color: #94a3b8;
         }
 
-        .form-control, .form-select {
+        .form-control-transaction, .form-select-transaction {
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             padding: 12px 16px;
@@ -557,17 +556,17 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             width: 100%;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control-transaction:focus, .form-select-transaction:focus {
             outline: none;
             border-color: #f59e0b;
             box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
         }
 
-        .form-control.border-0 {
+        .form-control-transaction.border-0 {
             border: none;
         }
 
-        .btn-primary {
+        .btn-primary-transaction {
             background: #2563eb;
             color: white;
             border: none;
@@ -578,11 +577,11 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             transition: background 0.2s;
         }
 
-        .btn-primary:hover {
+        .btn-primary-transaction:hover {
             background: #1d4ed8;
         }
 
-        .btn-light {
+        .btn-light-transaction {
             background: #f1f5f9;
             color: #475569;
             border: 1px solid #e2e8f0;
@@ -595,12 +594,12 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             text-align: center;
         }
 
-        .btn-light:hover {
+        .btn-light-transaction:hover {
             background: #e2e8f0;
         }
 
         /* CARD AND TABLE STYLES */
-        .card {
+        .card-transaction {
             background: white;
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -608,12 +607,12 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             overflow: hidden;
         }
 
-        .table {
+        .table-transaction {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .table thead th {
+        .table-transaction thead th {
             background: #f8fafc;
             padding: 15px;
             text-align: left;
@@ -625,18 +624,18 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             border-bottom: 2px solid #e2e8f0;
         }
 
-        .table tbody td {
+        .table-transaction tbody td {
             padding: 15px;
             border-bottom: 1px solid #e2e8f0;
             color: #475569;
             font-size: 14px;
         }
 
-        .table tbody tr:hover {
+        .table-transaction tbody tr:hover {
             background: #f8fafc;
         }
 
-        .badge-paid {
+        .badge-paid-transaction {
             background: #dcfce7;
             color: #166534;
             padding: 6px 12px;
@@ -647,7 +646,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
         }
 
         /* ACTION BUTTONS */
-        .btn-sm {
+        .btn-sm-transaction {
             padding: 6px 12px;
             border-radius: 6px;
             font-size: 12px;
@@ -657,28 +656,28 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             transition: all 0.2s;
         }
 
-        .btn-info {
+        .btn-info-transaction {
             background: #3b82f6;
             color: white;
         }
 
-        .btn-info:hover {
+        .btn-info-transaction:hover {
             background: #2563eb;
         }
 
-        .btn-outline-secondary {
+        .btn-outline-secondary-transaction {
             background: white;
             border: 1px solid #e2e8f0;
             color: #64748b;
         }
 
-        .btn-outline-secondary:hover {
+        .btn-outline-secondary-transaction:hover {
             background: #f8fafc;
             border-color: #94a3b8;
         }
 
         /* MODAL STYLES */
-        .modal {
+        .modal-transaction {
             display: none;
             position: fixed;
             top: 0;
@@ -691,22 +690,22 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             align-items: center;
         }
 
-        .modal.active {
+        .modal-transaction.active-transaction {
             display: flex;
         }
 
-        .modal-dialog {
+        .modal-dialog-transaction {
             max-width: 500px;
             width: 90%;
         }
 
-        .modal-content {
+        .modal-content-transaction {
             background: white;
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .modal-header {
+        .modal-header-transaction {
             padding: 24px;
             border-bottom: 1px solid #e2e8f0;
             display: flex;
@@ -714,14 +713,14 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             align-items: center;
         }
 
-        .modal-header h5 {
+        .modal-header-transaction h5 {
             margin: 0;
             font-size: 18px;
             font-weight: 600;
             color: #1e293b;
         }
 
-        .btn-close {
+        .btn-close-transaction {
             background: none;
             border: none;
             font-size: 24px;
@@ -729,11 +728,11 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             color: #94a3b8;
         }
 
-        .modal-body {
+        .modal-body-transaction {
             padding: 24px;
         }
 
-        .modal-footer {
+        .modal-footer-transaction {
             padding: 24px;
             border-top: 1px solid #e2e8f0;
             display: flex;
@@ -741,7 +740,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             gap: 12px;
         }
 
-        .btn-secondary {
+        .btn-secondary-transaction {
             background: #f1f5f9;
             color: #475569;
             border: none;
@@ -751,18 +750,18 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
             cursor: pointer;
         }
 
-        .btn-secondary:hover {
+        .btn-secondary-transaction:hover {
             background: #e2e8f0;
         }
 
-        .paid-box {
+        .paid-box-transaction {
             background: #f0fdf4;
             border-left: 4px solid #22c55e;
             padding: 16px;
             border-radius: 8px;
         }
 
-        .section-label {
+        .section-label-transaction {
             font-size: 12px;
             font-weight: 600;
             color: #059669;
@@ -773,146 +772,143 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
         }
 
         /* ROW GRID */
-        .row {
+        .row-transaction {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
         }
 
-        .col-md-5 {
+        .col-md-5-transaction {
             flex: 1 1 calc(41.666% - 20px);
         }
 
-        .col-md-4 {
+        .col-md-4-transaction {
             flex: 1 1 calc(33.333% - 20px);
         }
 
-        .col-md-3 {
+        .col-md-3-transaction {
             flex: 1 1 calc(25% - 20px);
         }
 
-        .d-flex {
+        .d-flex-transaction {
             display: flex;
         }
 
-        .gap-2 {
+        .gap-2-transaction {
             gap: 10px;
         }
 
-        .gap-3 {
+        .gap-3-transaction {
             gap: 15px;
         }
 
-        .justify-content-between {
+        .justify-content-between-transaction {
             justify-content: space-between;
         }
 
-        .align-items-center {
+        .align-items-center-transaction {
             align-items: center;
         }
 
-        .mb-4 {
+        .mb-4-transaction {
             margin-bottom: 20px;
         }
 
-        .mb-0 {
+        .mb-0-transaction {
             margin-bottom: 0;
         }
 
-        .fw-bold {
+        .fw-bold-transaction {
             font-weight: 700;
         }
 
-        .text-muted {
+        .text-muted-transaction {
             color: #64748b;
         }
 
-        .text-center {
+        .text-center-transaction {
             text-align: center;
         }
 
-        .text-end {
+        .text-end-transaction {
             text-align: right;
         }
 
-        .py-5 {
+        .py-5-transaction {
             padding-top: 40px;
             padding-bottom: 40px;
         }
 
-        .shadow-sm {
+        .shadow-sm-transaction {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        .w-100 {
+        .w-100-transaction {
             width: 100%;
         }
 
-        .w-50 {
+        .w-50-transaction {
             width: 50%;
         }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .sidebar {
+            .sidebar-transaction {
                 transform: translateX(-240px);
             }
-            .navbar {
+            .navbar-transaction {
                 left: 0;
             }
-            .main-content {
+            .main-content-transaction {
                 margin-left: 0;
             }
-            .col-md-5, .col-md-4, .col-md-3 {
+            .col-md-5-transaction, .col-md-4-transaction, .col-md-3-transaction {
                 flex: 1 1 100%;
             }
         }
     </style>
 </head>
-<body class="dark-mode">
+<body class="dark-mode-transaction">
 
-<div class="sidebar">
-    <div class="sidebar-header">
-        <div class="logo-container">
-            <img src="../components/images/hcc.png" alt="Holy Cross College Logo" class="logo-image">
+<div class="sidebar-transaction">
+    <div class="sidebar-header-transaction">
+        <div class="logo-container-transaction">
+            <img src="../components/images/hcc.png" alt="Holy Cross College Logo" class="logo-image-transaction">
         </div>
-        <div class="school-name">
+        <div class="school-name-transaction">
             <h2>HOLY CROSS COLLEGE</h2>
             <h3>School Management System</h3>
         </div>
     </div>
 
-    <h3 class="menu-title">Main Menu</h3>
-    <ul class="sidebar-menu">
-        <li><a href="dashboard.php">
-            <i class="fas fa-tachometer-alt"></i>
-            Dashboard
-        </a></li>
+    <h3 class="menu-title-transaction">Main Menu</h3>
+    <ul class="sidebar-menu-transaction">
+       
         <li><a href="../index.php"> 
             <i class="fas fa-money-bill-wave"></i>
             Finance
         </a></li>
         <li><a href="cashiering.php">
-            <i class="fas fa-money-bill-wave"></i>
-            Cashiering
+            <i class="fas fa-chalkboard-teacher"></i>
+            Cashier
         </a></li>
-        <li><a href="transactions.php" class="active">
+        <li><a href="transactions.php" class="active-transaction">
             <i class="fas fa-receipt"></i>
             Transactions
         </a></li>
     </ul>
 </div>
 
-<!-- NAVBAR -->
-<div class="navbar">
-    <div class="navbar-left">
-        <span id="menuToggle" class="menu-toggle">☰</span>
-        <div class="navbar-title">
+<!-- NAVBAR WITH UNIQUE CLASSES -->
+<div class="navbar-transaction">
+    <div class="navbar-left-transaction">
+        <span id="menuToggleTransaction" class="menu-toggle-transaction">☰</span>
+        <div class="navbar-title-transaction">
             <h1>TRANSACTION HISTORY</h1>
-            <div class="semester-dropdown-toggle">
-                <span class="navbar-subtitle" id="semesterDisplay">Transactions / 2024-2025 1st Semester</span>
-                <span class="semester-dropdown-arrow">▼</span>
-                <div class="semester-dropdown-menu" id="semesterDropdown">
+            <div class="semester-dropdown-toggle-transaction">
+                <span class="navbar-subtitle-transaction" id="semesterDisplayTransaction">Transactions / 2024-2025 1st Semester</span>
+                <span class="semester-dropdown-arrow-transaction">▼</span>
+                <div class="semester-dropdown-menu-transaction" id="semesterDropdownTransaction">
                     <a href="#" data-semester="2024-2025-1st">Transactions / 2024-2025 1st Semester</a>
                     <a href="#" data-semester="2024-2025-2nd">Transactions / 2024-2025 2nd Semester</a>
                     <a href="#" data-semester="2023-2024-1st">Transactions / 2023-2024 1st Semester</a>
@@ -924,19 +920,19 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
         </div>
     </div>
 
-    <div class="nav-right">
-        <span class="nav-icon">🔔</span>
-        <span id="themeToggle" class="theme-toggle">🌙</span>
-        <div class="profile-dropdown-toggle">
-            <div class="nav-profile">
-                <div class="nav-profile-avatar">SA</div>
-                <div class="nav-profile-text">
-                    <p class="nav-profile-name">Sample Admin</p>
-                    <p class="nav-profile-role">Admin</p>
+    <div class="nav-right-transaction">
+        <span class="nav-icon-transaction">🔔</span>
+        <span id="themeToggleTransaction" class="theme-toggle-transaction">🌙</span>
+        <div class="profile-dropdown-toggle-transaction">
+            <div class="nav-profile-transaction">
+                <div class="nav-profile-avatar-transaction">SA</div>
+                <div class="nav-profile-text-transaction">
+                    <p class="nav-profile-name-transaction">Sample Admin</p>
+                    <p class="nav-profile-role-transaction">Admin</p>
                 </div>
             </div>
-            <span class="dropdown-arrow">▼</span>
-            <div class="profile-dropdown-menu">
+            <span class="dropdown-arrow-transaction">▼</span>
+            <div class="profile-dropdown-menu-transaction">
                 <a href="#">Profile</a>
                 <a href="#">Settings</a>
                 <li><a class="dropdown-item py-2" href="logout.php"><span class="material-icons align-middle me-2" style="font-size: 18px;"></span>Logout</a></li>
@@ -945,24 +941,24 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
     </div>
 </div>
 
-<div class="main-content">
-    <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 20px;">
+<div class="main-content-transaction">
+    <div class="d-flex-transaction justify-content-between-transaction align-items-center-transaction" style="margin-bottom: 20px;">
         <div>
             <h2 style="font-size: 28px; font-weight: 700; color: #1e293b; margin-bottom: 5px;">Transaction History</h2>
             <small style="color: #64748b; font-size: 14px;">Review and manage student payment records</small>
         </div>
     </div>
 
-    <div class="filter-section">
+    <div class="filter-section-transaction">
         <form action="" method="GET" style="display: flex; flex-wrap: wrap; gap: 20px;">
             <div style="flex: 1 1 calc(41.666% - 20px);">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-search" style="color: #94a3b8;"></i></span>
-                    <input type="text" name="search" class="form-control border-0" placeholder="Search ID or Name..." value="<?= htmlspecialchars($search) ?>">
+                <div class="input-group-transaction">
+                    <span class="input-group-text-transaction"><i class="fas fa-search" style="color: #94a3b8;"></i></span>
+                    <input type="text" name="search" class="form-control-transaction border-0" placeholder="Search ID or Name..." value="<?= htmlspecialchars($search) ?>">
                 </div>
             </div>
             <div style="flex: 1 1 calc(33.333% - 20px);">
-                <select name="course" class="form-select">
+                <select name="course" class="form-select-transaction">
                     <option value="">All Courses/Years</option>
                     <?php while($c = $courses_res->fetch_assoc()): ?>
                         <option value="<?= htmlspecialchars($c['course_year']) ?>" <?= ($course_filter == $c['course_year']) ? 'selected' : '' ?>>
@@ -972,15 +968,15 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
                 </select>
             </div>
             <div style="flex: 1 1 calc(25% - 20px); display: flex; gap: 10px;">
-                <button type="submit" class="btn-primary" style="flex: 1;">Apply</button>
-                <a href="transactions.php" class="btn-light" style="flex: 0.5; text-decoration: none;">Reset</a>
+                <button type="submit" class="btn-primary-transaction" style="flex: 1;">Apply</button>
+                <a href="transactions.php" class="btn-light-transaction" style="flex: 0.5; text-decoration: none;">Reset</a>
             </div>
         </form>
     </div>
 
-    <div class="card">
+    <div class="card-transaction">
         <div style="overflow-x: auto;">
-            <table class="table">
+            <table class="table-transaction">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -990,7 +986,7 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
                         <th>Course/Year</th>
                         <th>Amount</th>
                         <th>Status</th>
-                        <th class="text-center">Action</th>
+                        <th class="text-center-transaction">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1005,24 +1001,24 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
                                 <td style="text-transform: uppercase; font-size: 13px;"><?= htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) ?></td>
                                 <td><?= htmlspecialchars($row['course_year']) ?></td>
                                 <td style="font-weight: 600;">₱<?= number_format($row['amount_paid'], 2) ?></td>
-                                <td><span class="badge-paid">Paid</span></td>
-                                <td class="text-center">
-                                    <button class="btn-sm btn-info" style="margin-right: 5px;" 
-                                            onclick="viewDetails(
+                                <td><span class="badge-paid-transaction">Paid</span></td>
+                                <td class="text-center-transaction">
+                                    <button class="btn-sm-transaction btn-info-transaction" style="margin-right: 5px;" 
+                                            onclick="viewDetailsTransaction(
                                                 '<?= addslashes($row['first_name'] . ' ' . $row['last_name']) ?>', 
                                                 '<?= addslashes($row['course_year']) ?>', 
                                                 '<?= addslashes($row['fee_breakdown']) ?>'
                                             )">
                                         <i class="fas fa-eye" style="font-size: 14px;"></i>
                                     </button>
-                                    <button class="btn-sm btn-outline-secondary" onclick="window.print()">
+                                    <button class="btn-sm-transaction btn-outline-secondary-transaction" onclick="window.print()">
                                         <i class="fas fa-print" style="font-size: 14px;"></i>
                                     </button>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
-                        <tr><td colspan="8" class="text-center py-5" style="color: #64748b;">No transactions found.</td></tr>
+                        <tr><td colspan="8" class="text-center-transaction py-5-transaction" style="color: #64748b;">No transactions found.</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -1031,134 +1027,134 @@ $courses_res = $conn->query("SELECT DISTINCT course_year FROM students WHERE cou
 </div>
 
 <!-- Details Modal -->
-<div class="modal" id="detailsModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+<div class="modal-transaction" id="detailsModalTransaction">
+    <div class="modal-dialog-transaction">
+        <div class="modal-content-transaction">
+            <div class="modal-header-transaction">
                 <h5>Transaction Breakdown</h5>
-                <button class="btn-close" onclick="closeDetailsModal()">×</button>
+                <button class="btn-close-transaction" onclick="closeDetailsModalTransaction()">×</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body-transaction">
                 <div style="margin-bottom: 20px;">
-                    <h6 id="modalStudentName" style="font-weight: 700; margin-bottom: 5px; color: #2563eb;"></h6>
-                    <small id="modalCourseYear" style="color: #64748b;"></small>
+                    <h6 id="modalStudentNameTransaction" style="font-weight: 700; margin-bottom: 5px; color: #2563eb;"></h6>
+                    <small id="modalCourseYearTransaction" style="color: #64748b;"></small>
                 </div>
                 <div>
-                    <span class="section-label">Paid in this Transaction</span>
-                    <div id="modalFeeDetails" class="paid-box"></div>
+                    <span class="section-label-transaction">Paid in this Transaction</span>
+                    <div id="modalFeeDetailsTransaction" class="paid-box-transaction"></div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-secondary" onclick="closeDetailsModal()">Close</button>
+            <div class="modal-footer-transaction">
+                <button type="button" class="btn-secondary-transaction" onclick="closeDetailsModalTransaction()">Close</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// Navbar and dropdown functionality
+// Navbar and dropdown functionality with unique IDs
 document.addEventListener('DOMContentLoaded', function() {
-    const profileDropdownToggle = document.querySelector('.profile-dropdown-toggle');
-    const profileDropdownMenu = document.querySelector('.profile-dropdown-menu');
+    const profileDropdownToggleTransaction = document.querySelector('.profile-dropdown-toggle-transaction');
+    const profileDropdownMenuTransaction = document.querySelector('.profile-dropdown-menu-transaction');
 
-    if (profileDropdownToggle) {
-        profileDropdownToggle.addEventListener('click', function(e) {
+    if (profileDropdownToggleTransaction) {
+        profileDropdownToggleTransaction.addEventListener('click', function(e) {
             e.stopPropagation();
-            profileDropdownMenu.classList.toggle('active');
+            profileDropdownMenuTransaction.classList.toggle('active-transaction');
         });
     }
 
     // Semester dropdown functionality
-    const semesterDropdownToggle = document.querySelector('.semester-dropdown-toggle');
-    const semesterDropdownMenu = document.getElementById('semesterDropdown');
-    const semesterDisplay = document.getElementById('semesterDisplay');
-    const semesterLinks = semesterDropdownMenu.querySelectorAll('a');
+    const semesterDropdownToggleTransaction = document.querySelector('.semester-dropdown-toggle-transaction');
+    const semesterDropdownMenuTransaction = document.getElementById('semesterDropdownTransaction');
+    const semesterDisplayTransaction = document.getElementById('semesterDisplayTransaction');
+    const semesterLinksTransaction = semesterDropdownMenuTransaction.querySelectorAll('a');
 
-    if (semesterDropdownToggle) {
-        semesterDropdownToggle.addEventListener('click', function(e) {
+    if (semesterDropdownToggleTransaction) {
+        semesterDropdownToggleTransaction.addEventListener('click', function(e) {
             e.stopPropagation();
-            semesterDropdownMenu.classList.toggle('active');
+            semesterDropdownMenuTransaction.classList.toggle('active-transaction');
         });
     }
 
-    semesterLinks.forEach(link => {
+    semesterLinksTransaction.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            semesterDisplay.textContent = this.textContent;
-            semesterLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-            semesterDropdownMenu.classList.remove('active');
+            semesterDisplayTransaction.textContent = this.textContent;
+            semesterLinksTransaction.forEach(l => l.classList.remove('active-transaction'));
+            this.classList.add('active-transaction');
+            semesterDropdownMenuTransaction.classList.remove('active-transaction');
         });
     });
 
-    semesterLinks[0].classList.add('active');
+    semesterLinksTransaction[0].classList.add('active-transaction');
 
     // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.profile-dropdown-toggle')) {
-            profileDropdownMenu.classList.remove('active');
+        if (!e.target.closest('.profile-dropdown-toggle-transaction')) {
+            profileDropdownMenuTransaction.classList.remove('active-transaction');
         }
-        if (!e.target.closest('.semester-dropdown-toggle')) {
-            semesterDropdownMenu.classList.remove('active');
+        if (!e.target.closest('.semester-dropdown-toggle-transaction')) {
+            semesterDropdownMenuTransaction.classList.remove('active-transaction');
         }
     });
 
     // Theme toggle functionality
-    const themeToggle = document.getElementById('themeToggle');
-    const html = document.documentElement;
+    const themeToggleTransaction = document.getElementById('themeToggleTransaction');
+    const htmlTransaction = document.documentElement;
     
-    const currentTheme = localStorage.getItem('theme') || 'dark-mode';
-    html.classList.add(currentTheme);
-    updateThemeIcon(currentTheme);
+    const currentThemeTransaction = localStorage.getItem('theme-transaction') || 'dark-mode-transaction';
+    htmlTransaction.classList.add(currentThemeTransaction);
+    updateThemeIconTransaction(currentThemeTransaction);
 
-    function updateThemeIcon(theme) {
-        themeToggle.textContent = theme === 'dark-mode' ? '🌙' : '☀️';
+    function updateThemeIconTransaction(theme) {
+        themeToggleTransaction.textContent = theme === 'dark-mode-transaction' ? '🌙' : '☀️';
     }
 
-    themeToggle.addEventListener('click', function() {
-        const isDarkMode = html.classList.contains('dark-mode');
+    themeToggleTransaction.addEventListener('click', function() {
+        const isDarkModeTransaction = htmlTransaction.classList.contains('dark-mode-transaction');
         
-        if (isDarkMode) {
-            html.classList.remove('dark-mode');
-            html.classList.add('light-mode');
-            localStorage.setItem('theme', 'light-mode');
-            updateThemeIcon('light-mode');
+        if (isDarkModeTransaction) {
+            htmlTransaction.classList.remove('dark-mode-transaction');
+            htmlTransaction.classList.add('light-mode-transaction');
+            localStorage.setItem('theme-transaction', 'light-mode-transaction');
+            updateThemeIconTransaction('light-mode-transaction');
         } else {
-            html.classList.remove('light-mode');
-            html.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark-mode');
-            updateThemeIcon('dark-mode');
+            htmlTransaction.classList.remove('light-mode-transaction');
+            htmlTransaction.classList.add('dark-mode-transaction');
+            localStorage.setItem('theme-transaction', 'dark-mode-transaction');
+            updateThemeIconTransaction('dark-mode-transaction');
         }
     });
 
     // Menu toggle functionality
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.querySelector('.sidebar');
+    const menuToggleTransaction = document.getElementById('menuToggleTransaction');
+    const sidebarTransaction = document.querySelector('.sidebar-transaction');
     
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('closed');
-            if (sidebar.classList.contains('closed')) {
-                document.querySelector('.main-content').style.marginLeft = '0';
-                document.querySelector('.navbar').style.left = '0';
+    if (menuToggleTransaction) {
+        menuToggleTransaction.addEventListener('click', function() {
+            sidebarTransaction.classList.toggle('closed');
+            if (sidebarTransaction.classList.contains('closed')) {
+                document.querySelector('.main-content-transaction').style.marginLeft = '0';
+                document.querySelector('.navbar-transaction').style.left = '0';
             } else {
-                document.querySelector('.main-content').style.marginLeft = '240px';
-                document.querySelector('.navbar').style.left = '240px';
+                document.querySelector('.main-content-transaction').style.marginLeft = '240px';
+                document.querySelector('.navbar-transaction').style.left = '240px';
             }
         });
     }
 });
 
-function viewDetails(name, course, paid) {
-    document.getElementById('modalStudentName').innerText = name;
-    document.getElementById('modalCourseYear').innerText = course;
-    document.getElementById('modalFeeDetails').innerHTML = paid || '<span style="color: #64748b;">No breakdown data available.</span>';
+function viewDetailsTransaction(name, course, paid) {
+    document.getElementById('modalStudentNameTransaction').innerText = name;
+    document.getElementById('modalCourseYearTransaction').innerText = course;
+    document.getElementById('modalFeeDetailsTransaction').innerHTML = paid || '<span style="color: #64748b;">No breakdown data available.</span>';
     
-    document.getElementById('detailsModal').classList.add('active');
+    document.getElementById('detailsModalTransaction').classList.add('active-transaction');
 }
 
-function closeDetailsModal() {
-    document.getElementById('detailsModal').classList.remove('active');
+function closeDetailsModalTransaction() {
+    document.getElementById('detailsModalTransaction').classList.remove('active-transaction');
 }
 </script>
 </body>

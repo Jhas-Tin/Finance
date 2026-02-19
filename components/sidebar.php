@@ -165,20 +165,17 @@
     <!-- Main Navigation Menu -->
      <h3 class="menu-title">Main Menu</h3>
     <ul class="sidebar-menu">
-        <li><a href="#">
-            <i class="fas fa-tachometer-alt"></i>
-            Dashboard
-        </a></li>
-        <li><a href="#" class="active">
-            <i class="fas fa-money-bill-wave"></i>
-            Finance
-        </a></li>
+        
+        <li><a href="index.php" class="active">  <!-- Change this to index.php -->
+    <i class="fas fa-money-bill-wave"></i>
+    Finance
+</a></li>
         <li><a href="cashier/cashiering.php">
             <i class="fas fa-chalkboard-teacher"></i>
             Cashier
         </a></li>
         <li><a href="cashier/transactions.php">
-            <i class="fas fa-user-graduate"></i>
-            Transactions History
+            <i class="fas fa-receipt"></i>
+            Transactions 
     </ul>
 </div>

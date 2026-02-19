@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Finance Dashboard</title>
+    <title>Finance Dashboard - Daily</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   
+
     <style>
         * {
             margin: 0;
@@ -30,6 +30,7 @@
             flex: 1;
             margin-left: 240px;
             transition: margin-left 0.3s ease;
+            margin-top: 65px; /* Add margin for fixed navbar */
         }
 
         .main.full {
@@ -540,7 +541,6 @@
             background: #1d4ed8;
         }
 
-        /* ACTION BUTTONS CONTAINER */
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -549,15 +549,13 @@
 </head>
 
 <body>
-<h1>Hello<h1>
+
 <?php include 'components/sidebar.php'; ?>
+<?php include 'components/nav.php'; ?>
 
 <div class="main">
-    <?php include 'components/nav.php'; ?>
-
     <div class="content">
         
-
         <div class="time-filter">
             <a href="index.php" class="time-btn active">Daily</a>
             <a href="weekly.php" class="time-btn">Weekly</a>
@@ -565,33 +563,32 @@
             <a href="yearly.php" class="time-btn">Yearly</a> 
         </div>
 
-
         <div class="dashboard-container">
             <div class="stats-section">
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Total Amount</span>
+                        <span class="stat-title">Daily Total</span>
                         <span class="stat-change positive" id="totalChange">+0%</span>
                     </div>
                     <div class="stat-value" id="totalAmount">₱0</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Tuition</span>
+                        <span class="stat-title">Daily Tuition</span>
                         <span class="stat-change positive" id="tuitionChange">+0%</span>
                     </div>
                     <div class="stat-value" id="totalTuition">₱0</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Activities</span>
+                        <span class="stat-title">Daily Activities</span>
                         <span class="stat-change positive" id="activitiesChange">+0%</span>
                     </div>
                     <div class="stat-value" id="totalActivities">₱0</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Misc</span>
+                        <span class="stat-title">Daily Misc</span>
                         <span class="stat-change negative" id="miscChange">-0%</span>
                     </div>
                     <div class="stat-value" id="totalMisc">₱0</div>
@@ -600,7 +597,7 @@
 
             <div class="chart-section">
                 <div class="chart-header">
-                    <h3>Fees Collection</h3>
+                    <h3>Fees Collection (Today)</h3>
                     <div class="chart-controls">
                         <select id="chartClassSelect">
                             <option>All Classes</option>
@@ -608,15 +605,13 @@
                             <option value="BSCPE">BSCPE</option>
                             <option value="BSCS">BSCS</option>
                             <option value="BSCE">BSCE</option>
-
                         </select>
-                       <select id="periodSelect" style="display: none;">
+                        <select id="periodSelect" style="display: none;">
                             <option selected>Daily</option>
                             <option>Weekly</option>
                             <option>Monthly</option>
                             <option>Yearly</option>
                         </select>
-
                     </div>
                 </div>
                 <div class="chart-container">
@@ -634,14 +629,14 @@
                         <input type="text" id="searchInput" placeholder="Search Name...">
                     </div>
 
-                    <select id="dateSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px; display: none;">
-                        <option>Today</option>
+                    <select id="dateSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <option selected>Today</option>
                         <option>This Week</option>
                         <option>This Month</option>
                         <option>All Time</option>
                     </select>
 
-                    <select id="classSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px; display: none;">
+                    <select id="filterClassSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         <option value="">All Classes</option>
                         <option value="BSIT">BSIT</option>
                         <option value="BSCPE">BSCPE</option>
@@ -649,7 +644,7 @@
                         <option value="BSCE">BSCE</option>
                     </select>
 
-                    <select id="statusSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px; display: none;" >
+                    <select id="statusSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         <option value="">All Status</option>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
@@ -684,14 +679,10 @@
 
                     // Get today's date
                     $today = date('Y-m-d');
-
-                    // Try 'created_at' if 'date_added' fails. 
-                    // Change 'date_added' below to 'created_at' if that is what you named your column.
                     $sql = "SELECT * FROM students WHERE DATE(created_at) = '$today' ORDER BY id DESC";
                     $result = $conn->query($sql);
 
                     if ($result === false) {
-                        // This will tell you exactly why the query failed (e.g., "Unknown column 'date_added'")
                         echo "<tr><td colspan='10' style='text-align:center; color:red;'>Query Error: " . $conn->error . "</td></tr>";
                     } elseif ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
@@ -719,7 +710,7 @@
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='10' style='text-align:center; padding: 40px; color: #64748b;'>No records found today.</td></tr>";
+                        echo "<tr><td colspan='10' style='text-align:center; padding: 40px; color: #64748b;'>No records found for today.</td></tr>";
                     }
 
                     $conn->close();
@@ -728,7 +719,7 @@
             </table>
 
             <div class="pagination">
-                <div class="pagination-info">Showing records</div>
+                <div class="pagination-info">Showing today's records</div>
                 <div class="pagination-controls">
                     <button class="pagination-btn active">1</button>
                 </div>
@@ -742,25 +733,21 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3>Add New Student</h3>
-            <button class="close-btn">&times;</button>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
-
         <div class="modal-body">
             <form id="addStudentForm">
-
                 <div class="form-group">
                     <label>Student Name</label>
-                    <input type="text" id="studentName" name="studentName" required>
+                    <input type="text" name="studentName" required>
                 </div>
-
                 <div class="form-group">
                     <label>Student ID</label>
-                    <input type="text" id="studentId" name="studentId" required>
+                    <input type="text" name="studentId" required>
                 </div>
-
                 <div class="form-group">
                     <label>Class</label>
-                    <select id="studentClass" name="studentClass" required>
+                    <select name="studentClass" required>
                         <option value="">Select Class</option>
                         <option value="BSIT">BSIT</option>
                         <option value="BSCPE">BSCPE</option>
@@ -768,137 +755,124 @@
                         <option value="BSCE">BSCE</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>Tuition Fee</label>
-                    <input type="number" id="tuitionFee" name="tuitionFee" min="0" required>
+                    <input type="number" name="tuitionFee" required>
                 </div>
-
                 <div class="form-group">
                     <label>Activities Fee</label>
-                    <input type="number" id="activitiesFee" name="activitiesFee" min="0" required>
+                    <input type="number" name="activitiesFee" required>
                 </div>
-
                 <div class="form-group">
                     <label>Misc Fee</label>
-                    <input type="number" id="miscellaneousFee" name="miscellaneousFee" min="0" required>
+                    <input type="number" name="miscellaneousFee" required>
                 </div>
-
                 <div class="form-group">
                     <label>Status</label>
-                    <select id="paymentStatus" name="paymentStatus" required >
+                    <select name="paymentStatus" required>
                         <option value="">Select Status</option>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
                         <option value="Overdue">Overdue</option>
                     </select>
                 </div>
-
             </form>
-
         </div>
-
         <div class="modal-footer">
-            <button class="cancel-btn">Cancel</button>
+            <button class="cancel-btn" onclick="closeModal()">Cancel</button>
             <button class="save-btn">Add Student</button>
         </div>
     </div>
 </div>
 
 <script>
-function openAddStudentModal() {
-    document.getElementById("addStudentModal").style.display = "flex";
+function openAddStudentModal() { 
+    document.getElementById("addStudentModal").style.display = "flex"; 
 }
 
-function closeModal() {
-    document.getElementById("addStudentModal").style.display = "none";
+function closeModal() { 
+    document.getElementById("addStudentModal").style.display = "none"; 
 }
-
-document.querySelector(".close-btn").onclick = closeModal;
-document.querySelector(".cancel-btn").onclick = closeModal;
 
 document.querySelector(".save-btn").addEventListener("click", function () {
-
     const form = document.getElementById("addStudentForm");
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
     }
-
     const formData = new FormData(form);
-
-    fetch("backend/add_student.php", {
-        method: "POST",
-        body: formData
-    })
+    fetch("backend/add_student.php", { method: "POST", body: formData })
     .then(res => res.text())
     .then(data => {
         data = data.trim();
-
-        if (data === "success") {
-            alert("Student added successfully!");
-            form.reset();
-            closeModal();
-            location.reload();
-        } 
-        else if (data === "exists") {
+        if (data === "success") { 
+            location.reload(); 
+        } else if (data === "exists") {
             alert("Student already exists in the system!");
-        } 
-        else {
-            alert("Error adding student.");
-            console.log("Server response:", data);
+        } else { 
+            alert("Error adding student."); 
         }
-    })
-    .catch(error => {
-        console.error("Fetch error:", error);
-        alert("Connection error. Try again.");
     });
-
 });
-</script>
 
-<script>
 function deleteStudent(id) {
     if (!confirm("Delete this student?")) return;
-
     fetch("backend/delete_student.php?id=" + id)
     .then(res => res.text())
     .then(data => {
         if (data.trim() === "success") {
-            alert("Student deleted successfully!");
             location.reload();
         } else {
             alert("Delete failed.");
         }
     });
 }
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+// Generate hourly labels for today's chart
+const hourLabels = [];
+for (let i = 0; i < 24; i++) {
+    const hour = i % 12 === 0 ? 12 : i % 12;
+    const ampm = i < 12 ? 'AM' : 'PM';
+    hourLabels.push(hour + ampm);
+}
+
 const ctx = document.getElementById("feesChart").getContext("2d");
 let feesChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ["Today"],
+        labels: hourLabels,
         datasets: [{
-            label: "Collection",
-            data: [0],
+            label: "Hourly Collection",
+            data: Array(24).fill(0),
             backgroundColor: "#f59e0b",
             borderRadius: 6,
-            barThickness: 20
+            barThickness: 8
         }]
     },
     options: {
         responsive: true,
-        plugins: { legend: { display: false } },
+        maintainAspectRatio: false,
+        plugins: { 
+            legend: { display: false } 
+        },
         scales: {
             y: {
                 beginAtZero: true,
-                ticks: { callback: val => "₱" + val.toLocaleString(), color: "#ffffff" },
+                ticks: { 
+                    callback: function(value) { return "₱" + value.toLocaleString(); }, 
+                    color: "#ffffff" 
+                },
                 grid: { color: "rgba(255,255,255,0.2)" }
             },
-            x: { ticks: { color: "#ffffff" }, grid: { display: false } }
+            x: { 
+                ticks: { 
+                    color: "#ffffff",
+                    maxRotation: 45,
+                    minRotation: 45,
+                    font: { size: 8 }
+                }, 
+                grid: { display: false } 
+            }
         }
     }
 });
@@ -908,75 +882,66 @@ const periodSelect = document.getElementById("periodSelect");
 
 function updateChart() {
     const className = classSelect.value;
-    const period = periodSelect.value;
+    const period = "Daily";
 
     fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=${period}`)
     .then(res => res.json())
     .then(data => {
-        let labels = [];
         let totals = [];
-
-        if(period === "Daily") {
-    labels = ["Total"];
-    totals = [Number(data.today || 0)];
-}
- else if(period === "Weekly") {
-            const weekDays = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-            labels = weekDays;
-            totals = weekDays.map(day => Number(data[day] || 0));
-        } else if(period === "Monthly") {
-            labels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-            totals = data.map(d => Number(d));
-        } else if(period === "Yearly") {
-            labels = Object.keys(data);
-            totals = Object.values(data).map(d => Number(d));
+        
+        // Expecting data to be an array of 24 hourly values
+        if (Array.isArray(data) && data.length === 24) {
+            totals = data.map(val => Number(val || 0));
+        } else {
+            totals = Array(24).fill(0);
         }
 
-        feesChart.data.labels = labels;
         feesChart.data.datasets[0].data = totals;
         feesChart.update();
 
-        document.getElementById("totalAmount").textContent = "₱" + totals.reduce((a,b)=>a+b,0).toLocaleString();
+        const totalAmount = totals.reduce((a,b) => a + b, 0);
+        document.getElementById("totalAmount").textContent = "₱" + totalAmount.toLocaleString();
     })
-    .catch(err => console.error("Chart data fetch failed:", err));
+    .catch(err => {
+        console.error("Chart data fetch failed:", err);
+        feesChart.data.datasets[0].data = Array(24).fill(0);
+        feesChart.update();
+    });
 }
 
 function updateTotals() {
     const className = classSelect.value;
-    const period = periodSelect.value;
+    const period = "Daily";
 
     fetch(`backend/get_totals.php?class=${encodeURIComponent(className)}&period=${period}`)
     .then(res => res.json())
     .then(data => {
-        document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount).toLocaleString();
-        document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition).toLocaleString();
-        document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities).toLocaleString();
-        document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc).toLocaleString();
+        document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount || 0).toLocaleString();
+        document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition || 0).toLocaleString();
+        document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities || 0).toLocaleString();
+        document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc || 0).toLocaleString();
     })
     .catch(err => console.error("Totals fetch failed:", err));
 }
 
-updateChart();
-updateTotals();
-
-classSelect.addEventListener("change", ()=>{
-    updateChart();
-    updateTotals();
-});
-periodSelect.addEventListener("change", ()=>{
-    updateChart();
-    updateTotals();
-});
-    
-
-document.getElementById("dateSelect").addEventListener("change", function() {
-    const period = this.value;
+// Table Filter Function
+function filterTable() {
+    const period = document.getElementById("dateSelect").value;
+    const selectedClass = document.getElementById("filterClassSelect").value;
+    const status = document.getElementById("statusSelect").value;
+    const searchTerm = document.getElementById("searchInput").value;
     const tableBody = document.getElementById("tableBody");
 
-    // Show a loading state
     tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; padding: 20px;'>Filtering records...</td></tr>";
 
-    fetch(`backend/filter_students.php?period=${encodeURIComponent(period)}`)
+    const params = new URLSearchParams({
+        period: period,
+        class: selectedClass,
+        status: status,
+        search: searchTerm
+    });
+
+    fetch(`backend/filter_students.php?${params.toString()}`)
     .then(res => res.text())
     .then(data => {
         tableBody.innerHTML = data;
@@ -985,30 +950,25 @@ document.getElementById("dateSelect").addEventListener("change", function() {
         console.error("Filter error:", err);
         tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; color:red;'>Error loading data.</td></tr>";
     });
+}
+
+// Event Listeners
+classSelect.addEventListener("change", () => {
+    updateChart();
+    updateTotals();
 });
 
-// Class Filter Logic
-document.getElementById("classSelect").addEventListener("change", function() {
-    const selectedClass = this.value; // BSIT, BSCPE, etc.
-    const period = document.getElementById("dateSelect").value; // Keeps the current date filter
-    const tableBody = document.getElementById("tableBody");
+document.getElementById("searchInput").addEventListener("input", filterTable);
+document.getElementById("dateSelect").addEventListener("change", filterTable);
+document.getElementById("filterClassSelect").addEventListener("change", filterTable);
+document.getElementById("statusSelect").addEventListener("change", filterTable);
 
-    tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; padding: 20px;'>Filtering classes...</td></tr>";
-
-    // Send both period and class to the backend
-    fetch(`backend/filter_students.php?period=${encodeURIComponent(period)}&class=${encodeURIComponent(selectedClass)}`)
-    .then(res => res.text())
-    .then(data => {
-        tableBody.innerHTML = data;
-    })
-    .catch(err => {
-        console.error("Class filter error:", err);
-        tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; color:red;'>Error filtering class.</td></tr>";
-    });
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateChart();
+    updateTotals();
 });
+</script>
 
- </script>
-
- 
 </body>
 </html>

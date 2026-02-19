@@ -1,4 +1,3 @@
-cashiering.php
 <?php
 // 1. Database Connection
 $host = "localhost";
@@ -136,8 +135,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             color: #2c3e50;
         }
 
-        /* SIDEBAR STYLES - EXACT COPY FROM FINANCE SIDEBAR.PHP */
-        .sidebar {
+        /* SIDEBAR STYLES - WITH UNIQUE CLASSES FOR CASHIER PAGE */
+        .sidebar-cashier {
             width: 240px;
             height: 100vh;
             background: #0b1f33;
@@ -151,11 +150,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             transition: transform 0.3s ease;
         }
 
-        .sidebar.closed {
+        .sidebar-cashier.closed {
             transform: translateX(-240px);
         }
 
-        .sidebar-header {
+        .sidebar-header-cashier {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -165,7 +164,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .logo-container {
+        .logo-container-cashier {
             width: 70px;
             height: 70px;
             background: transparent;
@@ -176,25 +175,25 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             flex-shrink: 0;
         }
 
-        .logo-container i {
+        .logo-container-cashier i {
             font-size: 20px;
             color: #0b1f33;
         }
 
-        .logo-image {
+        .logo-image-cashier {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        .school-name {
+        .school-name-cashier {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
 
-        .school-name h2 {
+        .school-name-cashier h2 {
             font-size: 14px;
             font-weight: 700;
             margin: 0;
@@ -203,7 +202,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             letter-spacing: 0.5px;
         }
 
-        .school-name h3 {
+        .school-name-cashier h3 {
             font-size: 10px;
             margin: 5px 0 0 0;
             color: #9fb3c8;
@@ -211,7 +210,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             letter-spacing: 0.5px;
         }
 
-        .sidebar h3.menu-title {
+        .sidebar-cashier h3.menu-title-cashier {
             font-size: 12px;
             margin: 20px 0 15px;
             color: #9fb3c8;
@@ -221,17 +220,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             padding-left: 5px;
         }
 
-        .sidebar-menu {
+        .sidebar-menu-cashier {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        .sidebar-menu li {
+        .sidebar-menu-cashier li {
             margin-bottom: 5px;
         }
 
-        .sidebar-menu a {
+        .sidebar-menu-cashier a {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -244,7 +243,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             font-weight: 500;
         }
 
-        .sidebar-menu a i {
+        .sidebar-menu-cashier a i {
             width: 20px;
             text-align: center;
             font-size: 16px;
@@ -252,74 +251,74 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             transition: color 0.2s ease;
         }
 
-        .sidebar-menu a.active,
-        .sidebar-menu a:hover {
+        .sidebar-menu-cashier a.active-cashier,
+        .sidebar-menu-cashier a:hover {
             background: #f59e0b;
             color: #000;
         }
 
-        .sidebar-menu a.active i,
-        .sidebar-menu a:hover i {
+        .sidebar-menu-cashier a.active-cashier i,
+        .sidebar-menu-cashier a:hover i {
             color: #000;
         }
 
         /* Scrollbar styling for sidebar */
-        .sidebar::-webkit-scrollbar {
+        .sidebar-cashier::-webkit-scrollbar {
             width: 5px;
         }
 
-        .sidebar::-webkit-scrollbar-track {
+        .sidebar-cashier::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
         }
 
-        .sidebar::-webkit-scrollbar-thumb {
+        .sidebar-cashier::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
         }
 
-        .sidebar::-webkit-scrollbar-thumb:hover {
+        .sidebar-cashier::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* NAVBAR STYLES - EXACT COPY FROM FINANCE */
+        /* NAVBAR STYLES - WITH UNIQUE CLASSES FOR CASHIER PAGE */
         :root {
-            --bg-primary: #0b1f33;
-            --bg-secondary: #fff;
-            --text-primary: #fff;
-            --text-secondary: #0b1f33;
-            --text-muted: #9fb3c8;
-            --accent: #f59e0b;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --card-bg: #f0f0f0;
+            --bg-primary-cashier: #0b1f33;
+            --bg-secondary-cashier: #fff;
+            --text-primary-cashier: #fff;
+            --text-secondary-cashier: #0b1f33;
+            --text-muted-cashier: #9fb3c8;
+            --accent-cashier: #f59e0b;
+            --border-color-cashier: rgba(255, 255, 255, 0.1);
+            --card-bg-cashier: #f0f0f0;
         }
 
-        body.dark-mode {
-            --bg-primary: #0b1f33;
-            --bg-secondary: #fff;
-            --text-primary: #fff;
-            --text-secondary: #0b1f33;
-            --text-muted: #9fb3c8;
-            --accent: #f59e0b;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --card-bg: #f0f0f0;
+        body.dark-mode-cashier {
+            --bg-primary-cashier: #0b1f33;
+            --bg-secondary-cashier: #fff;
+            --text-primary-cashier: #fff;
+            --text-secondary-cashier: #0b1f33;
+            --text-muted-cashier: #9fb3c8;
+            --accent-cashier: #f59e0b;
+            --border-color-cashier: rgba(255, 255, 255, 0.1);
+            --card-bg-cashier: #f0f0f0;
         }
 
-        body.light-mode {
-            --bg-primary: #f5f5f5;
-            --bg-secondary: #fff;
-            --text-primary: #0b1f33;
-            --text-secondary: #fff;
-            --text-muted: #6b7280;
-            --accent: #f59e0b;
-            --border-color: rgba(0, 0, 0, 0.1);
-            --card-bg: #e5e7eb;
+        body.light-mode-cashier {
+            --bg-primary-cashier: #f5f5f5;
+            --bg-secondary-cashier: #fff;
+            --text-primary-cashier: #0b1f33;
+            --text-secondary-cashier: #fff;
+            --text-muted-cashier: #6b7280;
+            --accent-cashier: #f59e0b;
+            --border-color-cashier: rgba(0, 0, 0, 0.1);
+            --card-bg-cashier: #e5e7eb;
         }
 
-        .navbar {
+        .navbar-cashier {
             height: 65px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: var(--bg-primary-cashier);
+            color: var(--text-primary-cashier);
             padding: 0 30px;
             display: flex;
             justify-content: space-between;
@@ -333,117 +332,117 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             z-index: 99;
         }
 
-        .navbar-left {
+        .navbar-left-cashier {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-        .menu-toggle {
+        .menu-toggle-cashier {
             font-size: 24px;
             cursor: pointer;
-            color: var(--text-primary);
+            color: var(--text-primary-cashier);
             transition: color 0.2s ease;
         }
 
-        .menu-toggle:hover {
-            color: var(--accent);
+        .menu-toggle-cashier:hover {
+            color: var(--accent-cashier);
         }
 
-        .navbar-title {
+        .navbar-title-cashier {
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
 
-        .navbar h1 {
+        .navbar-title-cashier h1 {
             font-size: 16px;
             font-weight: 700;   
             margin: 0;
-            color: var(--text-primary);
+            color: var(--text-primary-cashier);
         }
 
-        .navbar-subtitle {
+        .navbar-subtitle-cashier {
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--text-muted-cashier);
             font-weight: 400;
         }
 
-        .nav-right {
+        .nav-right-cashier {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-        .nav-icon {
+        .nav-icon-cashier {
             font-size: 18px;
             cursor: pointer;
-            color: var(--text-primary);
+            color: var(--text-primary-cashier);
             transition: color 0.2s ease;
             width: 20px;
             text-align: center;
         }
 
-        .nav-icon:hover {
-            color: var(--accent);
+        .nav-icon-cashier:hover {
+            color: var(--accent-cashier);
         }
 
-        .theme-toggle {
+        .theme-toggle-cashier {
             font-size: 18px;
             cursor: pointer;
-            color: var(--text-primary);
+            color: var(--text-primary-cashier);
             transition: color 0.2s ease;
             width: 20px;
             text-align: center;
         }
 
-        .theme-toggle:hover {
-            color: var(--accent);
+        .theme-toggle-cashier:hover {
+            color: var(--accent-cashier);
         }
 
-        .nav-profile {
+        .nav-profile-cashier {
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
         }
 
-        .nav-profile-avatar {
+        .nav-profile-avatar-cashier {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: var(--accent);
+            background: var(--accent-cashier);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-secondary-cashier);
             font-size: 13px;
             flex-shrink: 0;
         }
 
-        .nav-profile-text {
+        .nav-profile-text-cashier {
             display: flex;
             flex-direction: column;
             gap: 1px;
         }
 
-        .nav-profile-name {
+        .nav-profile-name-cashier {
             font-size: 13px;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text-primary-cashier);
             margin: 0;
             white-space: nowrap;
         }
 
-        .nav-profile-role {
+        .nav-profile-role-cashier {
             font-size: 11px;
-            color: var(--text-muted);
+            color: var(--text-muted-cashier);
             margin: 0;
             white-space: nowrap;
         }
 
-        .profile-dropdown-toggle {
+        .profile-dropdown-toggle-cashier {
             position: relative;
             display: flex;
             align-items: center;
@@ -451,23 +450,23 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             cursor: pointer;
         }
 
-        .dropdown-arrow {
+        .dropdown-arrow-cashier {
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-muted-cashier);
             transition: transform 0.2s ease;
             margin-left: 4px;
         }
 
-        .profile-dropdown-toggle:hover .dropdown-arrow {
-            color: var(--text-primary);
+        .profile-dropdown-toggle-cashier:hover .dropdown-arrow-cashier {
+            color: var(--text-primary-cashier);
             transform: translateY(2px);
         }
 
-        .profile-dropdown-menu {
+        .profile-dropdown-menu-cashier {
             position: absolute;
             top: 100%;
             right: 0;
-            background: var(--bg-secondary);
+            background: var(--bg-secondary-cashier);
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             min-width: 150px;
@@ -477,31 +476,31 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             z-index: 1000;
         }
 
-        .profile-dropdown-menu.active {
+        .profile-dropdown-menu-cashier.active-cashier {
             display: block;
         }
 
-        .profile-dropdown-menu a {
+        .profile-dropdown-menu-cashier a {
             display: block;
             padding: 12px 16px;
-            color: var(--text-secondary);
+            color: var(--text-secondary-cashier);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: background 0.2s ease;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color-cashier);
         }
 
-        .profile-dropdown-menu a:last-child {
+        .profile-dropdown-menu-cashier a:last-child {
             border-bottom: none;
         }
 
-        .profile-dropdown-menu a:hover {
-            background: var(--accent);
+        .profile-dropdown-menu-cashier a:hover {
+            background: var(--accent-cashier);
             color: #fff;
         }
 
-        .semester-dropdown-toggle {
+        .semester-dropdown-toggle-cashier {
             position: relative;
             display: flex;
             align-items: center;
@@ -509,23 +508,23 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             cursor: pointer;
         }
 
-        .semester-dropdown-arrow {
+        .semester-dropdown-arrow-cashier {
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--text-muted-cashier);
             transition: transform 0.2s ease;
             margin-left: 4px;
         }
 
-        .semester-dropdown-toggle:hover .semester-dropdown-arrow {
-            color: var(--text-primary);
+        .semester-dropdown-toggle-cashier:hover .semester-dropdown-arrow-cashier {
+            color: var(--text-primary-cashier);
             transform: translateY(2px);
         }
 
-        .semester-dropdown-menu {
+        .semester-dropdown-menu-cashier {
             position: absolute;
             top: 100%;
             left: 0;
-            background: var(--bg-secondary);
+            background: var(--bg-secondary-cashier);
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             min-width: 200px;
@@ -535,45 +534,45 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             z-index: 100;
         }
 
-        .semester-dropdown-menu.active {
+        .semester-dropdown-menu-cashier.active-cashier {
             display: block;
         }
 
-        .semester-dropdown-menu a {
+        .semester-dropdown-menu-cashier a {
             display: block;
             padding: 12px 16px;
-            color: var(--text-secondary);
+            color: var(--text-secondary-cashier);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: background 0.2s ease;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color-cashier);
         }
 
-        .semester-dropdown-menu a:last-child {
+        .semester-dropdown-menu-cashier a:last-child {
             border-bottom: none;
         }
 
-        .semester-dropdown-menu a:hover {
-            background: var(--accent);
+        .semester-dropdown-menu-cashier a:hover {
+            background: var(--accent-cashier);
             color: #fff;
         }
 
-        .semester-dropdown-menu a.active {
-            background: var(--accent);
+        .semester-dropdown-menu-cashier a.active-cashier {
+            background: var(--accent-cashier);
             color: #fff;
         }
 
         /* MAIN CONTENT - Adjusted for navbar */
-        .main-content {
+        .main-content-cashier {
             flex: 1;
             margin-left: 240px;
             margin-top: 65px;
             padding: 30px;
         }
 
-        /* CARD STYLES - Finance theme */
-        .card {
+        /* CARD STYLES - With unique classes */
+        .card-cashier {
             background: white;
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -581,7 +580,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             margin-bottom: 20px;
         }
 
-        .card-header {
+        .card-header-cashier {
             background: transparent;
             border-bottom: 1px solid #e2e8f0;
             padding: 20px 24px;
@@ -593,16 +592,16 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             gap: 8px;
         }
 
-        .card-header i {
+        .card-header-cashier i {
             color: #64748b;
         }
 
-        .card-body {
+        .card-body-cashier {
             padding: 24px;
         }
 
-        /* FORM ELEMENTS */
-        .form-label {
+        /* FORM ELEMENTS - With unique classes */
+        .form-label-cashier {
             font-size: 13px;
             font-weight: 600;
             color: #475569;
@@ -610,7 +609,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             display: block;
         }
 
-        .form-control, .form-select {
+        .form-control-cashier, .form-select-cashier {
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             padding: 12px 16px;
@@ -620,22 +619,22 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             width: 100%;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control-cashier:focus, .form-select-cashier:focus {
             outline: none;
             border-color: #f59e0b;
             box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
         }
 
-        .form-control.bg-light {
+        .form-control-cashier.bg-light {
             background-color: #f8fafc;
         }
 
-        .input-group {
+        .input-group-cashier {
             display: flex;
             gap: 8px;
         }
 
-        .btn-outline-primary {
+        .btn-outline-primary-cashier {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -645,14 +644,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             transition: all 0.2s;
         }
 
-        .btn-outline-primary:hover {
+        .btn-outline-primary-cashier:hover {
             background: #f8fafc;
             border-color: #f59e0b;
             color: #f59e0b;
         }
 
-        /* FEE BUTTONS */
-        .btn-fee-option {
+        /* FEE BUTTONS - With unique classes */
+        .btn-fee-option-cashier {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -665,19 +664,19 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             height: 55px;
         }
 
-        .btn-fee-option:hover {
+        .btn-fee-option-cashier:hover {
             background: #f8fafc;
             border-color: #f59e0b;
             color: #f59e0b;
         }
 
-        /* TABLE STYLES */
-        .table {
+        /* TABLE STYLES - With unique classes */
+        .table-cashier {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .table th {
+        .table-cashier th {
             text-align: left;
             padding: 12px;
             font-size: 12px;
@@ -686,19 +685,19 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             border-bottom: 2px solid #e2e8f0;
         }
 
-        .table td {
+        .table-cashier td {
             padding: 12px;
             border-bottom: 1px solid #e2e8f0;
             color: #475569;
             font-size: 14px;
         }
 
-        .empty-text {
+        .empty-text-cashier {
             color: #94a3b8;
             font-style: italic;
         }
 
-        .remove-btn {
+        .remove-btn-cashier {
             color: #ef4444;
             cursor: pointer;
             font-size: 18px;
@@ -706,34 +705,34 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             transition: color 0.2s;
         }
 
-        .remove-btn:hover {
+        .remove-btn-cashier:hover {
             color: #dc2626;
         }
 
-        /* DISPLAY AMOUNT */
-        .display-amount {
+        /* DISPLAY AMOUNT - With unique classes */
+        .display-amount-cashier {
             background: linear-gradient(135deg, #5a7fa8 0%, #3d5a7a 100%);
             border-radius: 12px;
             padding: 20px;
             color: white;
         }
 
-        .display-amount label {
+        .display-amount-cashier label {
             font-size: 12px;
             color: rgba(255,255,255,0.8);
             display: block;
             margin-bottom: 5px;
         }
 
-        .display-amount h2 {
+        .display-amount-cashier h2 {
             font-size: 28px;
             font-weight: 700;
             margin: 0;
             color: white;
         }
 
-        /* BUTTONS */
-        .btn-portal-primary {
+        /* BUTTONS - With unique classes */
+        .btn-portal-primary-cashier {
             background: #2563eb;
             color: white;
             border: none;
@@ -745,16 +744,16 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             width: 100%;
         }
 
-        .btn-portal-primary:hover:not(:disabled) {
+        .btn-portal-primary-cashier:hover:not(:disabled) {
             background: #1d4ed8;
         }
 
-        .btn-portal-primary:disabled {
+        .btn-portal-primary-cashier:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
 
-        .btn-link {
+        .btn-link-cashier {
             background: none;
             border: none;
             color: #64748b;
@@ -763,12 +762,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             font-size: 14px;
         }
 
-        .btn-link:hover {
+        .btn-link-cashier:hover {
             color: #475569;
         }
 
-        /* MODAL STYLES */
-        .modal {
+        /* MODAL STYLES - With unique classes */
+        .modal-cashier {
             display: none;
             position: fixed;
             top: 0;
@@ -781,18 +780,18 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             align-items: center;
         }
 
-        .modal.active {
+        .modal-cashier.active-cashier {
             display: flex;
         }
 
-        .modal-content {
+        .modal-content-cashier {
             background: white;
             border-radius: 16px;
             max-width: 500px;
             width: 90%;
         }
 
-        .modal-header {
+        .modal-header-cashier {
             padding: 20px 24px;
             border-bottom: 1px solid #e2e8f0;
             display: flex;
@@ -800,14 +799,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             align-items: center;
         }
 
-        .modal-header h5 {
+        .modal-header-cashier h5 {
             margin: 0;
             font-size: 18px;
             font-weight: 600;
             color: #1e293b;
         }
 
-        .btn-close {
+        .btn-close-cashier {
             background: none;
             border: none;
             font-size: 24px;
@@ -815,11 +814,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             color: #94a3b8;
         }
 
-        .modal-body {
+        .modal-body-cashier {
             padding: 24px;
         }
 
-        .modal-footer {
+        .modal-footer-cashier {
             padding: 20px 24px;
             border-top: 1px solid #e2e8f0;
             display: flex;
@@ -827,7 +826,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             gap: 12px;
         }
 
-        .btn-secondary {
+        .btn-secondary-cashier {
             background: #f1f5f9;
             color: #475569;
             border: none;
@@ -837,7 +836,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             cursor: pointer;
         }
 
-        .btn-primary {
+        .btn-primary-cashier {
             background: #2563eb;
             color: white;
             border: none;
@@ -847,79 +846,79 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             cursor: pointer;
         }
 
-        /* SPINNER */
-        .spinner-border-sm {
+        /* SPINNER - With unique classes */
+        .spinner-border-sm-cashier {
             display: none;
             width: 16px;
             height: 16px;
             border: 2px solid #f3f3f3;
             border-top: 2px solid #3498db;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin-cashier 1s linear infinite;
         }
 
-        .loading .spinner-border-sm {
+        .loading-cashier .spinner-border-sm-cashier {
             display: inline-block;
         }
 
-        .loading .search-icon {
+        .loading-cashier .search-icon-cashier {
             display: none;
         }
 
-        @keyframes spin {
+        @keyframes spin-cashier {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        /* RESULTS DROPDOWN */
-        #results_dropdown {
+        /* RESULTS DROPDOWN - With unique classes */
+        #results_dropdown_cashier {
             display: none;
             margin-top: 15px;
         }
 
-        /* ROW GRID */
-        .row {
+        /* ROW GRID - With unique classes */
+        .row-cashier {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 20px;
         }
 
-        .col-lg-7 {
+        .col-lg-7-cashier {
             grid-column: span 7;
         }
 
-        .col-lg-5 {
+        .col-lg-5-cashier {
             grid-column: span 5;
         }
 
-        .col-md-5 {
+        .col-md-5-cashier {
             grid-column: span 5;
         }
 
-        .col-md-7 {
+        .col-md-7-cashier {
             grid-column: span 7;
         }
 
-        .col-4 {
+        .col-4-cashier {
             grid-column: span 4;
         }
 
-        .col-8 {
+        .col-8-cashier {
             grid-column: span 8;
         }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .sidebar {
+            .sidebar-cashier {
                 transform: translateX(-240px);
             }
-            .navbar {
+            .navbar-cashier {
                 left: 0;
             }
-            .main-content {
+            .main-content-cashier {
                 margin-left: 0;
             }
-            .col-lg-7, .col-lg-5, .col-md-5, .col-md-7, .col-4, .col-8 {
+            .col-lg-7-cashier, .col-lg-5-cashier, .col-md-5-cashier, .col-md-7-cashier, .col-4-cashier, .col-8-cashier {
                 grid-column: span 12;
             }
         }
@@ -929,47 +928,44 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
             body * {
                 visibility: hidden;
             }
-            #receipt-print, #receipt-print * {
+            #receipt-print-cashier, #receipt-print-cashier * {
                 visibility: visible;
             }
-            #receipt-print {
+            #receipt-print-cashier {
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
             }
-            .modal-footer, .btn-close, .modal-header {
+            .modal-footer-cashier, .btn-close-cashier, .modal-header-cashier {
                 display: none !important;
             }
         }
     </style>
 </head>
-<body class="dark-mode">
+<body class="dark-mode-cashier">
 
-<div class="sidebar">
-    <div class="sidebar-header">
-        <div class="logo-container">
-            <img src="../components/images/hcc.png" alt="Holy Cross College Logo" class="logo-image">
+<div class="sidebar-cashier">
+    <div class="sidebar-header-cashier">
+        <div class="logo-container-cashier">
+            <img src="../components/images/hcc.png" alt="Holy Cross College Logo" class="logo-image-cashier">
         </div>
-        <div class="school-name">
+        <div class="school-name-cashier">
             <h2>HOLY CROSS COLLEGE</h2>
             <h3>School Management System</h3>
         </div>
     </div>
 
-    <h3 class="menu-title">Main Menu</h3>
-    <ul class="sidebar-menu">
-        <li><a href="dashboard.php">
-            <i class="fas fa-tachometer-alt"></i>
-            Dashboard
-        </a></li>
-        <li><a href="../index.php" class="active">
+    <h3 class="menu-title-cashier">Main Menu</h3>
+    <ul class="sidebar-menu-cashier">
+        
+        <li><a href="../index.php">
             <i class="fas fa-money-bill-wave"></i>
             Finance
         </a></li>
-         <li><a href="cashiering.php" class="active">
-            <i class="fas fa-money-bill-wave"></i>
-            Cashiering
+         <li><a href="cashiering.php" class="active-cashier">
+            <i class="fas fa-chalkboard-teacher"></i>
+            Cashier
         </a></li>
         <li><a href="transactions.php">
             <i class="fas fa-receipt"></i>
@@ -978,16 +974,16 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
     </ul>
 </div>
 
-<!-- NAVBAR -->
-<div class="navbar">
-    <div class="navbar-left">
-        <span id="menuToggle" class="menu-toggle">☰</span>
-        <div class="navbar-title">
+<!-- NAVBAR WITH UNIQUE CLASSES -->
+<div class="navbar-cashier">
+    <div class="navbar-left-cashier">
+        <span id="menuToggleCashier" class="menu-toggle-cashier">☰</span>
+        <div class="navbar-title-cashier">
             <h1>CASHIERING TERMINAL</h1>
-            <div class="semester-dropdown-toggle">
-                <span class="navbar-subtitle" id="semesterDisplay">Cashier / 2024-2025 1st Semester</span>
-                <span class="semester-dropdown-arrow">▼</span>
-                <div class="semester-dropdown-menu" id="semesterDropdown">
+            <div class="semester-dropdown-toggle-cashier">
+                <span class="navbar-subtitle-cashier" id="semesterDisplayCashier">Cashier / 2024-2025 1st Semester</span>
+                <span class="semester-dropdown-arrow-cashier">▼</span>
+                <div class="semester-dropdown-menu-cashier" id="semesterDropdownCashier">
                     <a href="#" data-semester="2024-2025-1st">Cashier / 2024-2025 1st Semester</a>
                     <a href="#" data-semester="2024-2025-2nd">Cashier / 2024-2025 2nd Semester</a>
                     <a href="#" data-semester="2023-2024-1st">Cashier / 2023-2024 1st Semester</a>
@@ -999,19 +995,19 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
         </div>
     </div>
 
-    <div class="nav-right">
-        <span class="nav-icon">🔔</span>
-        <span id="themeToggle" class="theme-toggle">🌙</span>
-        <div class="profile-dropdown-toggle">
-            <div class="nav-profile">
-                <div class="nav-profile-avatar">SA</div>
-                <div class="nav-profile-text">
-                    <p class="nav-profile-name">Sample Admin</p>
-                    <p class="nav-profile-role">Admin</p>
+    <div class="nav-right-cashier">
+        <span class="nav-icon-cashier">🔔</span>
+        <span id="themeToggleCashier" class="theme-toggle-cashier">🌙</span>
+        <div class="profile-dropdown-toggle-cashier">
+            <div class="nav-profile-cashier">
+                <div class="nav-profile-avatar-cashier">SA</div>
+                <div class="nav-profile-text-cashier">
+                    <p class="nav-profile-name-cashier">Sample Admin</p>
+                    <p class="nav-profile-role-cashier">Admin</p>
                 </div>
             </div>
-            <span class="dropdown-arrow">▼</span>
-            <div class="profile-dropdown-menu">
+            <span class="dropdown-arrow-cashier">▼</span>
+            <div class="profile-dropdown-menu-cashier">
                 <a href="#">Profile</a>
                 <a href="#">Settings</a>
                  <li><a class="dropdown-item py-2" href="logout.php"><span class="material-icons align-middle me-2" style="font-size: 18px;"></span>Logout</a></li>
@@ -1020,41 +1016,41 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
     </div>
 </div>
 
-<div class="main-content">
-    <div class="row">
-        <div class="col-lg-7">
-            <div class="card">
-                <div class="card-header">
+<div class="main-content-cashier">
+    <div class="row-cashier">
+        <div class="col-lg-7-cashier">
+            <div class="card-cashier">
+                <div class="card-header-cashier">
                     <i class="fas fa-search"></i>
                     Student Search
                 </div>
-                <div class="card-body">
-                    <div class="row" style="gap: 15px;">
-                        <div class="col-md-5">
-                            <label class="form-label">Student Number / Name</label>
+                <div class="card-body-cashier">
+                    <div class="row-cashier" style="gap: 15px;">
+                        <div class="col-md-5-cashier">
+                            <label class="form-label-cashier">Student Number / Name</label>
                             <div style="display: flex; gap: 8px;">
-                                <input type="text" id="stu_no" class="form-control" placeholder="Search ID or Name...">
-                                <button class="btn-outline-primary" id="search_btn" onclick="performSearch()" style="padding: 0 20px;">
-                                    <i class="fas fa-search search-icon"></i>
-                                    <span class="spinner-border-sm"></span>
+                                <input type="text" id="stu_no_cashier" class="form-control-cashier" placeholder="Search ID or Name...">
+                                <button class="btn-outline-primary-cashier" id="search_btn_cashier" onclick="performSearchCashier()" style="padding: 0 20px;">
+                                    <i class="fas fa-search search-icon-cashier"></i>
+                                    <span class="spinner-border-sm-cashier"></span>
                                 </button>
                             </div>
-                            <div id="results_dropdown">
-                                <label class="form-label" style="color: #f59e0b; margin-top: 10px;">Multiple Matches Found:</label>
-                                <select id="student_select" class="form-select" onchange="selectStudentFromList()">
+                            <div id="results_dropdown_cashier">
+                                <label class="form-label-cashier" style="color: #f59e0b; margin-top: 10px;">Multiple Matches Found:</label>
+                                <select id="student_select_cashier" class="form-select-cashier" onchange="selectStudentFromListCashier()">
                                     <option value="">-- Select Student --</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-7">
-                            <div class="row" style="gap: 10px;">
-                                <div class="col-8">
-                                    <label class="form-label">Full Name</label>
-                                    <input type="text" id="stu_name" class="form-control bg-light" readonly placeholder="Student Name...">
+                        <div class="col-md-7-cashier">
+                            <div class="row-cashier" style="gap: 10px;">
+                                <div class="col-8-cashier">
+                                    <label class="form-label-cashier">Full Name</label>
+                                    <input type="text" id="stu_name_cashier" class="form-control-cashier bg-light" readonly placeholder="Student Name...">
                                 </div>
-                                <div class="col-4">
-                                    <label class="form-label">Course/Year</label>
-                                    <input type="text" id="stu_course" class="form-control bg-light" readonly placeholder="Course...">
+                                <div class="col-4-cashier">
+                                    <label class="form-label-cashier">Course/Year</label>
+                                    <input type="text" id="stu_course_cashier" class="form-control-cashier bg-light" readonly placeholder="Course...">
                                 </div>
                             </div>
                         </div>
@@ -1062,53 +1058,53 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
+            <div class="card-cashier">
+                <div class="card-header-cashier">
                     <i class="fas fa-list-alt"></i>
                     Select Fees
                 </div>
-                <div class="card-body">
-                    <div class="row" style="gap: 10px;">
-                        <div class="col-4"><button class="btn-fee-option" onclick="addFee('Tuition Fee')">Tuition Fee</button></div>
-                        <div class="col-4"><button class="btn-fee-option" onclick="addFee('Misc Fee')">Misc. Fee</button></div>
-                        <div class="col-4"><button class="btn-fee-option" onclick="addFee('Lab Fee')">Lab Fee</button></div>
-                        <div class="col-4"><button class="btn-fee-option" onclick="addFee('Uniform')">Uniform</button></div>
-                        <div class="col-4"><button class="btn-fee-option" onclick="addFee('ID Request')">ID Request</button></div>
-                        <div class="col-4"><button class="btn-fee-option" onclick="addFee('Others')">Others</button></div>
+                <div class="card-body-cashier">
+                    <div class="row-cashier" style="gap: 10px;">
+                        <div class="col-4-cashier"><button class="btn-fee-option-cashier" onclick="addFeeCashier('Tuition Fee')">Tuition Fee</button></div>
+                        <div class="col-4-cashier"><button class="btn-fee-option-cashier" onclick="addFeeCashier('Misc Fee')">Misc. Fee</button></div>
+                        <div class="col-4-cashier"><button class="btn-fee-option-cashier" onclick="addFeeCashier('Lab Fee')">Lab Fee</button></div>
+                        <div class="col-4-cashier"><button class="btn-fee-option-cashier" onclick="addFeeCashier('Uniform')">Uniform</button></div>
+                        <div class="col-4-cashier"><button class="btn-fee-option-cashier" onclick="addFeeCashier('ID Request')">ID Request</button></div>
+                        <div class="col-4-cashier"><button class="btn-fee-option-cashier" onclick="addFeeCashier('Others')">Others</button></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-5">
-            <div class="card" style="height: fit-content;">
-                <div class="card-body">
-                    <h6 class="form-label" style="margin-bottom: 15px;">ASSESSMENT SUMMARY</h6>
+        <div class="col-lg-5-cashier">
+            <div class="card-cashier" style="height: fit-content;">
+                <div class="card-body-cashier">
+                    <h6 class="form-label-cashier" style="margin-bottom: 15px;">ASSESSMENT SUMMARY</h6>
                     <div style="margin-bottom: 20px; max-height: 300px; overflow-y: auto;">
-                        <table class="table">
+                        <table class="table-cashier">
                             <thead>
                                 <tr>
                                     <th>DESCRIPTION</th>
                                     <th class="text-end">BALANCE</th>
                                 </tr>
                             </thead>
-                            <tbody id="summary_table">
+                            <tbody id="summary_table_cashier">
                                 <tr>
-                                    <td colspan="2" class="text-center empty-text" style="padding: 40px;">No items selected.</td>
+                                    <td colspan="2" class="text-center empty-text-cashier" style="padding: 40px;">No items selected.</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="display-amount" style="margin-bottom: 20px;">
+                    <div class="display-amount-cashier" style="margin-bottom: 20px;">
                         <label>Total Selected Balance</label>
-                        <h2 id="balance_text">₱ 0.00</h2>
+                        <h2 id="balance_text_cashier">₱ 0.00</h2>
                     </div>
                     <div style="margin-bottom: 20px;">
-                        <label class="form-label">Cash Tendered (Partial OK)</label>
-                        <input type="number" id="cash_input" class="form-control" style="font-size: 1.2rem; font-weight: 600; color: #059669;" disabled>
+                        <label class="form-label-cashier">Cash Tendered (Partial OK)</label>
+                        <input type="number" id="cash_input_cashier" class="form-control-cashier" style="font-size: 1.2rem; font-weight: 600; color: #059669;" disabled>
                     </div>
-                    <button id="btn_confirm" class="btn-portal-primary" style="margin-bottom: 10px;" disabled onclick="processPayment()">Confirm & Print Receipt</button>
-                    <button class="btn-link" style="width: 100%;" onclick="location.reload()">Clear Transaction</button>
+                    <button id="btn_confirm_cashier" class="btn-portal-primary-cashier" style="margin-bottom: 10px;" disabled onclick="processPaymentCashier()">Confirm & Print Receipt</button>
+                    <button class="btn-link-cashier" style="width: 100%;" onclick="location.reload()">Clear Transaction</button>
                 </div>
             </div>
         </div>
@@ -1116,157 +1112,157 @@ if (isset($_POST['action']) && $_POST['action'] == 'pay') {
 </div>
 
 <!-- Receipt Modal -->
-<div class="modal" id="receiptModal">
-    <div class="modal-content">
-        <div class="modal-header">
+<div class="modal-cashier" id="receiptModalCashier">
+    <div class="modal-content-cashier">
+        <div class="modal-header-cashier">
             <h5>Payment Confirmed</h5>
-            <button class="btn-close" onclick="closeModal()">×</button>
+            <button class="btn-close-cashier" onclick="closeModalCashier()">×</button>
         </div>
-        <div class="modal-body" style="background: #f8fafc;">
-            <div id="receipt-print" style="font-family: 'Courier New', monospace; background: white; padding: 20px; border: 1px solid #e2e8f0;">
+        <div class="modal-body-cashier" style="background: #f8fafc;">
+            <div id="receipt-print-cashier" style="font-family: 'Courier New', monospace; background: white; padding: 20px; border: 1px solid #e2e8f0;">
                 <div style="text-align:center; border-bottom: 1px dashed #000; padding-bottom:10px;">
                     <strong style="font-size: 1.2rem;">HOLY CROSS COLLEGE</strong><br>
                     <small>Official Payment Receipt</small>
                 </div>
                 <div style="margin: 10px 0; font-size: 0.85rem;">
-                    Date: <span id="r-date"></span><br>
-                    Receipt #: <span id="r-id"></span><br>
-                    Student: <span id="r-name"></span><br>
-                    Course: <span id="r-course"></span><br>
-                    ID: <span id="r-no"></span>
+                    Date: <span id="r-date-cashier"></span><br>
+                    Receipt #: <span id="r-id-cashier"></span><br>
+                    Student: <span id="r-name-cashier"></span><br>
+                    Course: <span id="r-course-cashier"></span><br>
+                    ID: <span id="r-no-cashier"></span>
                 </div>
                 <div style="border-top: 1px dashed #000; border-bottom: 1px dashed #000; padding: 10px 0; margin-bottom: 10px;">
                     <div style="font-size: 0.8rem; font-weight: bold; margin-bottom: 5px;">ITEMS PAID:</div>
-                    <div id="r-items-list" style="font-size: 0.8rem;"></div>
+                    <div id="r-items-list-cashier" style="font-size: 0.8rem;"></div>
                 </div>
                 <div style="text-align:right;">
-                    <strong>TOTAL PAID: ₱ <span id="r-amount"></span></strong>
+                    <strong>TOTAL PAID: ₱ <span id="r-amount-cashier"></span></strong>
                 </div>
                 <div style="text-align:center; margin-top:20px; font-size: 0.8rem;">Thank you for your payment!</div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeModal()">Done</button>
-            <button class="btn-primary" onclick="window.print()">Print Now</button>
+        <div class="modal-footer-cashier">
+            <button class="btn-secondary-cashier" onclick="closeModalCashier()">Done</button>
+            <button class="btn-primary-cashier" onclick="window.print()">Print Now</button>
         </div>
     </div>
 </div>
 
 <script>
-let dbFees = {}; 
-let items = []; 
-let currentStudentNumber = ""; 
-let currentStudentId = "";
+let dbFeesCashier = {}; 
+let itemsCashier = []; 
+let currentStudentNumberCashier = ""; 
+let currentStudentIdCashier = "";
 
-// Navbar and dropdown functionality
+// Navbar and dropdown functionality with unique classes
 document.addEventListener('DOMContentLoaded', function() {
-    const profileDropdownToggle = document.querySelector('.profile-dropdown-toggle');
-    const profileDropdownMenu = document.querySelector('.profile-dropdown-menu');
+    const profileDropdownToggleCashier = document.querySelector('.profile-dropdown-toggle-cashier');
+    const profileDropdownMenuCashier = document.querySelector('.profile-dropdown-menu-cashier');
 
-    if (profileDropdownToggle) {
-        profileDropdownToggle.addEventListener('click', function(e) {
+    if (profileDropdownToggleCashier) {
+        profileDropdownToggleCashier.addEventListener('click', function(e) {
             e.stopPropagation();
-            profileDropdownMenu.classList.toggle('active');
+            profileDropdownMenuCashier.classList.toggle('active-cashier');
         });
     }
 
     // Semester dropdown functionality
-    const semesterDropdownToggle = document.querySelector('.semester-dropdown-toggle');
-    const semesterDropdownMenu = document.getElementById('semesterDropdown');
-    const semesterDisplay = document.getElementById('semesterDisplay');
-    const semesterLinks = semesterDropdownMenu.querySelectorAll('a');
+    const semesterDropdownToggleCashier = document.querySelector('.semester-dropdown-toggle-cashier');
+    const semesterDropdownMenuCashier = document.getElementById('semesterDropdownCashier');
+    const semesterDisplayCashier = document.getElementById('semesterDisplayCashier');
+    const semesterLinksCashier = semesterDropdownMenuCashier.querySelectorAll('a');
 
-    if (semesterDropdownToggle) {
-        semesterDropdownToggle.addEventListener('click', function(e) {
+    if (semesterDropdownToggleCashier) {
+        semesterDropdownToggleCashier.addEventListener('click', function(e) {
             e.stopPropagation();
-            semesterDropdownMenu.classList.toggle('active');
+            semesterDropdownMenuCashier.classList.toggle('active-cashier');
         });
     }
 
-    semesterLinks.forEach(link => {
+    semesterLinksCashier.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            semesterDisplay.textContent = this.textContent;
-            semesterLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-            semesterDropdownMenu.classList.remove('active');
+            semesterDisplayCashier.textContent = this.textContent;
+            semesterLinksCashier.forEach(l => l.classList.remove('active-cashier'));
+            this.classList.add('active-cashier');
+            semesterDropdownMenuCashier.classList.remove('active-cashier');
         });
     });
 
-    semesterLinks[0].classList.add('active');
+    semesterLinksCashier[0].classList.add('active-cashier');
 
     // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.profile-dropdown-toggle')) {
-            profileDropdownMenu.classList.remove('active');
+        if (!e.target.closest('.profile-dropdown-toggle-cashier')) {
+            profileDropdownMenuCashier.classList.remove('active-cashier');
         }
-        if (!e.target.closest('.semester-dropdown-toggle')) {
-            semesterDropdownMenu.classList.remove('active');
+        if (!e.target.closest('.semester-dropdown-toggle-cashier')) {
+            semesterDropdownMenuCashier.classList.remove('active-cashier');
         }
     });
 
     // Theme toggle functionality
-    const themeToggle = document.getElementById('themeToggle');
-    const html = document.documentElement;
+    const themeToggleCashier = document.getElementById('themeToggleCashier');
+    const htmlCashier = document.documentElement;
     
-    const currentTheme = localStorage.getItem('theme') || 'dark-mode';
-    html.classList.add(currentTheme);
-    updateThemeIcon(currentTheme);
+    const currentThemeCashier = localStorage.getItem('theme-cashier') || 'dark-mode-cashier';
+    htmlCashier.classList.add(currentThemeCashier);
+    updateThemeIconCashier(currentThemeCashier);
 
-    function updateThemeIcon(theme) {
-        themeToggle.textContent = theme === 'dark-mode' ? '🌙' : '☀️';
+    function updateThemeIconCashier(theme) {
+        themeToggleCashier.textContent = theme === 'dark-mode-cashier' ? '🌙' : '☀️';
     }
 
-    themeToggle.addEventListener('click', function() {
-        const isDarkMode = html.classList.contains('dark-mode');
+    themeToggleCashier.addEventListener('click', function() {
+        const isDarkModeCashier = htmlCashier.classList.contains('dark-mode-cashier');
         
-        if (isDarkMode) {
-            html.classList.remove('dark-mode');
-            html.classList.add('light-mode');
-            localStorage.setItem('theme', 'light-mode');
-            updateThemeIcon('light-mode');
+        if (isDarkModeCashier) {
+            htmlCashier.classList.remove('dark-mode-cashier');
+            htmlCashier.classList.add('light-mode-cashier');
+            localStorage.setItem('theme-cashier', 'light-mode-cashier');
+            updateThemeIconCashier('light-mode-cashier');
         } else {
-            html.classList.remove('light-mode');
-            html.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark-mode');
-            updateThemeIcon('dark-mode');
+            htmlCashier.classList.remove('light-mode-cashier');
+            htmlCashier.classList.add('dark-mode-cashier');
+            localStorage.setItem('theme-cashier', 'dark-mode-cashier');
+            updateThemeIconCashier('dark-mode-cashier');
         }
     });
 
     // Menu toggle functionality
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.querySelector('.sidebar');
+    const menuToggleCashier = document.getElementById('menuToggleCashier');
+    const sidebarCashier = document.querySelector('.sidebar-cashier');
     
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('closed');
-            if (sidebar.classList.contains('closed')) {
-                document.querySelector('.main-content').style.marginLeft = '0';
-                document.querySelector('.navbar').style.left = '0';
+    if (menuToggleCashier) {
+        menuToggleCashier.addEventListener('click', function() {
+            sidebarCashier.classList.toggle('closed');
+            if (sidebarCashier.classList.contains('closed')) {
+                document.querySelector('.main-content-cashier').style.marginLeft = '0';
+                document.querySelector('.navbar-cashier').style.left = '0';
             } else {
-                document.querySelector('.main-content').style.marginLeft = '240px';
-                document.querySelector('.navbar').style.left = '240px';
+                document.querySelector('.main-content-cashier').style.marginLeft = '240px';
+                document.querySelector('.navbar-cashier').style.left = '240px';
             }
         });
     }
 });
 
-function performSearch() {
-    const sno = document.getElementById('stu_no').value;
-    const btn = document.getElementById('search_btn');
-    const dropdown = document.getElementById('results_dropdown');
-    const select = document.getElementById('student_select');
+function performSearchCashier() {
+    const sno = document.getElementById('stu_no_cashier').value;
+    const btn = document.getElementById('search_btn_cashier');
+    const dropdown = document.getElementById('results_dropdown_cashier');
+    const select = document.getElementById('student_select_cashier');
     
     if(!sno) return alert("Please enter a student number or name.");
-    btn.classList.add('loading'); btn.disabled = true;
+    btn.classList.add('loading-cashier'); btn.disabled = true;
     dropdown.style.display = 'none'; select.innerHTML = '<option value="">-- Select Student --</option>';
 
     fetch(`?action=search&student_no=${encodeURIComponent(sno)}`)
     .then(r => r.json())
     .then(data => {
-        btn.classList.remove('loading'); btn.disabled = false;
-        if(data.error) { alert("Student not found!"); resetUI(); } 
-        else if(data.status === 'single') { populateStudent(data.student, data.fees); } 
+        btn.classList.remove('loading-cashier'); btn.disabled = false;
+        if(data.error) { alert("Student not found!"); resetUICashier(); } 
+        else if(data.status === 'single') { populateStudentCashier(data.student, data.fees); } 
         else {
             dropdown.style.display = 'block';
             data.students.forEach(s => {
@@ -1282,8 +1278,8 @@ function performSearch() {
     });
 }
 
-function selectStudentFromList() {
-    const select = document.getElementById('student_select');
+function selectStudentFromListCashier() {
+    const select = document.getElementById('student_select_cashier');
     const sid = select.value;
     if(!sid) return;
     const selectedOpt = select.options[select.selectedIndex];
@@ -1291,7 +1287,7 @@ function selectStudentFromList() {
     fetch(`?action=get_fees&student_id=${sid}`)
     .then(r => r.json())
     .then(data => {
-        populateStudent({
+        populateStudentCashier({
             student_id: sid,
             student_number: selectedOpt.dataset.sno,
             first_name: selectedOpt.dataset.name,
@@ -1301,102 +1297,102 @@ function selectStudentFromList() {
     });
 }
 
-function populateStudent(student, fees) {
-    document.getElementById('stu_name').value = student.first_name + " " + (student.last_name || "");
-    document.getElementById('stu_course').value = student.course_year || "N/A";
+function populateStudentCashier(student, fees) {
+    document.getElementById('stu_name_cashier').value = student.first_name + " " + (student.last_name || "");
+    document.getElementById('stu_course_cashier').value = student.course_year || "N/A";
     
-    currentStudentNumber = student.student_number;
-    currentStudentId = student.student_id;
-    dbFees = {};
-    fees.forEach(f => { dbFees[f.fee_name] = { amount: parseFloat(f.amount), id: f.fee_id }; });
-    updateUI();
-    document.getElementById('cash_input').disabled = false;
-    document.getElementById('btn_confirm').disabled = false;
+    currentStudentNumberCashier = student.student_number;
+    currentStudentIdCashier = student.student_id;
+    dbFeesCashier = {};
+    fees.forEach(f => { dbFeesCashier[f.fee_name] = { amount: parseFloat(f.amount), id: f.fee_id }; });
+    updateUICashier();
+    document.getElementById('cash_input_cashier').disabled = false;
+    document.getElementById('btn_confirm_cashier').disabled = false;
 }
 
-function addFee(name) {
-    if(!currentStudentNumber) return alert("Search for a student first.");
-    let feeData = dbFees[name];
+function addFeeCashier(name) {
+    if(!currentStudentNumberCashier) return alert("Search for a student first.");
+    let feeData = dbFeesCashier[name];
     if(!feeData) return alert("Fee not found in database.");
     if(feeData.amount <= 0) return alert("This fee is already fully paid!");
-    if(items.some(i => i.name === name)) return;
-    items.push({ name: name, amount: feeData.amount, id: feeData.id });
-    updateUI();
+    if(itemsCashier.some(i => i.name === name)) return;
+    itemsCashier.push({ name: name, amount: feeData.amount, id: feeData.id });
+    updateUICashier();
 }
 
-function updateUI() {
-    const table = document.getElementById('summary_table');
+function updateUICashier() {
+    const table = document.getElementById('summary_table_cashier');
     let total = 0;
-    if(items.length === 0) {
-        table.innerHTML = '<tr><td colspan="2" class="text-center empty-text" style="padding: 40px;">No items selected.</td></tr>';
+    if(itemsCashier.length === 0) {
+        table.innerHTML = '<tr><td colspan="2" class="text-center empty-text-cashier" style="padding: 40px;">No items selected.</td></tr>';
     } else {
-        table.innerHTML = items.map((item, index) => {
+        table.innerHTML = itemsCashier.map((item, index) => {
             total += item.amount;
             return `<tr>
-                <td><i class="fas fa-times-circle remove-btn" onclick="removeItem(${index})"></i> ${item.name}</td>
+                <td><i class="fas fa-times-circle remove-btn-cashier" onclick="removeItemCashier(${index})"></i> ${item.name}</td>
                 <td class="text-end">₱ ${item.amount.toLocaleString()}</td>
             </tr>`;
         }).join('');
     }
-    document.getElementById('balance_text').innerText = "₱ " + total.toLocaleString(undefined, {minimumFractionDigits: 2});
+    document.getElementById('balance_text_cashier').innerText = "₱ " + total.toLocaleString(undefined, {minimumFractionDigits: 2});
 }
 
-function removeItem(index) { 
-    items.splice(index, 1); 
-    updateUI(); 
+function removeItemCashier(index) { 
+    itemsCashier.splice(index, 1); 
+    updateUICashier(); 
 }
 
-function processPayment() {
-    const cash = parseFloat(document.getElementById('cash_input').value);
+function processPaymentCashier() {
+    const cash = parseFloat(document.getElementById('cash_input_cashier').value);
     if(!cash || cash <= 0) return alert("Please enter the amount paid.");
     
     const body = new FormData();
     body.append('action', 'pay');
-    body.append('student_no', currentStudentNumber);
+    body.append('student_no', currentStudentNumberCashier);
     body.append('amount', cash);
-    body.append('fee_ids', JSON.stringify(items.map(i => i.id)));
+    body.append('fee_ids', JSON.stringify(itemsCashier.map(i => i.id)));
     
     fetch(window.location.href, { method: 'POST', body: body })
     .then(r => r.json())
     .then(data => {
         if(data.status === 'success') {
-            document.getElementById('r-date').innerText = new Date().toLocaleString();
-            document.getElementById('r-id').innerText = data.receipt_no;
-            document.getElementById('r-name').innerText = document.getElementById('stu_name').value;
-            document.getElementById('r-course').innerText = document.getElementById('stu_course').value;
-            document.getElementById('r-no').innerText = currentStudentNumber;
-            document.getElementById('r-amount').innerText = cash.toLocaleString(undefined, {minimumFractionDigits: 2});
+            document.getElementById('r-date-cashier').innerText = new Date().toLocaleString();
+            document.getElementById('r-id-cashier').innerText = data.receipt_no;
+            document.getElementById('r-name-cashier').innerText = document.getElementById('stu_name_cashier').value;
+            document.getElementById('r-course-cashier').innerText = document.getElementById('stu_course_cashier').value;
+            document.getElementById('r-no-cashier').innerText = currentStudentNumberCashier;
+            document.getElementById('r-amount-cashier').innerText = cash.toLocaleString(undefined, {minimumFractionDigits: 2});
             
-            let breakdownHtml = items.map(i => 
+            let breakdownHtml = itemsCashier.map(i => 
                 `<div style="display:flex; justify-content:space-between;">
                     <span>${i.name}</span>
                     <span>₱ ${i.amount.toLocaleString()}</span>
                 </div>`
             ).join('');
-            document.getElementById('r-items-list').innerHTML = breakdownHtml;
+            document.getElementById('r-items-list-cashier').innerHTML = breakdownHtml;
 
-            document.getElementById('receiptModal').classList.add('active');
+            document.getElementById('receiptModalCashier').classList.add('active-cashier');
         } else alert("Error processing payment.");
     });
 }
 
-function closeModal() {
-    document.getElementById('receiptModal').classList.remove('active');
+function closeModalCashier() {
+    document.getElementById('receiptModalCashier').classList.remove('active-cashier');
     location.reload();
 }
 
-function resetUI() {
-    document.getElementById('stu_name').value = ""; 
-    document.getElementById('stu_course').value = "";
-    document.getElementById('balance_text').innerText = "₱ 0.00";
-    document.getElementById('summary_table').innerHTML = '<tr><td colspan="2" class="text-center empty-text" style="padding: 40px;">No items selected.</td></tr>';
-    document.getElementById('cash_input').disabled = true; 
-    document.getElementById('btn_confirm').disabled = true;
-    items = [];
+function resetUICashier() {
+    document.getElementById('stu_name_cashier').value = ""; 
+    document.getElementById('stu_course_cashier').value = "";
+    document.getElementById('balance_text_cashier').innerText = "₱ 0.00";
+    document.getElementById('summary_table_cashier').innerHTML = '<tr><td colspan="2" class="text-center empty-text-cashier" style="padding: 40px;">No items selected.</td></tr>';
+    document.getElementById('cash_input_cashier').disabled = true; 
+    document.getElementById('btn_confirm_cashier').disabled = true;
+    itemsCashier = [];
 }
 
-document.getElementById('stu_no').addEventListener('keypress', (e) => { 
-    if (e.key === 'Enter') performSearch(); 
+document.getElementById('stu_no_cashier').addEventListener('keypress', (e) => { 
+    if (e.key === 'Enter') performSearchCashier(); 
 });
 </script>
 </body>
