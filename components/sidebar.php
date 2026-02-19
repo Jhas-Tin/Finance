@@ -163,7 +163,7 @@
     </div>
 
     <!-- Main Navigation Menu -->
-    <h3 class="menu-title">Main Menu</h3>
+     <h3 class="menu-title">Main Menu</h3>
     <ul class="sidebar-menu">
         <li><a href="#">
             <i class="fas fa-tachometer-alt"></i>
@@ -173,33 +173,12 @@
             <i class="fas fa-money-bill-wave"></i>
             Finance
         </a></li>
-        <li><a href="#">
+        <li><a href="cashier/cashiering.php">
             <i class="fas fa-chalkboard-teacher"></i>
-            Teachers
+            Cashier
         </a></li>
-        <li><a href="#">
+        <li><a href="cashier/transactions.php">
             <i class="fas fa-user-graduate"></i>
-            Students
-        </a></li>
-        <li><a href="#">
-            <i class="fas fa-clipboard-check"></i>
-            Attendance
-        </a></li>
-        <li><a href="#">
-            <i class="fas fa-bullhorn"></i>
-            Notice
-        </a></li>
-        <li><a href="#">
-            <i class="fas fa-calendar-alt"></i>
-            Calendar
-        </a></li>
-        <li><a href="#">
-            <i class="fas fa-book"></i>
-            Library
-        </a></li>
-        <li><a href="#">
-            <i class="fas fa-comments"></i>
-            Message
-        </a></li>
+            Transactions History
     </ul>
 </div>
