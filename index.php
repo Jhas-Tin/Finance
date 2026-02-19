@@ -549,7 +549,7 @@
 </head>
 
 <body>
-
+<h1>Hello<h1>
 <?php include 'components/sidebar.php'; ?>
 
 <div class="main">
