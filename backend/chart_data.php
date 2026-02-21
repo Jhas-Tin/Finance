@@ -17,29 +17,30 @@ if ($period === "Yearly") {
 
     if ($class != "All Classes") {
         $stmt = $conn->prepare("
-            SELECT YEAR(s.created_at) AS yr,
-                   SUM(sb.total_amount) AS total
-            FROM students s
-            LEFT JOIN student_balances sb ON s.student_id = sb.student_id
+            SELECT YEAR(p.payment_date) AS yr,
+                   SUM(p.amount_paid) AS total
+            FROM payments p
+            LEFT JOIN students s ON p.student_id = s.student_id
             WHERE s.course_year = ?
-            GROUP BY YEAR(s.created_at)
+            AND YEAR(p.payment_date) BETWEEN ? AND ?
+            GROUP BY YEAR(p.payment_date)
         ");
-        $stmt->bind_param("s", $class);
+        $stmt->bind_param("sii", $class, $startYear, $currentYear);
     } else {
         $stmt = $conn->prepare("
-            SELECT YEAR(s.created_at) AS yr,
-                   SUM(sb.total_amount) AS total
-            FROM students s
-            LEFT JOIN student_balances sb ON s.student_id = sb.student_id
-            GROUP BY YEAR(s.created_at)
+            SELECT YEAR(p.payment_date) AS yr,
+                   SUM(p.amount_paid) AS total
+            FROM payments p
+            WHERE YEAR(p.payment_date) BETWEEN ? AND ?
+            GROUP BY YEAR(p.payment_date)
         ");
+        $stmt->bind_param("ii", $startYear, $currentYear);
     }
 
     $stmt->execute();
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) $years[(int)$row['yr']] = (float)$row['total'];
-
-    $data = $years; // return keyed object
+    $data = $years;
 }
 
 /* ================= MONTHLY ================= */
@@ -49,23 +50,22 @@ else if ($period === "Monthly") {
 
     if ($class != "All Classes") {
         $stmt = $conn->prepare("
-            SELECT MONTH(s.created_at) AS mn,
-                   SUM(sb.total_amount) AS total
-            FROM students s
-            LEFT JOIN student_balances sb ON s.student_id = sb.student_id
+            SELECT MONTH(p.payment_date) AS mn,
+                   SUM(p.amount_paid) AS total
+            FROM payments p
+            LEFT JOIN students s ON p.student_id = s.student_id
             WHERE s.course_year = ?
-            AND YEAR(s.created_at) = ?
-            GROUP BY MONTH(s.created_at)
+            AND YEAR(p.payment_date) = ?
+            GROUP BY MONTH(p.payment_date)
         ");
         $stmt->bind_param("si", $class, $currentYear);
     } else {
         $stmt = $conn->prepare("
-            SELECT MONTH(s.created_at) AS mn,
-                   SUM(sb.total_amount) AS total
-            FROM students s
-            LEFT JOIN student_balances sb ON s.student_id = sb.student_id
-            WHERE YEAR(s.created_at) = ?
-            GROUP BY MONTH(s.created_at)
+            SELECT MONTH(p.payment_date) AS mn,
+                   SUM(p.amount_paid) AS total
+            FROM payments p
+            WHERE YEAR(p.payment_date) = ?
+            GROUP BY MONTH(p.payment_date)
         ");
         $stmt->bind_param("i", $currentYear);
     }
@@ -74,7 +74,6 @@ else if ($period === "Monthly") {
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) $months[(int)$row['mn']] = (float)$row['total'];
 
-    // return keyed object with month abbreviations
     $monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     $data = [];
     foreach($months as $num => $total) $data[$monthNames[$num-1]] = $total;
@@ -89,68 +88,65 @@ else if ($period === "Weekly") {
 
     if ($class != "All Classes") {
         $stmt = $conn->prepare("
-            SELECT DAYNAME(s.created_at) AS dy,
-                   SUM(sb.total_amount) AS total
-            FROM students s
-            LEFT JOIN student_balances sb ON s.student_id = sb.student_id
+            SELECT DAYNAME(p.payment_date) AS dy,
+                   SUM(p.amount_paid) AS total
+            FROM payments p
+            LEFT JOIN students s ON p.student_id = s.student_id
             WHERE s.course_year = ?
-            AND DATE(s.created_at) BETWEEN ? AND ?
-            GROUP BY DAYNAME(s.created_at)
+            AND DATE(p.payment_date) BETWEEN ? AND ?
+            GROUP BY DAYNAME(p.payment_date)
         ");
         $stmt->bind_param("sss", $class, $monday, $sunday);
     } else {
         $stmt = $conn->prepare("
-            SELECT DAYNAME(s.created_at) AS dy,
-                   SUM(sb.total_amount) AS total
-            FROM students s
-            LEFT JOIN student_balances sb ON s.student_id = sb.student_id
-            WHERE DATE(s.created_at) BETWEEN ? AND ?
-            GROUP BY DAYNAME(s.created_at)
+            SELECT DAYNAME(p.payment_date) AS dy,
+                   SUM(p.amount_paid) AS total
+            FROM payments p
+            WHERE DATE(p.payment_date) BETWEEN ? AND ?
+            GROUP BY DAYNAME(p.payment_date)
         ");
         $stmt->bind_param("ss", $monday, $sunday);
     }
 
     $stmt->execute();
     $result = $stmt->get_result();
-    while ($row = $result->fetch_assoc()) {
-        $key = substr($row['dy'],0,3);
-        $days[$key] = (float)$row['total'];
-    }
+    while ($row = $result->fetch_assoc()) $days[substr($row['dy'],0,3)] = (float)$row['total'];
 
-    $data = $days; // return keyed object
+    $data = $days;
 }
 
 /* ================= DAILY (24 HOURS) ================= */
 else if ($period === "Daily") {
+    $today = date('Y-m-d');
     $hours = array_fill(0, 24, 0);
 
     if ($class != "All Classes") {
         $stmt = $conn->prepare("
-            SELECT HOUR(s.created_at) AS hr,
-                   SUM(sb.total_amount) AS total
-            FROM students s
-            LEFT JOIN student_balances sb ON s.student_id = sb.student_id
+            SELECT HOUR(p.payment_date) AS hr,
+                   SUM(p.amount_paid) AS total
+            FROM payments p
+            LEFT JOIN students s ON p.student_id = s.student_id
             WHERE s.course_year = ?
-            AND DATE(s.created_at) = CURDATE()
-            GROUP BY HOUR(s.created_at)
+            AND DATE(p.payment_date) = ?
+            GROUP BY HOUR(p.payment_date)
         ");
-        $stmt->bind_param("s", $class);
+        $stmt->bind_param("ss", $class, $today);
     } else {
         $stmt = $conn->prepare("
-            SELECT HOUR(s.created_at) AS hr,
-                   SUM(sb.total_amount) AS total
-            FROM students s
-            LEFT JOIN student_balances sb ON s.student_id = sb.student_id
-            WHERE DATE(s.created_at) = CURDATE()
-            GROUP BY HOUR(s.created_at)
+            SELECT HOUR(p.payment_date) AS hr,
+                   SUM(p.amount_paid) AS total
+            FROM payments p
+            WHERE DATE(p.payment_date) = ?
+            GROUP BY HOUR(p.payment_date)
         ");
+        $stmt->bind_param("s", $today);
     }
 
     $stmt->execute();
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) $hours[(int)$row['hr']] = (float)$row['total'];
 
-    $data = array_values($hours); // keep numeric array
+    $data = array_values($hours);
 }
 
 echo json_encode($data);
