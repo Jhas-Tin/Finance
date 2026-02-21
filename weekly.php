@@ -566,37 +566,61 @@
         </div>
 
         <div class="dashboard-container">
-            <div class="stats-section">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Weekly Total</span>
-                        <span class="stat-change positive" id="totalChange">+5.2%</span>
-                    </div>
-                    <div class="stat-value" id="totalAmount">₱482,150</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Weekly Tuition</span>
-                        <span class="stat-change positive" id="tuitionChange">+3.1%</span>
-                    </div>
-                    <div class="stat-value" id="totalTuition">₱310,200</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Weekly Activities</span>
-                        <span class="stat-change positive" id="activitiesChange">+12%</span>
-                    </div>
-                    <div class="stat-value" id="totalActivities">₱85,450</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Weekly Misc</span>
-                        <span class="stat-change negative" id="miscChange">-2.4%</span>
-                    </div>
-                    <div class="stat-value" id="totalMisc">₱86,500</div>
-                </div>
+    <div class="stats-section">
+        <!-- Weekly Tuition Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Tuition Fee</span>
+                <span class="stat-change positive" id="tuitionChange">+0%</span>
             </div>
+            <div class="stat-value" id="totalTuition">₱0</div>
+        </div>
 
+        <!-- Weekly Misc Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Misc Fee</span>
+                <span class="stat-change positive" id="miscChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalMisc">₱0</div>
+        </div>
+
+        <!-- Weekly Lab Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Lab Fee</span>
+                <span class="stat-change positive" id="labChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalLab">₱0</div>
+        </div>
+
+        <!-- Weekly Uniform Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Uniform</span>
+                <span class="stat-change positive" id="uniformChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalUniform">₱0</div>
+        </div>
+
+        <!-- Weekly ID Request Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">ID Request</span>
+                <span class="stat-change positive" id="idChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalID">₱0</div>
+        </div>
+
+        <!-- Weekly Total Collection -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Weekly Total</span>
+                <span class="stat-change positive" id="totalChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalAmount">₱0</div>
+        </div>
+    </div>
             <div class="chart-section">
                 <div class="chart-header">
                     <h3>Fees Collection (This Week)</h3>
@@ -660,63 +684,105 @@
             </div>
 
             <table>
-                <thead>
-                    <tr>
-                        <th style="width: 40px;"><input type="checkbox"></th>
-                        <th>Name</th>
-                        <th>ID</th>
-                        <th>Class</th>
-                        <th>Tuition Fee</th>
-                        <th>Activities Fee</th>
-                        <th>Miscellaneous</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;"><input type="checkbox"></th>
+                            <th>Name</th>
+                            <th>ID</th>
+                            <th>Class</th>
+                            <th>Tuition Fee</th>
+                            <th>Misc Fee</th>
+                            <th>Lab Fee</th>
+                            <th>Uniform</th>
+                            <th>ID Request</th>
+                            <th>Paid Amount</th>
+                            <th>Remaining Balance</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
                 <tbody id="tableBody">
                     <?php
                     include 'backend/db.php';
 
-                    // SQL query to fetch records from the current week (Sunday to Saturday)
-                    $sql = "SELECT * FROM students 
-                            WHERE YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) 
-                            ORDER BY id DESC";
-
+                    $sql = "SELECT * FROM students ORDER BY student_id DESC";
                     $result = $conn->query($sql);
 
-                    if ($result && $result->num_rows > 0) {
+                    if ($result === false) {
+                        echo "<tr><td colspan='14' style='text-align:center; color:red;'>Query Error: " . $conn->error . "</td></tr>";
+                    } elseif ($result->num_rows > 0) {
+
+                        $fee_sql = "SELECT * FROM fee_categories";
+                        $fee_result = $conn->query($fee_sql);
+
+                        $fees = [];
+                        if ($fee_result && $fee_result->num_rows > 0) {
+                            while ($f = $fee_result->fetch_assoc()) {
+                                $fees[$f['fee_name']] = floatval($f['default_amount']);
+                            }
+                        }
+
+                        $balance_sql = "SELECT * FROM student_balances";
+                        $balance_result = $conn->query($balance_sql);
+
+                        $student_balances = [];
+                        if ($balance_result && $balance_result->num_rows > 0) {
+                            while ($b = $balance_result->fetch_assoc()) {
+                                $student_balances[$b['student_id']][$b['fee_id']] = $b;
+                            }
+                        }
+
+                        $payment_sql = "SELECT student_id, SUM(amount_paid) AS total_paid FROM payments GROUP BY student_id";
+                        $payment_result = $conn->query($payment_sql);
+                        $student_paid = [];
+                        if ($payment_result && $payment_result->num_rows > 0) {
+                            while ($p = $payment_result->fetch_assoc()) {
+                                $student_paid[$p['student_id']] = floatval($p['total_paid']);
+                            }
+                        }
+
                         while ($row = $result->fetch_assoc()) {
-                            $statusClass = strtolower($row['payment_status']);
+                            $student_id = $row['student_id'];
+                            $fullName = htmlspecialchars($row['first_name'] . ' ' . $row['last_name']);
+                            $tuition_total = $student_balances[$student_id][1]['total_amount'] ?? $fees['Tuition Fee'];
+                            $misc_total    = $student_balances[$student_id][2]['total_amount'] ?? $fees['Misc Fee'];
+                            $lab_total     = $student_balances[$student_id][3]['total_amount'] ?? $fees['Lab Fee'];
+                            $uniform_total = $student_balances[$student_id][4]['total_amount'] ?? $fees['Uniform'];
+                            $id_total      = $student_balances[$student_id][5]['total_amount'] ?? $fees['ID Request'];
+                            $total_amount = $tuition_total + $misc_total + $lab_total + $uniform_total + $id_total;
+                            $total_paid = $student_paid[$student_id] ?? 0;
+                            $total_remaining = max($total_amount - $total_paid, 0);
+                            $statusClass = ($total_remaining <= 0) ? "paid" : "unpaid";
                     ?>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td><?= htmlspecialchars($row['student_name']) ?></td>
-                            <td><?= htmlspecialchars($row['student_id']) ?></td>
-                            <td><?= htmlspecialchars($row['class']) ?></td>
-                            <td class="currency">₱<?= number_format($row['tuition_fee'], 2) ?></td>
-                            <td class="currency">₱<?= number_format($row['activities_fee'], 2) ?></td>
-                            <td class="currency">₱<?= number_format($row['miscellaneous_fee'], 2) ?></td>
-                            <td class="currency">₱<?= number_format($row['total_amount'], 2) ?></td>
-                            <td>
-                                <span class="status <?= $statusClass ?>">
-                                    <?= $row['payment_status'] ?>
-                                </span>
-                            </td>
-                            <td class="action-buttons">
-                                <button class="view-btn">View</button>
-                                <button class="delete-btn" onclick="deleteStudent(<?= $row['id'] ?>)">Delete</button>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td><?= $fullName ?></td>
+                        <td><?= htmlspecialchars($row['student_number']) ?></td>
+                        <td><?= htmlspecialchars($row['course_year']) ?></td>
+                        <td class="currency">₱<?= number_format($tuition_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($misc_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($lab_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($uniform_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($id_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($total_paid, 2) ?></td>
+                        <td class="currency">₱<?= number_format($total_remaining, 2) ?></td>
+                        <td class="currency">₱<?= number_format($total_amount, 2) ?></td>
+                        <td><span class="status <?= $statusClass ?>"><?= ucfirst($statusClass) ?></span></td>
+                        <td class="action-buttons">
+                            <button class="delete-btn" onclick="deleteStudent(<?= $student_id ?>)">Delete</button>
+                        </td>
+                    </tr>
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='10' style='text-align:center; padding: 40px; color: #64748b;'>No records found for this week.</td></tr>";
+                        echo "<tr><td colspan='14' style='text-align:center; padding: 40px; color: #64748b;'>No records found.</td></tr>";
                     }
+
                     $conn->close();
                     ?>
-                    </tbody>
+                </tbody>
             </table>
 
             <div class="pagination">
@@ -732,190 +798,203 @@
 
 <div id="addStudentModal" class="modal">
     <div class="modal-content">
+
+        <!-- HEADER -->
         <div class="modal-header">
             <h3>Add New Student</h3>
             <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
+
+        <!-- BODY / FORM -->
         <div class="modal-body">
             <form id="addStudentForm">
-                <div class="form-group"><label>Student Name</label><input type="text" name="studentName" required></div>
-                <div class="form-group"><label>Student ID</label><input type="text" name="studentId" required></div>
+
                 <div class="form-group">
-                    <label>Class</label>
-                    <select name="studentClass" required>
-                        <option value="">Select Class</option>
+                    <label>Student Number</label>
+                    <input type="text" name="studentNumber" required>
+                </div>
+
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" name="firstName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" name="lastName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Course & Year</label>
+                    <select name="courseYear" required>
+                        <option value="">Select Course</option>
                         <option value="BSIT">BSIT</option>
                         <option value="BSCPE">BSCPE</option>
                         <option value="BSCS">BSCS</option>
                         <option value="BSCE">BSCE</option>
                     </select>
                 </div>
-                <div class="form-group"><label>Tuition Fee</label><input type="number" name="tuitionFee" required></div>
-                <div class="form-group"><label>Activities Fee</label><input type="number" name="activitiesFee" required></div>
-                <div class="form-group"><label>Misc Fee</label><input type="number" name="miscellaneousFee" required></div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <select name="paymentStatus" required>
-                        <option value="">Select Status</option>
-                        <option value="Paid">Paid</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Overdue">Overdue</option>
-                    </select>
-                </div>
+
             </form>
         </div>
+
+        <!-- FOOTER -->
         <div class="modal-footer">
             <button class="cancel-btn" onclick="closeModal()">Cancel</button>
             <button class="save-btn">Add Student</button>
         </div>
+
     </div>
 </div>
 
 <script>
-function openAddStudentModal() { document.getElementById("addStudentModal").style.display = "flex"; }
-function closeModal() { document.getElementById("addStudentModal").style.display = "none"; }
+// ------------------- MODALS -------------------
+function openAddStudentModal() { 
+    document.getElementById("addStudentModal").style.display = "flex"; 
+}
+function closeModal() { 
+    document.getElementById("addStudentModal").style.display = "none"; 
+}
 
+// ------------------- ADD STUDENT -------------------
 document.querySelector(".save-btn").addEventListener("click", function () {
     const form = document.getElementById("addStudentForm");
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-    }
+    if (!form.checkValidity()) { form.reportValidity(); return; }
     const formData = new FormData(form);
     fetch("backend/add_student.php", { method: "POST", body: formData })
-    .then(res => res.text())
-    .then(data => {
-        data = data.trim();
-        if (data === "success") { location.reload(); } 
-        else if (data === "exists") { alert("Student already exists in the system!"); }
-        else { alert("Error adding student."); }
-    });
+        .then(res => res.text())
+        .then(data => {
+            data = data.trim();
+            if (data === "success") location.reload();
+            else if (data === "exists") alert("Student already exists!");
+            else alert("Error adding student.");
+        });
 });
 
+// ------------------- DELETE STUDENT -------------------
 function deleteStudent(id) {
     if (!confirm("Delete this student?")) return;
     fetch("backend/delete_student.php?id=" + id)
-    .then(res => res.text())
-    .then(data => {
-        if (data.trim() === "success") { location.reload(); }
-        else { alert("Delete failed."); }
-    });
+        .then(res => res.text())
+        .then(data => {
+            if (data.trim() === "success") location.reload();
+            else alert("Delete failed: " + data);
+        })
+        .catch(err => alert("Error occurred: " + err));
 }
 
-const weekLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+// ------------------- CHART SETUP -------------------
+const classSelect = document.getElementById("chartClassSelect");
+const periodSelect = document.getElementById("periodSelect");
 const ctx = document.getElementById("feesChart").getContext("2d");
+
+const weekLabels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const currentYear = new Date().getFullYear();
+const yearLabels = Array.from({length:5}, (_,i)=>currentYear-4+i);
 
 let feesChart = new Chart(ctx, {
     type: 'bar',
-    data: {
-        labels: weekLabels,
-        datasets: [{
-            label: "Weekly Collection",
-            data: Array(7).fill(0), 
-            backgroundColor: "#f59e0b",
-            borderRadius: 6,
-            barThickness: 20
-        }]
-    },
+    data: { labels: weekLabels, datasets: [{ label:"Collection", data:Array(weekLabels.length).fill(0), backgroundColor:"#f59e0b", borderRadius:6, barThickness:20 }] },
     options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function(value) { return "₱" + value.toLocaleString(); },
-                    color: "#ffffff"
-                },
-                grid: { color: "rgba(255,255,255,0.2)" }
-            },
-            x: { ticks: { color: "#ffffff" }, grid: { display: false } }
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{ legend:{ display:false } },
+        scales:{
+            y:{ beginAtZero:true, ticks:{ callback:v=>"₱"+v.toLocaleString(), color:"#ffffff" }, grid:{ color:"rgba(255,255,255,0.2)" } },
+            x:{ ticks:{ color:"#ffffff" }, grid:{ display:false } }
         }
     }
 });
 
+// ------------------- UPDATE CHART -------------------
 function updateChart() {
-    const className = document.getElementById("chartClassSelect").value;
-    const period = "Weekly";
+    const className = classSelect.value;
+    const period = periodSelect.value || "Weekly";
+
+    let labels;
+    if(period === "Weekly") labels = weekLabels;
+    else if(period === "Monthly") labels = monthLabels;
+    else if(period === "Yearly") labels = yearLabels;
+    else labels = []; // fallback
+
+    feesChart.data.labels = labels;
 
     fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=${period}`)
-    .then(res => res.json())
-    .then(data => {
-        const totals = weekLabels.map((day, index) => {
-            const dayMap = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-            return data[dayMap[index]] ? Number(data[dayMap[index]]) : 0;
+        .then(res => res.json())
+        .then(data => {
+            // Map data to labels: supports object with keys
+            const totals = labels.map(label => Number(data[label] || 0));
+            feesChart.data.datasets[0].data = totals;
+            feesChart.update();
+
+            // Update total amount card
+            document.getElementById("totalAmount").textContent = "₱" + totals.reduce((a,b)=>a+b,0).toLocaleString();
+        })
+        .catch(err => {
+            console.error("Chart fetch error:", err);
+            feesChart.data.datasets[0].data = Array(labels.length).fill(0);
+            feesChart.update();
         });
-        feesChart.data.datasets[0].data = totals;
-        feesChart.update();
-    })
-    .catch(err => {
-        console.error("Failed to fetch weekly data:", err);
-        feesChart.data.datasets[0].data = Array(7).fill(0);
-        feesChart.update();
-    });
 }
 
+// ------------------- UPDATE TOTALS -------------------
 function updateTotals() {
-    const className = document.getElementById("chartClassSelect").value;
-    const period = "Weekly";
+    const className = classSelect.value;
+    const period = periodSelect.value || "Weekly";
 
     fetch(`backend/get_totals.php?class=${encodeURIComponent(className)}&period=${period}`)
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount || 482150).toLocaleString();
-        document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition || 310200).toLocaleString();
-        document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities || 85450).toLocaleString();
-        document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc || 86500).toLocaleString();
-    })
-    .catch(err => console.error("Failed to fetch totals:", err));
+        .then(res => res.json())
+        .then(data => {
+            const feeMap = {
+                totalTuition: data["Tuition Fee"] || 0,
+                totalMisc: data["Misc Fee"] || 0,
+                totalLab: data["Lab Fee"] || 0,
+                totalUniform: data["Uniform"] || 0,
+                totalID: data["ID Request"] || 0
+            };
+
+            for(const [id,value] of Object.entries(feeMap)) {
+                const el = document.getElementById(id);
+                if(el) el.textContent = "₱" + Number(value).toLocaleString();
+            }
+
+            // Total collection
+            const totalAmount = data.total_amount || Object.values(feeMap).reduce((a,b)=>a+b,0);
+            document.getElementById("totalAmount").textContent = "₱" + Number(totalAmount).toLocaleString();
+        })
+        .catch(err => console.error("Totals fetch error:", err));
 }
 
-// Table Filter Function
+// ------------------- TABLE FILTER -------------------
 function filterTable() {
-    const period = document.getElementById("dateSelect").value;
-    const selectedClass = document.getElementById("filterClassSelect").value;
-    const status = document.getElementById("statusSelect").value;
-    const searchTerm = document.getElementById("searchInput").value;
+    const period = document.getElementById("dateSelect")?.value || '';
+    const selectedClass = document.getElementById("filterClassSelect")?.value || '';
+    const status = document.getElementById("statusSelect")?.value || '';
+    const searchTerm = document.getElementById("searchInput")?.value || '';
     const tableBody = document.getElementById("tableBody");
 
-    tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; padding: 20px;'>Filtering...</td></tr>";
+    tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; padding:20px;'>Filtering...</td></tr>";
 
-    const params = new URLSearchParams({
-        period: period,
-        class: selectedClass,
-        status: status,
-        search: searchTerm
-    });
-
+    const params = new URLSearchParams({ period, class: selectedClass, status, search: searchTerm });
     fetch(`backend/filter_students.php?${params.toString()}`)
-    .then(res => res.text())
-    .then(data => {
-        tableBody.innerHTML = data;
-    })
-    .catch(err => {
-        console.error("Filter error:", err);
-        tableBody.innerHTML = "<tr><td colspan='10' style='text-align:center; color:red;'>Error loading data.</td></tr>";
-    });
+        .then(res=>res.text())
+        .then(data=>tableBody.innerHTML=data)
+        .catch(err=>tableBody.innerHTML="<tr><td colspan='10' style='text-align:center; color:red;'>Error loading data.</td></tr>");
 }
 
-// Event Listeners
-document.getElementById("chartClassSelect").addEventListener("change", function() {
-    updateChart();
-    updateTotals();
-});
+// ------------------- EVENT LISTENERS -------------------
+[classSelect, periodSelect].forEach(el => el.addEventListener("change", ()=>{ updateChart(); updateTotals(); }));
+document.getElementById("searchInput")?.addEventListener("input", filterTable);
+document.getElementById("dateSelect")?.addEventListener("change", filterTable);
+document.getElementById("filterClassSelect")?.addEventListener("change", filterTable);
+document.getElementById("statusSelect")?.addEventListener("change", filterTable);
 
-document.getElementById("searchInput").addEventListener("input", filterTable);
-document.getElementById("dateSelect").addEventListener("change", filterTable);
-document.getElementById("filterClassSelect").addEventListener("change", filterTable);
-document.getElementById("statusSelect").addEventListener("change", filterTable);
-
-// Initialize on page load
+// ------------------- INITIALIZE -------------------
 document.addEventListener('DOMContentLoaded', function() {
     updateChart();
     updateTotals();
 });
 </script>
-
 </body>
 </html>

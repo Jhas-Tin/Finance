@@ -1,38 +1,29 @@
 <?php
 include 'db.php';
 
+date_default_timezone_set('Asia/Manila');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $name = $_POST['studentName'];
-    $studentId = $_POST['studentId'];
-    $class = $_POST['studentClass'];
-    $tuition = $_POST['tuitionFee'];
-    $activities = $_POST['activitiesFee'];
-    $misc = $_POST['miscellaneousFee'];
-    $status = $_POST['paymentStatus'];
+    $studentNumber = $_POST['studentNumber'];
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $courseYear = $_POST['courseYear'];
+    $createdAt = date("Y-m-d H:i:s");
 
-    $total = $tuition + $activities + $misc;
-
-    $check = $conn->prepare("SELECT id FROM students WHERE student_id = ? OR student_name = ?");
-    $check->bind_param("ss", $studentId, $name);
+    // Check for duplicate student_number
+    $check = $conn->prepare("SELECT student_id FROM students WHERE student_number = ?");
+    $check->bind_param("s", $studentNumber);
     $check->execute();
     $check->store_result();
 
     if ($check->num_rows > 0) {
-        echo "exists"; 
-        $check->close();
-        $conn->close();
+        echo "exists";
         exit();
     }
-    $check->close();
 
-    $created_at = date('Y-m-d H:i:s');
-
-    $stmt = $conn->prepare("INSERT INTO students 
-        (student_name, student_id, class, tuition_fee, activities_fee, miscellaneous_fee, total_amount, payment_status, created_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-    $stmt->bind_param("sssdddsss", $name, $studentId, $class, $tuition, $activities, $misc, $total, $status, $created_at);
+    $stmt = $conn->prepare("INSERT INTO students (student_number, first_name, last_name, course_year, created_at) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $studentNumber, $firstName, $lastName, $courseYear, $createdAt);
 
     if ($stmt->execute()) {
         echo "success";

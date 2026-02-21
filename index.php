@@ -564,61 +564,86 @@
         </div>
 
         <div class="dashboard-container">
-            <div class="stats-section">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Daily Total</span>
-                        <span class="stat-change positive" id="totalChange">+0%</span>
-                    </div>
-                    <div class="stat-value" id="totalAmount">₱0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Daily Tuition</span>
-                        <span class="stat-change positive" id="tuitionChange">+0%</span>
-                    </div>
-                    <div class="stat-value" id="totalTuition">₱0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Daily Activities</span>
-                        <span class="stat-change positive" id="activitiesChange">+0%</span>
-                    </div>
-                    <div class="stat-value" id="totalActivities">₱0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Daily Misc</span>
-                        <span class="stat-change negative" id="miscChange">-0%</span>
-                    </div>
-                    <div class="stat-value" id="totalMisc">₱0</div>
-                </div>
+    <div class="stats-section">
+        <!-- Daily Tuition Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Tuition Fee</span>
+                <span class="stat-change positive" id="tuitionChange">+0%</span>
             </div>
+            <div class="stat-value" id="totalTuition">₱0</div>
+        </div>
 
-            <div class="chart-section">
-                <div class="chart-header">
-                    <h3>Fees Collection (Today)</h3>
-                    <div class="chart-controls">
-                        <select id="chartClassSelect">
-                            <option>All Classes</option>
-                            <option value="BSIT">BSIT</option>
-                            <option value="BSCPE">BSCPE</option>
-                            <option value="BSCS">BSCS</option>
-                            <option value="BSCE">BSCE</option>
-                        </select>
-                        <select id="periodSelect" style="display: none;">
-                            <option selected>Daily</option>
-                            <option>Weekly</option>
-                            <option>Monthly</option>
-                            <option>Yearly</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="feesChart"></canvas>
-                </div>
+        <!-- Daily Misc Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Misc Fee</span>
+                <span class="stat-change positive" id="miscChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalMisc">₱0</div>
+        </div>
+
+        <!-- Daily Lab Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Lab Fee</span>
+                <span class="stat-change positive" id="labChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalLab">₱0</div>
+        </div>
+
+        <!-- Daily Uniform Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Uniform</span>
+                <span class="stat-change positive" id="uniformChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalUniform">₱0</div>
+        </div>
+
+        <!-- Daily ID Request Fee -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">ID Request</span>
+                <span class="stat-change positive" id="idChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalID">₱0</div>
+        </div>
+
+        <!-- Daily Total Collection -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Daily Total</span>
+                <span class="stat-change positive" id="totalChange">+0%</span>
+            </div>
+            <div class="stat-value" id="totalAmount">₱0</div>
+        </div>
+    </div>
+
+    <div class="chart-section">
+        <div class="chart-header">
+            <h3>Fees Collection (Today)</h3>
+            <div class="chart-controls">
+                <select id="chartClassSelect">
+                    <option>All Classes</option>
+                    <option value="BSIT">BSIT</option>
+                    <option value="BSCPE">BSCPE</option>
+                    <option value="BSCS">BSCS</option>
+                    <option value="BSCE">BSCE</option>
+                </select>
+                <select id="periodSelect" style="display: none;">
+                    <option selected>Daily</option>
+                    <option>Weekly</option>
+                    <option>Monthly</option>
+                    <option>Yearly</option>
+                </select>
             </div>
         </div>
+        <div class="chart-container">
+            <canvas id="feesChart"></canvas>
+        </div>
+    </div>
+</div>
 
        <div class="table-section">
             <div class="section-header">
@@ -658,59 +683,100 @@
             </div>
 
             <table>
-                <thead>
-                    <tr>
-                        <th style="width: 40px;"><input type="checkbox"></th>
-                        <th>Name</th>
-                        <th>ID</th>
-                        <th>Class</th>
-                        <th>Tuition Fee</th>
-                        <th>Activities Fee</th>
-                        <th>Miscellaneous</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;"><input type="checkbox"></th>
+                            <th>Name</th>
+                            <th>ID</th>
+                            <th>Class</th>
+                            <th>Tuition Fee</th>
+                            <th>Misc Fee</th>
+                            <th>Lab Fee</th>
+                            <th>Uniform</th>
+                            <th>ID Request</th>
+                            <th>Paid Amount</th>
+                            <th>Remaining Balance</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
                 <tbody id="tableBody">
                     <?php
                     include 'backend/db.php';
 
-                    // Get today's date
-                    $today = date('Y-m-d');
-                    $sql = "SELECT * FROM students WHERE DATE(created_at) = '$today' ORDER BY id DESC";
+                    $sql = "SELECT * FROM students ORDER BY student_id DESC";
                     $result = $conn->query($sql);
 
                     if ($result === false) {
-                        echo "<tr><td colspan='10' style='text-align:center; color:red;'>Query Error: " . $conn->error . "</td></tr>";
+                        echo "<tr><td colspan='14' style='text-align:center; color:red;'>Query Error: " . $conn->error . "</td></tr>";
                     } elseif ($result->num_rows > 0) {
+
+                        $fee_sql = "SELECT * FROM fee_categories";
+                        $fee_result = $conn->query($fee_sql);
+
+                        $fees = [];
+                        if ($fee_result && $fee_result->num_rows > 0) {
+                            while ($f = $fee_result->fetch_assoc()) {
+                                $fees[$f['fee_name']] = floatval($f['default_amount']);
+                            }
+                        }
+
+                        $balance_sql = "SELECT * FROM student_balances";
+                        $balance_result = $conn->query($balance_sql);
+
+                        $student_balances = [];
+                        if ($balance_result && $balance_result->num_rows > 0) {
+                            while ($b = $balance_result->fetch_assoc()) {
+                                $student_balances[$b['student_id']][$b['fee_id']] = $b;
+                            }
+                        }
+
+                        $payment_sql = "SELECT student_id, SUM(amount_paid) AS total_paid FROM payments GROUP BY student_id";
+                        $payment_result = $conn->query($payment_sql);
+                        $student_paid = [];
+                        if ($payment_result && $payment_result->num_rows > 0) {
+                            while ($p = $payment_result->fetch_assoc()) {
+                                $student_paid[$p['student_id']] = floatval($p['total_paid']);
+                            }
+                        }
+
                         while ($row = $result->fetch_assoc()) {
-                            $statusClass = strtolower($row['payment_status']); 
+                            $student_id = $row['student_id'];
+                            $fullName = htmlspecialchars($row['first_name'] . ' ' . $row['last_name']);
+                            $tuition_total = $student_balances[$student_id][1]['total_amount'] ?? $fees['Tuition Fee'];
+                            $misc_total    = $student_balances[$student_id][2]['total_amount'] ?? $fees['Misc Fee'];
+                            $lab_total     = $student_balances[$student_id][3]['total_amount'] ?? $fees['Lab Fee'];
+                            $uniform_total = $student_balances[$student_id][4]['total_amount'] ?? $fees['Uniform'];
+                            $id_total      = $student_balances[$student_id][5]['total_amount'] ?? $fees['ID Request'];
+                            $total_amount = $tuition_total + $misc_total + $lab_total + $uniform_total + $id_total;
+                            $total_paid = $student_paid[$student_id] ?? 0;
+                            $total_remaining = max($total_amount - $total_paid, 0);
+                            $statusClass = ($total_remaining <= 0) ? "paid" : "unpaid";
                     ?>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td><?= htmlspecialchars($row['student_name']) ?></td>
-                            <td><?= htmlspecialchars($row['student_id']) ?></td>
-                            <td><?= htmlspecialchars($row['class']) ?></td>
-                            <td class="currency">₱<?= number_format($row['tuition_fee'], 2) ?></td>
-                            <td class="currency">₱<?= number_format($row['activities_fee'], 2) ?></td>
-                            <td class="currency">₱<?= number_format($row['miscellaneous_fee'], 2) ?></td>
-                            <td class="currency">₱<?= number_format($row['total_amount'], 2) ?></td>
-                            <td>
-                                <span class="status <?= $statusClass ?>">
-                                    <?= $row['payment_status'] ?>
-                                </span>
-                            </td>
-                            <td class="action-buttons">
-                                <button class="view-btn">View</button>
-                                <button class="delete-btn" onclick="deleteStudent(<?= $row['id'] ?>)">Delete</button>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td><?= $fullName ?></td>
+                        <td><?= htmlspecialchars($row['student_number']) ?></td>
+                        <td><?= htmlspecialchars($row['course_year']) ?></td>
+                        <td class="currency">₱<?= number_format($tuition_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($misc_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($lab_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($uniform_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($id_total, 2) ?></td>
+                        <td class="currency">₱<?= number_format($total_paid, 2) ?></td>
+                        <td class="currency">₱<?= number_format($total_remaining, 2) ?></td>
+                        <td class="currency">₱<?= number_format($total_amount, 2) ?></td>
+                        <td><span class="status <?= $statusClass ?>"><?= ucfirst($statusClass) ?></span></td>
+                        <td class="action-buttons">
+                            <button class="delete-btn" onclick="deleteStudent(<?= $student_id ?>)">Delete</button>
+                        </td>
+                    </tr>
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='10' style='text-align:center; padding: 40px; color: #64748b;'>No records found for today.</td></tr>";
+                        echo "<tr><td colspan='14' style='text-align:center; padding: 40px; color: #64748b;'>No records found.</td></tr>";
                     }
 
                     $conn->close();
@@ -731,57 +797,52 @@
 
 <div id="addStudentModal" class="modal">
     <div class="modal-content">
+
+        <!-- HEADER -->
         <div class="modal-header">
             <h3>Add New Student</h3>
             <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
+
+        <!-- BODY / FORM -->
         <div class="modal-body">
             <form id="addStudentForm">
+
                 <div class="form-group">
-                    <label>Student Name</label>
-                    <input type="text" name="studentName" required>
+                    <label>Student Number</label>
+                    <input type="text" name="studentNumber" required>
                 </div>
+
                 <div class="form-group">
-                    <label>Student ID</label>
-                    <input type="text" name="studentId" required>
+                    <label>First Name</label>
+                    <input type="text" name="firstName" required>
                 </div>
+
                 <div class="form-group">
-                    <label>Class</label>
-                    <select name="studentClass" required>
-                        <option value="">Select Class</option>
+                    <label>Last Name</label>
+                    <input type="text" name="lastName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Course & Year</label>
+                    <select name="courseYear" required>
+                        <option value="">Select Course</option>
                         <option value="BSIT">BSIT</option>
                         <option value="BSCPE">BSCPE</option>
                         <option value="BSCS">BSCS</option>
                         <option value="BSCE">BSCE</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>Tuition Fee</label>
-                    <input type="number" name="tuitionFee" required>
-                </div>
-                <div class="form-group">
-                    <label>Activities Fee</label>
-                    <input type="number" name="activitiesFee" required>
-                </div>
-                <div class="form-group">
-                    <label>Misc Fee</label>
-                    <input type="number" name="miscellaneousFee" required>
-                </div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <select name="paymentStatus" required>
-                        <option value="">Select Status</option>
-                        <option value="Paid">Paid</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Overdue">Overdue</option>
-                    </select>
-                </div>
+
             </form>
         </div>
+
+        <!-- FOOTER -->
         <div class="modal-footer">
             <button class="cancel-btn" onclick="closeModal()">Cancel</button>
             <button class="save-btn">Add Student</button>
         </div>
+
     </div>
 </div>
 
@@ -817,14 +878,20 @@ document.querySelector(".save-btn").addEventListener("click", function () {
 
 function deleteStudent(id) {
     if (!confirm("Delete this student?")) return;
+
     fetch("backend/delete_student.php?id=" + id)
     .then(res => res.text())
     .then(data => {
+        console.log("PHP returned:", data);
         if (data.trim() === "success") {
             location.reload();
         } else {
-            alert("Delete failed.");
+            alert("Delete failed. " + data);
         }
+    })
+    .catch(err => {
+        console.error("Fetch error:", err);
+        alert("An error occurred.");
     });
 }
 
@@ -880,6 +947,7 @@ let feesChart = new Chart(ctx, {
 const classSelect = document.getElementById("chartClassSelect");
 const periodSelect = document.getElementById("periodSelect");
 
+// ------------------- CHART UPDATE -------------------
 function updateChart() {
     const className = classSelect.value;
     const period = "Daily";
@@ -887,18 +955,15 @@ function updateChart() {
     fetch(`backend/chart_data.php?class=${encodeURIComponent(className)}&period=${period}`)
     .then(res => res.json())
     .then(data => {
-        let totals = [];
-        
-        // Expecting data to be an array of 24 hourly values
+        let totals = Array(24).fill(0);
         if (Array.isArray(data) && data.length === 24) {
             totals = data.map(val => Number(val || 0));
-        } else {
-            totals = Array(24).fill(0);
         }
 
         feesChart.data.datasets[0].data = totals;
         feesChart.update();
 
+        // Update total amount stat from chart
         const totalAmount = totals.reduce((a,b) => a + b, 0);
         document.getElementById("totalAmount").textContent = "₱" + totalAmount.toLocaleString();
     })
@@ -909,22 +974,37 @@ function updateChart() {
     });
 }
 
-function updateTotals() {
+// ------------------- TOTALS UPDATE -------------------
+function updateTotals(selectedDate) {
     const className = classSelect.value;
-    const period = "Daily";
+    const period = "Daily"; // For now only daily with date
+    const dateParam = selectedDate || new Date().toISOString().slice(0, 10); // yyyy-mm-dd
 
-    fetch(`backend/get_totals.php?class=${encodeURIComponent(className)}&period=${period}`)
+    fetch(`backend/get_totals.php?class=${encodeURIComponent(className)}&period=${period}&date=${dateParam}`)
     .then(res => res.json())
     .then(data => {
+        // Map stat-card IDs to fee names dynamically
+        const feeMap = {
+            "Tuition Fee": "totalTuition",
+            "Misc Fee": "totalMisc",
+            "Lab Fee": "totalLab",
+            "Uniform": "totalUniform",
+            "ID Request": "totalID"
+        };
+
+        for (const [feeName, elementId] of Object.entries(feeMap)) {
+            if (data[feeName] !== undefined) {
+                document.getElementById(elementId).textContent = "₱" + Number(data[feeName]).toLocaleString();
+            }
+        }
+
+        // Update total amount
         document.getElementById("totalAmount").textContent = "₱" + Number(data.total_amount || 0).toLocaleString();
-        document.getElementById("totalTuition").textContent = "₱" + Number(data.total_tuition || 0).toLocaleString();
-        document.getElementById("totalActivities").textContent = "₱" + Number(data.total_activities || 0).toLocaleString();
-        document.getElementById("totalMisc").textContent = "₱" + Number(data.total_misc || 0).toLocaleString();
     })
     .catch(err => console.error("Totals fetch failed:", err));
 }
 
-// Table Filter Function
+// ------------------- TABLE FILTER -------------------
 function filterTable() {
     const period = document.getElementById("dateSelect").value;
     const selectedClass = document.getElementById("filterClassSelect").value;
@@ -952,7 +1032,7 @@ function filterTable() {
     });
 }
 
-// Event Listeners
+// ------------------- EVENT LISTENERS -------------------
 classSelect.addEventListener("change", () => {
     updateChart();
     updateTotals();
@@ -963,7 +1043,7 @@ document.getElementById("dateSelect").addEventListener("change", filterTable);
 document.getElementById("filterClassSelect").addEventListener("change", filterTable);
 document.getElementById("statusSelect").addEventListener("change", filterTable);
 
-// Initialize on page load
+// ------------------- INITIALIZE -------------------
 document.addEventListener('DOMContentLoaded', function() {
     updateChart();
     updateTotals();

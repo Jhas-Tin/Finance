@@ -1,6 +1,5 @@
 <?php
 include 'db.php';
-
 date_default_timezone_set('Asia/Manila');
 
 $class = $_GET['class'] ?? 'All Classes';
@@ -10,57 +9,47 @@ $whereClass = "";
 $params = [];
 $types = "";
 
+// Filter by class
 if ($class != "All Classes" && !empty($class)) {
-    $whereClass = " AND class = ?";
+    $whereClass = " AND s.course_year = ?";
     $params[] = $class;
     $types .= "s";
 }
 
+// Filter by period
 $wherePeriod = "";
-
 if ($period === "Daily") {
-
-    $wherePeriod = " AND DATE(created_at) = CURDATE()";
+    $wherePeriod = " AND DATE(sb.id) = CURDATE()"; // <-- we will ignore this because sb has no date
+} elseif ($period === "Weekly") {
+    $wherePeriod = "";
+} elseif ($period === "Monthly") {
+    $wherePeriod = "";
+} elseif ($period === "Yearly") {
+    $wherePeriod = "";
 }
 
-if ($period === "Weekly") {
+// Get all fee categories
+$feesResult = $conn->query("SELECT fee_id, fee_name FROM fee_categories");
+$caseStatements = [];
 
-    $monday = date('Y-m-d', strtotime('monday this week'));
-    $sunday = date('Y-m-d', strtotime('sunday this week'));
+while ($fee = $feesResult->fetch_assoc()) {
+    $fee_id = $fee['fee_id'];
+    $fee_name = $fee['fee_name'];
 
-    $wherePeriod = " AND DATE(created_at) BETWEEN ? AND ?";
-    $params[] = $monday;
-    $params[] = $sunday;
-    $types .= "ss";
+    $caseStatements[] = "COALESCE(SUM(CASE WHEN sb.fee_id = $fee_id THEN sb.paid_amount ELSE 0 END),0) AS `$fee_name`";
 }
 
-if ($period === "Monthly") {
+$caseSql = implode(", ", $caseStatements);
 
-    $wherePeriod = " AND MONTH(created_at)=? AND YEAR(created_at)=?";
-    $params[] = date('m');
-    $params[] = date('Y');
-    $types .= "ii";
-}
-
-if ($period === "Yearly") {
-
-    $wherePeriod = " AND YEAR(created_at)=?";
-    $params[] = date('Y');
-    $types .= "i";
-}
-
+// Main query: join only student_balances → students
 $sql = "
-SELECT 
-    COALESCE(SUM(total_amount),0) AS total_amount,
-    COALESCE(SUM(tuition_fee),0) AS total_tuition,
-    COALESCE(SUM(activities_fee),0) AS total_activities,
-    COALESCE(SUM(miscellaneous_fee),0) AS total_misc
-FROM students
-WHERE 1=1 $whereClass $wherePeriod
+SELECT $caseSql
+FROM student_balances sb
+JOIN students s ON sb.student_id = s.student_id
+WHERE 1=1 $whereClass
 ";
 
 $stmt = $conn->prepare($sql);
-
 if (!empty($params)) {
     $stmt->bind_param($types, ...$params);
 }
@@ -69,12 +58,15 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
-echo json_encode([
-    'total_amount' => (float)$row['total_amount'],
-    'total_tuition' => (float)$row['total_tuition'],
-    'total_activities' => (float)$row['total_activities'],
-    'total_misc' => (float)$row['total_misc']
-]);
+// Convert to float
+foreach ($row as $key => $value) {
+    $row[$key] = (float)$value;
+}
+
+// Add total_amount
+$row['total_amount'] = array_sum($row);
+
+echo json_encode($row);
 
 $stmt->close();
 $conn->close();
