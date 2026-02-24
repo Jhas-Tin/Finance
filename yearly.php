@@ -618,8 +618,12 @@
                         <select id="chartClassSelect">
                             <option>All Classes</option>
                             <option value="BSIT">BSIT</option>
+                            <option value="BSPSY-1">BSPSY-1</option>
+                            <option value="BSIT-1">BSIT-1</option>
                             <option value="BSCPE">BSCPE</option>
                             <option value="BSCS">BSCS</option>
+                            <option value="BSCS-1">BSCS-1</option>
+                            <option value="BSCPE-1">BSCPE-1</option>
                             <option value="BSCE">BSCE</option>
                         </select>
                         <select id="periodSelect" style="display: none;">
@@ -638,7 +642,7 @@
 
        <div class="table-section">
             <div class="section-header">
-                <h3>Monthly Collection List</h3>
+                <h3>Yearly Collection List</h3>
                 <div class="section-controls">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
@@ -655,12 +659,16 @@
                     <select id="filterClassSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         <option value="">All Classes</option>
                         <option value="BSIT">BSIT</option>
+                        <option value="BSPSY-1">BSPSY-1</option>
+                        <option value="BSIT-1">BSIT-1</option>
                         <option value="BSCPE">BSCPE</option>
                         <option value="BSCS">BSCS</option>
+                        <option value="BSCS-1">BSCS-1</option>
+                        <option value="BSCPE-1">BSCPE-1</option>
                         <option value="BSCE">BSCE</option>
                     </select>
 
-                    <select id="statusSelect" style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <select id="statusSelect" style="display: none; padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         <option value="">All Status</option>
                         <option value="Paid">Paid</option>
                         <option value="Pending">Pending</option>
@@ -697,16 +705,23 @@
                     <?php
                     include 'backend/db.php';
 
-                    $sql = "SELECT * FROM students ORDER BY student_id DESC";
+                    // 1. Get the first day of the current year (e.g., 2026-01-01)
+                    $startOfYear = date('Y-01-01');
+
+                    // 2. Filter SQL to only include students added this year
+                    $sql = "SELECT * FROM students 
+                            WHERE DATE(created_at) >= '$startOfYear' 
+                            ORDER BY student_id DESC";
+                            
                     $result = $conn->query($sql);
 
                     if ($result === false) {
                         echo "<tr><td colspan='14' style='text-align:center; color:red;'>Query Error: " . $conn->error . "</td></tr>";
                     } elseif ($result->num_rows > 0) {
 
+                        // --- Fetch fee categories ---
                         $fee_sql = "SELECT * FROM fee_categories";
                         $fee_result = $conn->query($fee_sql);
-
                         $fees = [];
                         if ($fee_result && $fee_result->num_rows > 0) {
                             while ($f = $fee_result->fetch_assoc()) {
@@ -714,9 +729,9 @@
                             }
                         }
 
+                        // --- Fetch student balances ---
                         $balance_sql = "SELECT * FROM student_balances";
                         $balance_result = $conn->query($balance_sql);
-
                         $student_balances = [];
                         if ($balance_result && $balance_result->num_rows > 0) {
                             while ($b = $balance_result->fetch_assoc()) {
@@ -724,6 +739,7 @@
                             }
                         }
 
+                        // --- Fetch total payments ---
                         $payment_sql = "SELECT student_id, SUM(amount_paid) AS total_paid FROM payments GROUP BY student_id";
                         $payment_result = $conn->query($payment_sql);
                         $student_paid = [];
@@ -736,38 +752,41 @@
                         while ($row = $result->fetch_assoc()) {
                             $student_id = $row['student_id'];
                             $fullName = htmlspecialchars($row['first_name'] . ' ' . $row['last_name']);
-                            $tuition_total = $student_balances[$student_id][1]['total_amount'] ?? $fees['Tuition Fee'];
-                            $misc_total    = $student_balances[$student_id][2]['total_amount'] ?? $fees['Misc Fee'];
-                            $lab_total     = $student_balances[$student_id][3]['total_amount'] ?? $fees['Lab Fee'];
-                            $uniform_total = $student_balances[$student_id][4]['total_amount'] ?? $fees['Uniform'];
-                            $id_total      = $student_balances[$student_id][5]['total_amount'] ?? $fees['ID Request'];
+                            
+                            // Calculate fees (Tuition, Misc, Lab, Uniform, ID)
+                            $tuition_total = $student_balances[$student_id][1]['total_amount'] ?? ($fees['Tuition Fee'] ?? 0);
+                            $misc_total    = $student_balances[$student_id][2]['total_amount'] ?? ($fees['Misc Fee'] ?? 0);
+                            $lab_total     = $student_balances[$student_id][3]['total_amount'] ?? ($fees['Lab Fee'] ?? 0);
+                            $uniform_total = $student_balances[$student_id][4]['total_amount'] ?? ($fees['Uniform'] ?? 0);
+                            $id_total      = $student_balances[$student_id][5]['total_amount'] ?? ($fees['ID Request'] ?? 0);
+
                             $total_amount = $tuition_total + $misc_total + $lab_total + $uniform_total + $id_total;
                             $total_paid = $student_paid[$student_id] ?? 0;
                             $total_remaining = max($total_amount - $total_paid, 0);
                             $statusClass = ($total_remaining <= 0) ? "paid" : "unpaid";
-                    ?>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td><?= $fullName ?></td>
-                        <td><?= htmlspecialchars($row['student_number']) ?></td>
-                        <td><?= htmlspecialchars($row['course_year']) ?></td>
-                        <td class="currency">₱<?= number_format($tuition_total, 2) ?></td>
-                        <td class="currency">₱<?= number_format($misc_total, 2) ?></td>
-                        <td class="currency">₱<?= number_format($lab_total, 2) ?></td>
-                        <td class="currency">₱<?= number_format($uniform_total, 2) ?></td>
-                        <td class="currency">₱<?= number_format($id_total, 2) ?></td>
-                        <td class="currency">₱<?= number_format($total_paid, 2) ?></td>
-                        <td class="currency">₱<?= number_format($total_remaining, 2) ?></td>
-                        <td class="currency">₱<?= number_format($total_amount, 2) ?></td>
-                        <td><span class="status <?= $statusClass ?>"><?= ucfirst($statusClass) ?></span></td>
-                        <td class="action-buttons">
-                            <button class="delete-btn" onclick="deleteStudent(<?= $student_id ?>)">Delete</button>
-                        </td>
-                    </tr>
-                    <?php
+                            ?>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><?= $fullName ?></td>
+                                <td><?= htmlspecialchars($row['student_number']) ?></td>
+                                <td><?= htmlspecialchars($row['course_year']) ?></td>
+                                <td class="currency">₱<?= number_format($tuition_total, 2) ?></td>
+                                <td class="currency">₱<?= number_format($misc_total, 2) ?></td>
+                                <td class="currency">₱<?= number_format($lab_total, 2) ?></td>
+                                <td class="currency">₱<?= number_format($uniform_total, 2) ?></td>
+                                <td class="currency">₱<?= number_format($id_total, 2) ?></td>
+                                <td class="currency">₱<?= number_format($total_paid, 2) ?></td>
+                                <td class="currency">₱<?= number_format($total_remaining, 2) ?></td>
+                                <td class="currency">₱<?= number_format($total_amount, 2) ?></td>
+                                <td><span class="status <?= $statusClass ?>"><?= ucfirst($statusClass) ?></span></td>
+                                <td class="action-buttons">
+                                    <button class="delete-btn" onclick="deleteStudent(<?= $student_id ?>)">Delete</button>
+                                </td>
+                            </tr>
+                            <?php
                         }
                     } else {
-                        echo "<tr><td colspan='14' style='text-align:center; padding: 40px; color: #64748b;'>No records found.</td></tr>";
+                        echo "<tr><td colspan='14' style='text-align:center; padding: 40px; color: #64748b;'>No records found for the year " . date('Y') . ".</td></tr>";
                     }
 
                     $conn->close();
@@ -801,8 +820,12 @@
                     <select name="studentClass" required>
                         <option value="">Select Class</option>
                         <option value="BSIT">BSIT</option>
+                        <option value="BSPSY-1">BSPSY-1</option>
+                        <option value="BSIT-1">BSIT-1</option>
                         <option value="BSCPE">BSCPE</option>
                         <option value="BSCS">BSCS</option>
+                        <option value="BSCS-1">BSCS-1</option>
+                        <option value="BSCPE-1">BSCPE-1</option>
                         <option value="BSCE">BSCE</option>
                     </select>
                 </div>
